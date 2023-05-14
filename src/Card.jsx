@@ -96,7 +96,7 @@ function Card() {
 
             {!loading && (
                 <animated.div style={props}>
-                    <h1 className="petName">{name ? name : "Lets find your perfect pet"}</h1>
+                    <h1 className="petName">{name ? name : " "}</h1>
                     <div className="card">
                         {imageUrl && (
                             <img src={imageUrl} alt="Random Cat" />
