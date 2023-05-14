@@ -22,6 +22,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <ButtonAppBar />
           <Card />
+
       </ThemeProvider>
     </div>
   );

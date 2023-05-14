@@ -1,11 +1,12 @@
-img{
+ img{
   max-height: 390px;
   max-width: 470px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid white;
+  border: 1px solid #ff9c9c;
   border-radius: 15px;
+  padding: 10px;
 }
 
 .petName{
@@ -13,28 +14,27 @@ img{
 }
 
 .card{
-  margin: 10px auto;
-  width: 40%;
-  height: 400px;
+  width: 470px;
+  height: 440px;
   border: 3px solid black;
   border-radius: 15px;
   background: #ff9c9c;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin: 10px auto;
 }
 
 .swipe-buttons{
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
+  align-items: center;  
+  position: relative;
 }
 
 .heart-button{
   background: #fd8989;
-  margin: 10px 50px;
+  margin: 5px 50px;
   border-radius: 9999px;
   padding: 10px;
   color: rgb(150, 250, 150);
