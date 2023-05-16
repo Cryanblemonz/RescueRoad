@@ -64,10 +64,11 @@ function Card() {
 
     return (
         <div className='card-div'>
-            <h1 className="petName">{name ? name : "Lets do this!"}</h1>
+            <h1 className="petName-lg">{name ? name : "Lets do this!"}</h1>
             {!loading && !imageLoading ? (
                 <animated.div style={props}>
                     <div className="card">
+                    <h1 className="petName-sm">{name ? name : "Lets do this!"}</h1>
                         {imageUrl && (
                             <img src={imageUrl} alt="Random Cat" />
                         )}

@@ -13,7 +13,7 @@
   padding: 10px;
 }
 
-.petName{
+.petName-lg, .petName-sm{
   text-align: center;
 }
 
@@ -28,6 +28,23 @@
   justify-content: center;
   align-items: center;
   margin: 7px auto;
+}
+@media(min-width: 476px){
+  .petName-sm{
+    display: none;
+    }
+}
+@media(max-width: 475px){
+  .card{
+    width: 90%;
+  }
+  img{
+    max-width: 95%;
+    max-height: 80%;
+  }
+  .petName-lg{
+    display: none;
+    }
 }
 
 .swipe-buttons{
