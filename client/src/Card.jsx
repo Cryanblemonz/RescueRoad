@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
 import cats from './components/names';
 import SwipeButton from './components/SwipeButton';
+let i = 0;
 
 function Card() {
     const [imageUrl, setImageUrl] = useState(null);
@@ -10,15 +11,15 @@ function Card() {
     const [imageLoading, setImageLoading] = useState(true);
     let randomNumber = Math.floor(Math.random() * cats.length);
 
-    const [props, set] = useSpring(() => ({ x: 0, opacity: 1 }));
+    const [props, api] = useSpring(() => ({ x: 0, opacity: 1 }));
 
     useEffect(() => {
         fetchNewImage(); // Fetch the first image when the component mounts
     }, []);
 
     function loadImgRight() {
-        set({
-            to: { x: 100, opacity: 0},
+        api.start({
+            to: { x: 200, opacity: 0},
             onRest: () => {
                 setLoading(true);
                 setImageLoading(true);
@@ -26,9 +27,9 @@ function Card() {
             },
         });
     }
-
+    
     function loadImgLeft() {
-        set({
+        api.start({
             to: { x: -100, opacity: 0 },
             onRest: () => {
                 setLoading(true);
@@ -39,7 +40,8 @@ function Card() {
     }
 
     function fetchNewImage() {
-        fetch("https://api.thecatapi.com/v1/images/search")
+        if(i > 0){
+            fetch("https://api.thecatapi.com/v1/images/search")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
@@ -50,11 +52,14 @@ function Card() {
                 setImageUrl(data[0].url);
                 setName(cats[randomNumber]);
                 // Reset the animation and stop loading when the new image has been fetched
-                set({ x: 0, opacity: 1 });
+                api.start({ x: 0, opacity: 1 });
                 setLoading(false);
                 setImageLoading(false);
             })
             .catch((error) => console.error("Error:", error));
+        }
+        i++;
+        console.log(i);
     }
 
     return (
@@ -64,7 +69,7 @@ function Card() {
                 <animated.div style={props}>
                     <div className="card">
                         {imageUrl && (
-                            <img src={imageUrl} alt="Random Cat" onLoad={() => setImageLoading(false)} />
+                            <img src={imageUrl} alt="Random Cat" />
                         )}
                     </div>
                 </animated.div>

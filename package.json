@@ -4,13 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite",  
-    "server": "nodemon server.js",  
-    "dev": "concurrently \"npm run start\" \"npm run server\"", 
-    "build": "vite build", 
-    "serve": "vite preview" 
-  }
-  ,
+    "client": "cd client && vite",
+    "server": "cd server && nodemon server.js",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "build": "cd client && vite build",
+    "serve": "cd client && vite preview"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -31,5 +30,11 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
     "vite": "^4.3.2"
-  }
+  },
+  "main": "server.js",
+  "proxy": "http://localhost:3001",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
