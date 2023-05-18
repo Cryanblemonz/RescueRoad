@@ -59,8 +59,9 @@ function Card() {
             .catch((error) => console.error("Error:", error));
         }
         i++;
-        console.log(i);
     }
+
+    
 
     return (
         <div className='card-div'>
