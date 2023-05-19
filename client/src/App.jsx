@@ -33,8 +33,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <ButtonAppBar />
           <Card />
-          <button onClick={getData}>test</button>
+          <form action='/api' method='post'>
+          <button type="submit">test</button>
           <p>{data}</p>
+          </form>
       </ThemeProvider>
     </div>
   );
