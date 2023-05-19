@@ -1,0 +1,79 @@
+body{
+        background: rgb(228,246,255);
+        background: radial-gradient(circle, rgba(228,246,255,1) 0%, rgba(255,126,126,1) 100%);
+       }
+       
+       img{
+        max-height: 380px;
+        max-width: 420px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 25px;
+        padding: 10px;
+      }
+      
+      .petName-lg, .petName-sm{
+        text-align: center;
+      }
+      
+      .card{
+        width: 440px;
+        height: 400px;
+        border: 3px solid black;
+        border-radius: 15px;
+        background: rgb(242,144,255);
+        background: radial-gradient(circle, rgba(242,144,255,1) 0%, rgba(233,233,233,1) 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 7px auto;
+      }
+      @media(min-width: 476px){
+        .petName-sm{
+          display: none;
+          }
+      }
+      @media(max-width: 475px){
+        .card{
+          width: 90%;
+        }
+        img{
+          max-width: 95%;
+          max-height: 80%;
+        }
+        .petName-lg{
+          display: none;
+          }
+      }
+      
+      .swipe-buttons{
+        display: flex;
+        justify-content: center;
+        align-items: center;  
+        position: relative;
+      }
+      
+      .heart-button{
+        background: #fd8989;
+        margin: 5px 50px;
+        border-radius: 9999px;
+        padding: 10px;
+        color: rgb(150, 250, 150);
+      }
+      
+      .sad-face-button{
+      
+        margin: 5px 50px;
+        border-radius: 9999px;
+        padding: 10px;
+      
+        background: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+      }
+      
+      h1{
+        font-family: 'Darumadrop One', cursive;
+        font-size: 3rem;
+      }
+      

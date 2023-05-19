@@ -41,7 +41,7 @@ function ResponsiveAppBar() {
      position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <PetsOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <PetsOutlinedIcon style={{transform: "rotate(-10deg)"}} sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h4"
             noWrap

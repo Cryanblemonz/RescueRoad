@@ -45,9 +45,9 @@ const dog = mongoose.model("dog", dogSchema);
 const userSchema = mongoose.Schema({
   username: String,
   name: String,
-  catInterest: Boolean,
-  dogInterest: Boolean,
-  likedCats: [catSchema]
+  password: String,
+  likedCats: [catSchema],
+  likedDogs: [dogSchema]
 })
 
 const user = mongoose.model("user", userSchema);

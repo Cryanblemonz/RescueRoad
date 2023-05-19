@@ -1,0 +1,23 @@
+#signup-heading{
+        margin: 5px 50px;
+        font-size: 4rem;
+        text-align: center;
+}
+
+.signup-form{
+        width: 500px;   
+        margin: 0 auto;
+}
+
+.signup-form input{
+        padding: 10px;
+}
+
+.MuiTextField-root {
+background: beige;
+border-radius: 10px;
+}
+
+.testColor{
+        color: #e093ff;
+}
