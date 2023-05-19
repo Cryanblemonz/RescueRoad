@@ -28,6 +28,30 @@ const catSchema = mongoose.Schema({
 
 const cat = mongoose.model("cat", catSchema);
 
+const dogSchema = mongoose.Schema({
+  id: Number,
+  name: String,
+  breed: String,
+  age: String,
+  kids: String,
+  cats: String,
+  dogs: String,
+  description: String,
+  img: String
+})
+
+const dog = mongoose.model("dog", dogSchema);
+
+const userSchema = mongoose.Schema({
+  username: String,
+  name: String,
+  catInterest: Boolean,
+  dogInterest: Boolean,
+  likedCats: [catSchema]
+})
+
+const user = mongoose.model("user", userSchema);
+
 app.get("/api", (req, res) => {
   res.send('Cats amirite')
 }); 
