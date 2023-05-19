@@ -5,10 +5,10 @@ const mongoose = require('mongoose');
 const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+require('dotenv').config()
 
-const MONGODB_URI =
-  "mongodb+srv://gbc466:%23Bounce466@cluster0.vcjxf7t.mongodb.net/?retryWrites=true&w=majority"
-
+const MONGODB_URI = process.env.mongoose_URI
+  
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -52,25 +52,21 @@ const userSchema = mongoose.Schema({
 
 const user = mongoose.model("user", userSchema);
 
-app.get("/api", (req, res) => {
-  res.send('Cats amirite')
-}); 
-
 app.post("/api", (req, res) => {
-  const newCat = new cat({
+  const newDog = new dog({
     id: 0,
-    name: "Tank",
-    breed: "Siamese",
-    age: "Adult",
+    name: "Pearl",
+    breed: "Labrador",
+    age: "Young",
     kids: "Good",
     cats: "Good",
-    dogs: "Not great",
-    description: "A nice boi",
-    img: "https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcS7doMt2tKaUzd8YdXlqTvGrFQOv4OVjtY0DRD12KLdbPTxGuBHxiyZC38iNkIKn8psrwWdSUPlwdroJkw"
+    dogs: "Good",
+    description: "Sweet girl",
+    img: "https://chocolatelabradorretriever.ca/wp-content/uploads/2023/03/gracie-female-4-scaled.jpg"
   })
-    newCat.save()
+    newDog.save()
     .then(() => {
-      console.log("Cat saved successfully");
+      console.log("Saved successfully");
     })
     .catch((err) => {
       console.log(err);
