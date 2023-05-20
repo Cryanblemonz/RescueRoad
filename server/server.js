@@ -9,7 +9,7 @@ app.use(express.json());
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
+const session = require("express-session");
 
 const MONGODB_URI = process.env.mongoose_URI;
 
@@ -17,6 +17,14 @@ mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+
+app.use(
+  session({
+      secret: "test",
+      resave: false,
+      saveUninitialized: false,
+  })
+);
 
 // -----------SCHEMAS------------
 
@@ -49,14 +57,14 @@ const dog = mongoose.model("dog", dogSchema);
 const userSchema = mongoose.Schema({
     username: {
         type: String,
-        required: true,
+        required: true
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
     likedCats: [catSchema],
-    likedDogs: [dogSchema],
+    likedDogs: [dogSchema]
 });
 
 const user = mongoose.model("user", userSchema);
@@ -84,9 +92,27 @@ app.post("/api/signup", (req, res) => {
     })
 });
 
-app.post("api/signin", (req, res) => {
+app.post("/api/signin", (req, res) => {
+  let username = req.body.username;
+  let password = req.body.password;
   
-})
+  user.findOne({username: username})
+    .then(foundUser => {
+      let foundPassword = foundUser.password;
+      bcrypt.compare(password, foundPassword, async function (err, result){
+        if (err){
+          console.error(err)
+        } else if (result){
+          req.session.userName = foundUser.username;
+          res.status(200).json({ message: 'success' });
+          console.log(req.session.userName);
+        } else {
+          res.status(401).json({ message: 'Login failed' });
+        }
+      })
+    })
+    .catch(err => console.error(err));
+});
 
 app.post("/newDog", (req, res) => {
     const newDog = new dog({

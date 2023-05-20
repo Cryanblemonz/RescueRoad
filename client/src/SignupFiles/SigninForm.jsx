@@ -1,6 +1,7 @@
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Input from "./Input";
+import { useState } from "react";
+import axios from "axios";
 
 const styleforButton1 = {
     margin: "15px auto 10px auto",
@@ -16,22 +17,45 @@ const styleforButton2 = {
 };
 
 function SigninForm(props) {
-        const [username, setUsername] = useState("")
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (username) {
+            try {
+                const response = await axios.post("/api/signin", {
+                    username,
+                    password,
+                });
+                if (response.data.message === "success") {
+                    window.location.href = "/";
+                } else {
+                    console.error("Login failed");
+                }
+            } catch (error) {
+                console.error("Error Signing In", error);
+            }
+        }
+    };
+
     return (
         <div className="signup-form">
-            <form action="/signin" method="post">
+            <form onSubmit={handleSubmit}>
                 <Input
                     type="text"
                     size="small"
                     label="Username"
                     margin="normal"
                     fullWidth
+                    inputFunction={(event) => setUsername(event.target.value)}
                 />
                 <Input
                     type="password"
                     size="small"
                     label="Password"
                     fullWidth
+                    inputFunction={(event) => setPassword(event.target.value)}
                 />
                 <Button
                     style={styleforButton1}
