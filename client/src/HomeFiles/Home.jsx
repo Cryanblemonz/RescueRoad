@@ -4,7 +4,6 @@ import ButtonAppBar from './components/ResponsiveAppBar'
 import { createTheme, ThemeProvider } from '@mui/material';
 
 import Card from './Card'
-import axios from 'axios';
 
 const theme = createTheme({
   palette: {
