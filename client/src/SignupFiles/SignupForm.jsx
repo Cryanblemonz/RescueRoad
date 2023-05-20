@@ -1,17 +1,17 @@
 import Button from "@mui/material/Button";
-import Input from "./Input";
+import Input from "../components/Input";
 import axios from 'axios';
 import {useState} from 'react';
 
 const styleforButton1 = {
     margin: "15px auto 10px auto",
-    width: "60%",
+    width: "80%",
     display: "block",
 };
 
 const styleforButton2 = {
     margin: "5px auto",
-    width: "60%",
+    width: "80%",
     display: "block",
     background: "#e093ff",
 };

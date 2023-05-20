@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import './home.css'
-import ButtonAppBar from './components/ResponsiveAppBar'
+import ResponsiveAppBar from '../components/ResponsiveAppBar'
 import { createTheme, ThemeProvider } from '@mui/material';
 
 import Card from './Card'
@@ -22,7 +22,7 @@ function Home() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <ButtonAppBar />
+        <ResponsiveAppBar />
           <Card />
       </ThemeProvider>
     </div>

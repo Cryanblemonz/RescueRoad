@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
-import cats from './components/names';
-import SwipeButton from './components/SwipeButton';
+import cats from '../components/names';
+import SwipeButton from '../components/SwipeButton';
 let i = 0;
 
 function Card() {

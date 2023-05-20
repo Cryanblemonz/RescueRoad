@@ -33,7 +33,7 @@ const catSchema = mongoose.Schema({
     breed: String,
     age: String,
     kids: String,
-    cats: String,
+    cats: String, 
     dogs: String,
     description: String,
     img: String,
