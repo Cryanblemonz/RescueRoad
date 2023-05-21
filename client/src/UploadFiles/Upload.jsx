@@ -1,6 +1,7 @@
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import { createTheme, ThemeProvider } from "@mui/material";
 import './Upload.css';
+import UploadForm from "./UploadForm";
 const theme = createTheme({
         palette: {
             primary: {
@@ -13,7 +14,7 @@ function Upload(){
         return <div>
                 <ThemeProvider theme={theme}>
                 <ResponsiveAppBar />
-                <h1 className="upload-heading">Upload a New Pet</h1>
+                <UploadForm />
                 </ThemeProvider>
         </div>
 }

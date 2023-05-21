@@ -3,3 +3,22 @@
         font-size: 4rem;
         text-align: center;
 }
+
+.upload-form{
+        margin: 50px auto;
+        width: 40%;
+}
+
+.radio-group{
+        text-align: center;
+}
+
+.radios-2{
+        margin-top: 25px;
+        opacity: 90%;
+}
+
+hr{
+        border: 1px solid rgb(0, 0, 0);
+        border-style: solid none none none
+}

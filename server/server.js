@@ -10,6 +10,7 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const session = require("express-session");
+const multer = require('multer');
 
 const MONGODB_URI = process.env.mongoose_URI;
 
@@ -28,43 +29,56 @@ app.use(
 
 // -----------SCHEMAS------------
 
+const imageSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  image: {
+    data: Buffer,
+    contentType: String
+  }
+})
+
+const image = mongoose.model('image', imageSchema)
+
 const catSchema = mongoose.Schema({
-    name: String,
-    breed: String,
-    age: String,
-    kids: String,
-    cats: String, 
-    dogs: String,
-    description: String,
-    img: String,
+  name: String,
+  breed: String,
+  age: String,
+  kids: String,
+  cats: String, 
+  dogs: String,
+  description: String,
+  img: [imageSchema]
 });
 
 const cat = mongoose.model("cat", catSchema);
 
 const dogSchema = mongoose.Schema({
-    name: String,
-    breed: String,
-    age: String,
-    kids: String,
-    cats: String,
-    dogs: String,
-    description: String,
-    img: String,
+  name: String,
+  breed: String,
+  age: String,
+  kids: String,
+  cats: String,
+  dogs: String,
+  description: String,
+  img: [imageSchema]
 });
 
 const dog = mongoose.model("dog", dogSchema);
 
 const userSchema = mongoose.Schema({
-    username: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    likedCats: [catSchema],
-    likedDogs: [dogSchema]
+  username: {
+      type: String,
+      required: true
+  },
+  password: {
+      type: String,
+      required: true
+  },
+  likedCats: [catSchema],
+  likedDogs: [dogSchema]
 });
 
 const user = mongoose.model("user", userSchema);
