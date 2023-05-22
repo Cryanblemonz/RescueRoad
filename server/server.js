@@ -45,31 +45,19 @@ const imageSchema = mongoose.Schema({
 
 const image = mongoose.model('image', imageSchema)
 
-const catSchema = mongoose.Schema({
+const petSchema = mongoose.Schema({
+  species: String,
   name: String,
   breed: String,
   age: String,
-  kids: String,
-  cats: String, 
-  dogs: String,
+  goodWithKids: String,
+  goodWithCats: String, 
+  goodWithDogs: String,
   description: String,
   img: [imageSchema]
 });
 
-const cat = mongoose.model("cat", catSchema);
-
-const dogSchema = mongoose.Schema({
-  name: String,
-  breed: String,
-  age: String,
-  kids: String,
-  cats: String,
-  dogs: String,
-  description: String,
-  img: [imageSchema]
-});
-
-const dog = mongoose.model("dog", dogSchema);
+const pet = mongoose.model("pet", petSchema);
 
 const userSchema = mongoose.Schema({
   username: {
@@ -80,8 +68,7 @@ const userSchema = mongoose.Schema({
       type: String,
       required: true
   },
-  likedCats: [catSchema],
-  likedDogs: [dogSchema]
+  likedPets: [petSchema]
 });
 
 const user = mongoose.model("user", userSchema);
@@ -105,7 +92,6 @@ app.post("/api/signup", (req, res) => {
         })
         newUser.save();
       } 
-
     })
 });
 
@@ -132,17 +118,24 @@ app.post("/api/signin", (req, res) => {
 });
 
 app.post("/api/upload", (req, res) => {
-    let species = req.body.species;
-    let name = req.body.name;
-    let breed = req.body.breed;
-    let age = req.body.age;
-    let goodWithKids = req.body.goodWithKids;
-    let goodWithCats = req.body.goodWithCats;
-    let goodWithDogs = req.body.goodWithDogs;
-    let description = req.body.description;
-    console.log(species, name, breed, age, goodWithKids, goodWithCats, goodWithDogs, description)
-})
-
+    const newPet = new pet({
+      species: req.body.species,
+      name: req.body.name,
+      breed: req.body.breed,
+      age:  req.body.age,
+      goodWithKids: req.body.goodWithKids,
+      goodWithCats: req.body.goodWithCats,
+      goodWithDogs: req.body.goodWithDogs,
+      description: req.body.description
+    })
+    newPet.save()
+    .then(() => {
+      console.log("Success")
+    })
+    .catch(err => {
+      console.error("Error" ,err)
+    })
+});
 
 //---------------Storage--------------
 
