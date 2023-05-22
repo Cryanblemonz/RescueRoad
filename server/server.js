@@ -11,6 +11,9 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const session = require("express-session");
 const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+const { v4: uuidv4 } = require('uuid');
+const { Storage } = require('@google-cloud/storage');
 
 const MONGODB_URI = process.env.mongoose_URI;
 
@@ -34,9 +37,9 @@ const imageSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  image: {
-    data: Buffer,
-    contentType: String
+  imageURL: {
+    type: String,
+    required: true
   }
 })
 
@@ -128,27 +131,27 @@ app.post("/api/signin", (req, res) => {
     .catch(err => console.error(err));
 });
 
-app.post("/newDog", (req, res) => {
-    const newDog = new dog({
-        id: 0,
-        name: "Pearl",
-        breed: "Labrador",
-        age: "Young",
-        kids: "Good",
-        cats: "Good",
-        dogs: "Good",
-        description: "Sweet girl",
-        img: "https://chocolatelabradorretriever.ca/wp-content/uploads/2023/03/gracie-female-4-scaled.jpg",
-    });
-    newDog
-        .save()
-        .then(() => {
-            console.log("Saved successfully");
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-});
+app.post("/api/upload", (req, res) => {
+    let species = req.body.species;
+    let name = req.body.name;
+    let breed = req.body.breed;
+    let age = req.body.age;
+    let goodWithKids = req.body.goodWithKids;
+    let goodWithCats = req.body.goodWithCats;
+    let goodWithDogs = req.body.goodWithDogs;
+    let description = req.body.description;
+    console.log(species, name, breed, age, goodWithKids, goodWithCats, goodWithDogs, description)
+})
+
+
+//---------------Storage--------------
+
+const storage = new Storage ({
+  keyFilename: './coral-shift-387422-d5938a535769.json'
+})
+
+const bucketName = 'rescue-road';
+const bucket = storage.bucket(bucketName);
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

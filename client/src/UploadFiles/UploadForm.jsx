@@ -11,28 +11,63 @@ import { FaDog } from "react-icons/fa";
 import { FaCat } from "react-icons/fa";
 import { FaPaw } from "react-icons/fa";
 
+const styleforButton = {
+        margin: "15px auto 10px auto",
+        width: "60%",
+        display: "block",
+    };
+
+
 function UploadForm(props) {
-    const [heading, setHeading] = useState("Pet");
     const [icon, setIcon] = useState(
         <FaPaw style={{ transform: "rotate(-10deg)" }} />
     );
+    const [species, setSpecies] = useState("Pet");
+    const [name, setName] = useState("");
+    const [breed, setBreed] = useState("");
+    const [age, setAge] = useState("");
+    const [goodWithKids, setGoodWithKids] = useState("");
+    const [goodWithCats, setGoodWithCats] = useState("");
+    const [goodWithDogs, setGoodWithDogs] = useState("");
+    const [description, setDescription] = useState("");
 
-    function changeHeading() {
-        setHeading(event.target.value);
-        if (heading !== "Cat") {
+    function assignSpecies(event){
+        setSpecies(event.target.value);
+        console.log(species);
+    }
+
+    function changeSpecies() {
+        setSpecies(event.target.value);
+        if (species !== "Cat") {
             setIcon(<FaCat />);
         } else {
             setIcon(<FaDog />);
         }
     }
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try{
+                const response = await axios.post("/api/upload", {
+                        species, name, breed, age, goodWithKids, goodWithCats, goodWithDogs, description
+                })
+        } catch (error){
+                console.error("Error uploading pet", error);
+        }
+    }
+    
+    function consoleCheck(e){
+        e.preventDefault();
+        console.log(species, name, breed, age, goodWithKids, goodWithCats, goodWithDogs, description)
+    }
+
     return (
         <div>
-            <h1 className="upload-heading">Upload a New {heading} </h1>
+            <h1 className="upload-heading">Upload a New {species} </h1>
             <h1 className="upload-heading">{icon}</h1>
 
             <form class="upload-form">
-                <RadioGroup class="radio-group" onChange={changeHeading} row>
+                <RadioGroup class="radio-group" onChange={changeSpecies} row>
                     <FormControlLabel
                         value="Cat"
                         control={<Radio />}
@@ -50,9 +85,10 @@ function UploadForm(props) {
                         variant="standard"
                         type="text"
                         size="medium"
-                        label={heading === "Pet" ? "Cat's Name" : "Dog's Name"}
+                        label={species === "Pet" ? "Pet's Name" : species === "Cat" ? "Cat's Name" : species === "Dog" ? "Dog's Name" : null}
                         fullWidth
-                        name="petName"
+                        inputFunction={() => {setName(event.target.value)}}
+                        value={name}
                     />
 
                     <Input
@@ -61,6 +97,8 @@ function UploadForm(props) {
                         size="medium"
                         label="Breed"
                         fullWidth
+                        inputFunction={() => {setBreed(event.target.value)}}
+
                         name="petBreed"
                     />
                 </FormControl>
@@ -75,11 +113,12 @@ function UploadForm(props) {
                     <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         row
-                        class="radio-group">
+                        class="radio-group"
+                        onChange={() => {setAge(event.target.value)}}>
                         <FormControlLabel
-                            value={heading === "cat" ? "kitten" : "puppy"}
+                            value={species === "Cat" ? "kitten" : "puppy"}
                             control={<Radio />}
-                            label={heading === "cat" ? "Kitten" : "Puppy"}
+                            label={species === "Cat" ? "Kitten" : "Puppy"}
                         />
                         <FormControlLabel
                             value="Young"
@@ -109,7 +148,8 @@ function UploadForm(props) {
                     <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         row
-                        class="radio-group">
+                        class="radio-group"
+                        onChange={() => {setGoodWithKids(event.target.value)}}>
                         <FormControlLabel
                             value="No children"
                             control={<Radio />}
@@ -142,12 +182,13 @@ function UploadForm(props) {
                     <FormLabel
                         class="radios-2"
                         id="demo-radio-buttons-group-label">
-                        How would this pet do with {heading === "Cat" && "other "}cats?
+                        How would this pet do with {species === "Cat" && "other "}cats?
                     </FormLabel>
                 <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         row
-                        class="radio-group">
+                        class="radio-group"
+                        onChange={() => {setGoodWithCats(event.target.value)}}>
                         <FormControlLabel
                             value="No cats"
                             control={<Radio />}
@@ -180,12 +221,13 @@ function UploadForm(props) {
                     <FormLabel
                         class="radios-2"
                         id="demo-radio-buttons-group-label">
-                        How would this pet do with {heading === "Dog" && "other "}dogs?
+                        How would this pet do with {species === "Dog" && "other "}dogs?
                     </FormLabel>
                 <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         row
-                        class="radio-group">
+                        class="radio-group"
+                        onChange={() => {setGoodWithDogs(event.target.value)}}>
                         <FormControlLabel
                             value="No dogs"
                             control={<Radio />}
@@ -221,9 +263,10 @@ function UploadForm(props) {
                         fullWidth
                         name="petBreed"
                         multiline
+                        inputFunction={() => {setDescription(event.target.value)}}
                     />
                 </FormControl>
-                <input type="file"></input>
+                <Button style={styleforButton} variant="contained" onClick={handleSubmit}>Submit</Button>
             </form>
         </div>
     );
