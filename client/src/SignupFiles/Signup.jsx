@@ -1,15 +1,11 @@
 import React, {useState} from 'react'
 import ResponsiveAppBar from '../components/ResponsiveAppBar'
-import { createTheme, ThemeProvider } from '@mui/material';
 import SignupForm from './SignupForm';
 import './Signup.css';
 import SigninForm from './SigninForm';
 import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
-
-import axios from 'axios';
-
+import { createTheme, ThemeProvider } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -29,8 +25,7 @@ const theme = createTheme({
   },
 });
 
-
-
+import axios from 'axios';
 
 function Signup() {
         const [hasAccount, setHasAccount] = useState(false);
@@ -57,20 +52,20 @@ function Signup() {
         return (
 hasAccount ? 
     <div>
-      <ThemeProvider theme={theme}>
+
         <ResponsiveAppBar />
         <h1 id="signup-heading">Lets get started</h1>
         <PetsOutlinedIcon style={styleForIcon}/>
                 <SignupForm buttonFunction={switchForm} />
-      </ThemeProvider>
+
     </div>
     :     <div>
-    <ThemeProvider theme={theme}>
+
       <ResponsiveAppBar />
       <h1 id="signup-heading">Login</h1>
       <PetsOutlinedIcon style={styleForIcon}/>
               <SigninForm buttonFunction={switchForm} />
-    </ThemeProvider>
+
   </div>
   );
 }

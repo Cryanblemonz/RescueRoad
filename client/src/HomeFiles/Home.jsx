@@ -14,7 +14,7 @@ const theme = createTheme({
       main: "rgb(255, 255, 255)"
     }
   }
-})
+});
 
 
 function Home() {
