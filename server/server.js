@@ -11,11 +11,11 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const session = require("express-session");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
 const { v4: uuidv4 } = require("uuid");
 const { Storage } = require("@google-cloud/storage");
 
 const MONGODB_URI = process.env.mongoose_URI;
+
 
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
@@ -145,14 +145,33 @@ app.post("/api/upload", (req, res) => {
 //---------------Storage--------------
 
 const storage = new Storage({
-    keyFilename: "./coral-shift-387422-d5938a535769.json",
+    keyFilename: path.join(__dirname, process.env.gcKey),
 });
 
 const bucketName = "rescue-road";
 const bucket = storage.bucket(bucketName);
 
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+      fileSize: 5 * 1024 * 1024, 
+    },
+  });
 
+  app.post("/api/imageUpload", upload.single('file'), (req, res) => {
+    const blob = bucket.file(Date.now() = path.extname(req.file.originalname))
+    const blobStream = blob.createWriteStream();
 
+    blobStream.on('error', (err) => {
+        res.status(500).send(err);
+    });
+
+    blobStream.on('finish', () => {
+        res.status(200).send("Image uploaded successfully");
+    });
+
+    blobStream.end(req.file.buffer);
+  })
 
 
 

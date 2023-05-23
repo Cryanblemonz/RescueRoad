@@ -9,13 +9,11 @@
         margin: 50px auto;
 }
 
-.image-upload-para{
-        text-align: center;
-        font-family: 'Darumadrop One', cursive;
-        font-style: italic;
-}
-
 .preview-img{
         margin: 10px auto;
+        width: 200px;
+}
 
+input[type='file']{
+        font-family: 'Montserrat'
 }

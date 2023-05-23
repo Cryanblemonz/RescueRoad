@@ -45,7 +45,6 @@ function ImageUpload() {
         <div>
             <ResponsiveAppBar />
             <h1 className="image-upload-heading">Add a photo</h1>
-            <p className="image-upload-para">Show the world!</p>
             {src && <img src={src} alt="preview" className="preview-img" />} {/* Show preview */}
 
             <form className="image-upload-form" onSubmit={submitForm}>
@@ -53,9 +52,7 @@ function ImageUpload() {
                 <Input type="file" onChange={onFileChange}></Input>
                 <Button type="submit" variant="contained" style={styleforButton}>Upload</Button>
                 </FormControl>
-
             </form>
-
         </div>
     );
 }
