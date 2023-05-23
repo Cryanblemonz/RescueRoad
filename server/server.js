@@ -13,6 +13,7 @@ const session = require("express-session");
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const { Storage } = require("@google-cloud/storage");
+const path = require('path');
 
 const MONGODB_URI = process.env.mongoose_URI;
 
@@ -146,6 +147,7 @@ app.post("/api/upload", (req, res) => {
 
 const storage = new Storage({
     keyFilename: path.join(__dirname, process.env.gcKey),
+    projectId: process.env.gcID
 });
 
 const bucketName = "rescue-road";
@@ -159,9 +161,10 @@ const upload = multer({
   });
 
   app.post("/api/imageUpload", upload.single('file'), (req, res) => {
-    const blob = bucket.file(Date.now() = path.extname(req.file.originalname))
+    const blob = bucket.file(Date.now() + path.extname(req.file.originalname))
     const blobStream = blob.createWriteStream();
-
+    console.log(req.file);
+    
     blobStream.on('error', (err) => {
         res.status(500).send(err);
     });

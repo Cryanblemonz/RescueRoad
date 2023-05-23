@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "./ImageUpload.css";
 import { FormControl, Input } from "@mui/material";
 import Button from "@mui/material/Button";
+import axios from 'axios';
 
 const styleforButton = {
         margin: "15px auto 10px auto",
@@ -22,6 +23,7 @@ function ImageUpload() {
                 setSrc(reader.result);  
         };
         reader.readAsDataURL(event.target.files[0]);
+        console.log("file =" + file, "src =" + src)
 }
         const submitForm = async (event) => {
                 event.preventDefault();
@@ -45,7 +47,7 @@ function ImageUpload() {
         <div>
             <ResponsiveAppBar />
             <h1 className="image-upload-heading">Add a photo</h1>
-            {src && <img src={src} alt="preview" className="preview-img" />} {/* Show preview */}
+            {src && <img src={src} alt="preview" className="preview-img" />} 
 
             <form className="image-upload-form" onSubmit={submitForm}>
                 <FormControl fullWidth>
