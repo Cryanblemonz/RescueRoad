@@ -19,12 +19,17 @@ const theme = createTheme({
 
 function Home() {
 
+
+
   return (
     <div>
       <ThemeProvider theme={theme}>
         <ResponsiveAppBar />
           <Card />
       </ThemeProvider>
+      <form method="post" action="/api/test">
+      <button type="submit">Test</button>
+      </form>
     </div>
   );
 }

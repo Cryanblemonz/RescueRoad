@@ -1,15 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const PORT = process.env.PORT || 3001;
+const session = require("express-session");
 const mongoose = require("mongoose");
 const app = express();
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' })); 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const session = require("express-session");
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const { Storage } = require("@google-cloud/storage");
@@ -23,14 +23,15 @@ mongoose.connect(MONGODB_URI, {
     useUnifiedTopology: true,
 });
 
-app.use(
-    session({
-        secret: "test",
-        resave: false,
-        saveUninitialized: false,
-    })
-);
-
+app.use(session({
+    secret: 'test',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        // add more cookie options here if needed
+    },
+}));
 // -----------SCHEMAS------------
 
 const imageSchema = mongoose.Schema({
@@ -70,6 +71,7 @@ const userSchema = mongoose.Schema({
         required: true,
     },
     likedPets: [petSchema],
+    uploadedPets: [petSchema]
 });
 
 const user = mongoose.model("user", userSchema);
@@ -110,9 +112,10 @@ app.post("/api/signin", (req, res) => {
                     if (err) {
                         console.error(err);
                     } else if (result) {
-                        req.session.userName = foundUser.username;
+                        req.session.username = foundUser.username;
                         res.status(200).json({ message: "success" });
-                        console.log(req.session.userName);
+                        console.log(req.session.username);
+                        req.session.isLoggedin = true;
                     } else {
                         res.status(401).json({ message: "Login failed" });
                     }
@@ -137,6 +140,10 @@ app.post("/api/upload", (req, res) => {
         .save()
         .then(() => {
             console.log("Success");
+            pet.findOne({_id: newPet._id})
+            .then(uploadedPet => {
+                req.session.uploadedPetId = uploadedPet._id;
+            })
         })
         .catch((err) => {
             console.error("Error", err);
@@ -163,7 +170,6 @@ const upload = multer({
   app.post("/api/imageUpload", upload.single('file'), (req, res) => {
     const blob = bucket.file(Date.now() + path.extname(req.file.originalname))
     const blobStream = blob.createWriteStream();
-    console.log(req.file);
     
     blobStream.on('error', (err) => {
         res.status(500).send(err);
@@ -171,10 +177,16 @@ const upload = multer({
 
     blobStream.on('finish', () => {
         res.status(200).send("Image uploaded successfully");
-    });
+    }); 
 
     blobStream.end(req.file.buffer);
   })
+
+app.post("/api/test", (req, res) => {
+    console.log(req.session.uploadedPetId);
+    console.log(req.session.username);
+    res.send(req.session.userName);
+})
 
 
 

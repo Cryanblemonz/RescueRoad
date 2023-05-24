@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./HomeFiles/Home";
 import Signup from "./SignupFiles/Signup";
 import Upload from "./UploadFiles/Upload"
-import ImageUpload from "./imageUploadFiles/ImageUpload";
+import ImageUpload from './imageUploadFiles/ImageUpload';
 import { createTheme, ThemeProvider } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 

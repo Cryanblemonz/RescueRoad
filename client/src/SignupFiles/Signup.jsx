@@ -28,7 +28,7 @@ const theme = createTheme({
 import axios from 'axios';
 
 function Signup() {
-        const [hasAccount, setHasAccount] = useState(false);
+        const [hasAccount, setHasAccount] = useState(true);
         const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
         const styleForIcon = {
@@ -50,7 +50,7 @@ function Signup() {
 
         }
         return (
-hasAccount ? 
+!hasAccount ? 
     <div>
 
         <ResponsiveAppBar />
@@ -65,8 +65,8 @@ hasAccount ?
       <h1 id="signup-heading">Login</h1>
       <PetsOutlinedIcon style={styleForIcon}/>
               <SigninForm buttonFunction={switchForm} />
-
   </div>
+
   );
 }
 
