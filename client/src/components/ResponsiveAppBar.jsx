@@ -16,7 +16,7 @@ import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
 import { Link } from 'react-router-dom';
 
 
-const pages = ['Signup', 'Upload'];
+const pages = ['Signup', 'Upload', "ImageUpload"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {

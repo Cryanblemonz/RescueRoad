@@ -17,8 +17,16 @@ const theme = createTheme({
 });
 
 
-function Home() {
+  function Home() {
 
+    const test = async (event) => {
+      event.preventDefault();
+      try {
+          await axios.post("/api/test");
+      } catch (err) {
+          console.log("Error uploading", err);
+      }
+  };
 
 
   return (
@@ -27,9 +35,6 @@ function Home() {
         <ResponsiveAppBar />
           <Card />
       </ThemeProvider>
-      <form method="post" action="/api/test">
-      <button type="submit">Test</button>
-      </form>
     </div>
   );
 }
