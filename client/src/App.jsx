@@ -4,7 +4,7 @@ import Signup from "./SignupFiles/Signup";
 import Upload from "./UploadFiles/Upload"
 import ImageUpload from './imageUploadFiles/ImageUpload';
 import { createTheme, ThemeProvider } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 const theme = createTheme({
     palette: {
@@ -25,6 +25,7 @@ const theme = createTheme({
   });
 
 function App() {
+
     return (
         <ThemeProvider theme={theme}>
         <Router>
@@ -32,10 +33,10 @@ function App() {
                 <Route path="/" element={<Home />} />
             </Routes>
             <Routes>
-                <Route path="/signup" element={<Signup />} />
+                <Route path="/Signup" element={<Signup />} />
             </Routes>
             <Routes>
-                <Route path="/upload" element={<Upload />} />
+                <Route path="/Upload" element={<Upload />} />
             </Routes>
             <Routes>
                 <Route path="/imageUpload" element={<ImageUpload />} />

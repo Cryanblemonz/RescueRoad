@@ -2,6 +2,7 @@
     const cors = require("cors");
     const PORT = process.env.PORT || 3001;
     const session = require("express-session");
+    const MongoDBStore = require('connect-mongodb-session')(session);
     const mongoose = require("mongoose");
     const app = express();
     app.use(cors({ credentials: true, origin: 'http://localhost:3000' })); 
@@ -23,15 +24,24 @@
         useUnifiedTopology: true,
     });
 
+    const store = new MongoDBStore({
+      uri: process.env.mongoose_URI,
+      collection: 'mySessions'
+    });     
+    
     app.use(session({
         secret: 'test',
         resave: false,
         saveUninitialized: false,
+        store: store,
         cookie: {
-            secure: process.env.NODE_ENV === 'production',
+            secure: false,
+            sameSite: 'lax', // use 'none' for secure production
             // add more cookie options here if needed
         },
     }));
+    
+    
     // -----------SCHEMAS------------
 
     const imageSchema = mongoose.Schema({
@@ -76,6 +86,11 @@
 
     const user = mongoose.model("user", userSchema);
 
+
+    //-----------------Check Login--------------
+
+
+
     //-----------------Post Requests--------------
 
     app.post("/api/signup", (req, res) => {
@@ -114,8 +129,10 @@
                         } else if (result) {
                             req.session.username = foundUser.username;
                             res.status(200).json({ message: "success" });
-                            console.log(req.session.uploadedPet);
-                            req.session.isLoggedin = true;
+                            req.session.isLoggedIn = true;
+                            req.session.save(function(err){
+                                console.log(req.session.isLoggedIn)
+                            })
                         } else {
                             res.status(401).json({ message: "Login failed" });
                         }
@@ -171,7 +188,6 @@
             const uploadedPet = await pet.findOne({_id: newPet._id});
             req.session.uploadedPet = uploadedPet;
             console.log(req.session.uploadedPet);
-            res.redirect("/")
             res.send("yes")
         } catch (err) {
             console.error("Error", err);
@@ -187,7 +203,7 @@
     });
 
     const bucketName = "rescue-road";
-    const bucket = storage.bucket(bucketName);
+    const bucket = storage.bucket(bucketName);  
 
     const upload = multer({
         storage: multer.memoryStorage(),
@@ -195,6 +211,7 @@
         fileSize: 5 * 1024 * 1024, 
         },
     });
+
 
     app.post("/api/imageUpload", upload.single('file'), (req, res) => {
         const blob = bucket.file(Date.now() + path.extname(req.file.originalname))
@@ -217,7 +234,14 @@
         res.send(req.session.userName);
     })
 
-
+    app.get("/api/checkLogin", function(req, res){
+        if (req.session.isLoggedIn) {
+            res.json({isLoggedIn: true})
+        } else{
+            res.json({isLoggedIn: false})
+        }
+        console.log(req.session.isLoggedIn);
+    });
 
     //----------Listener-------------
 
