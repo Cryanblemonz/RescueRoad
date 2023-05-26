@@ -50,8 +50,8 @@ function ResponsiveAppBar() {
   useEffect(() => {
     axios.get('/api/checkLogin', {withCredentials: true})
     .then(res => {
-      console.log(res.data.isLoggedIn);
       setIsLoggedIn(res.data.isLoggedIn);
+      console.log(res.data.isLoggedIn);
     })
     .catch(err => {
       console.error(err);
@@ -59,8 +59,10 @@ function ResponsiveAppBar() {
     })
   }, []);
 
+
+
   
-  const pages = !isLoggedIn ? ['Signup', 'Upload', "ImageUpload"] : ['Upload', "ImageUpload"];
+  const pages = !isLoggedIn ? ['Signup'] : ['Upload', "ImageUpload"];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
   const handleOpenNavMenu = (event) => {

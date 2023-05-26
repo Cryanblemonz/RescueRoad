@@ -51,6 +51,7 @@ function UploadForm(props) {
                 const response = await axios.post("/api/upload", {
                         species, name, breed, age, goodWithKids, goodWithCats, goodWithDogs, description
                 })
+                window.location.href="/imageupload"
         } catch (error){
                 console.error("Error uploading pet", error);
         }

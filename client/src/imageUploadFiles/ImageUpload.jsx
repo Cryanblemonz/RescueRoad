@@ -1,9 +1,10 @@
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ImageUpload.css";
 import { FormControl, Input } from "@mui/material";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import Signup from "../SignupFiles/Signup";
 
 const styleforButton = {
     margin: "15px auto 10px auto",
@@ -12,8 +13,21 @@ const styleforButton = {
 };
 
 function ImageUpload() {
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [file, setFile] = useState(null);
     const [src, setSrc] = useState(null);
+
+    useEffect(() => {
+        axios.get('/api/checkLogin', {withCredentials: true})
+        .then(res => {
+          setIsLoggedIn(res.data.isLoggedIn);
+          console.log(res.data.isLoggedIn);
+        })
+        .catch(err => {
+          console.error(err);
+        })
+      }, []);
+
 
     const onFileChange = (event) => {
         setFile(event.target.files[0]);
@@ -37,12 +51,14 @@ function ImageUpload() {
                 },
             });
             console.log("File uploaded successfully");
+            window.location.href = "/"
         } catch (err) {
             console.log("Error uploading", err);
         }
     };
 
     return (
+        isLoggedIn == true ? 
         <div>
             <ResponsiveAppBar />
             <h1 className="image-upload-heading">Add a photo</h1>
@@ -59,10 +75,9 @@ function ImageUpload() {
                     </Button>
                 </FormControl>
             </form>
-            <form method="post" action="/api/test">
-                <button type="submit">Test</button>
-            </form>
-        </div>
+
+        </div> :
+        <Signup />
     );
 }
 
