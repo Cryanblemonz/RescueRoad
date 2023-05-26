@@ -86,11 +86,6 @@
 
     const user = mongoose.model("user", userSchema);
 
-
-    //-----------------Check Login--------------
-
-
-
     //-----------------Post Requests--------------
 
     app.post("/api/signup", (req, res) => {
@@ -130,9 +125,7 @@
                             req.session.username = foundUser.username;
                             res.status(200).json({ message: "success" });
                             req.session.isLoggedIn = true;
-                            req.session.save(function(err){
-                                console.log(req.session.isLoggedIn)
-                            })
+                            req.session.save();
                         } else {
                             res.status(401).json({ message: "Login failed" });
                         }
@@ -141,6 +134,11 @@
             })
             .catch((err) => console.error(err));
     });
+
+    app.post("/api/signout", (req, res) => {
+        req.session.isLoggedIn = false;
+        req.session.save();
+    })
 
     app.post("/api/upload", (req, res) => {
         const newPet = new pet({

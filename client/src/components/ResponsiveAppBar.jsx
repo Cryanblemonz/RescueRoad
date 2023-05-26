@@ -17,11 +17,32 @@ import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+const styleforButton = {
+  display: "block",
+  background: "#e093ff",
+  color: "black",
+  border: "1px solid black",
+  position: "absolute",
+  right: "30px",
+  top: "10px"
+};
+
+const styleForSmallScreenButton = {
+  display: "block",
+  background: "#e093ff",
+  color: "black",
+  border: "1px solid black",
+}
 
 
 
 
 function ResponsiveAppBar() {
+
+  const signout = () => {
+    axios.post('/api/signout')
+  }
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -115,6 +136,14 @@ function ResponsiveAppBar() {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem>
+              {isLoggedIn && 
+              <form onSubmit={signout}>
+                <Button type="submit" style={styleForSmallScreenButton}>Signout</Button>
+              </form>
+}
+              </MenuItem>
+
             </Menu>
           </Box>
           <PetsOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -148,6 +177,11 @@ function ResponsiveAppBar() {
                 {page}
               </Button>
             ))}
+            {isLoggedIn && 
+              <form onSubmit={signout}>
+                <Button id="signout-button" type="submit" style={styleforButton}>Signout</Button>
+              </form>
+}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
