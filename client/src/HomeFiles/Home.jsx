@@ -34,6 +34,7 @@ const theme = createTheme({
       <ThemeProvider theme={theme}>
         <ResponsiveAppBar />
           <Card />
+          <img src="https://storage.googleapis.com/rescue-road/1685237732192.png"></img>
       </ThemeProvider>
     </div>
   );
