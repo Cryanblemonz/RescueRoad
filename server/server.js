@@ -139,10 +139,19 @@
             req.session.goodWithCats = req.body.goodWithCats;
             req.session.goodWithDogs = req.body.goodWithDogs;
             req.session.description = req.body.description;
-
-            console.log(req.session.species, req.session.breed, req.session.description)
             res.send();
-    });
+        });
+
+    app.post("/api/randomPet", (req, res) => {
+        pet.aggregate([{$sample: { size: 1}}])
+            .then(foundPet => {
+                if(foundPet) {
+                    console.log(foundPet[0].name)
+                } else {
+                    console.log("no pet found")
+                }
+            })
+    })
     
 
     //---------------Storage--------------
@@ -185,8 +194,14 @@
                 description: req.session.description,
                 img: imageURL
             })
-            console.log(newPet)
-            newPet.save();
+            newPet.save()
+            .then(() =>{
+                user.findOne({username: req.session.username})
+                .then(foundUser => {
+                    foundUser.uploadedPets.push(newPet)
+                    foundUser.save();
+                })
+            })
         })
 
 
