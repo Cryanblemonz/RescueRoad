@@ -44,18 +44,6 @@
     
     // -----------SCHEMAS------------
 
-    const imageSchema = mongoose.Schema({
-        name: {
-            type: String,
-            required: true,
-        },
-        imageURL: {
-            type: String,
-            required: true,
-        },
-    });
-
-    const image = mongoose.model("image", imageSchema);
 
     const petSchema = mongoose.Schema({
         species: String,
@@ -66,7 +54,7 @@
         goodWithCats: String,
         goodWithDogs: String,
         description: String,
-        img: [imageSchema],
+        img: String
     });
 
     const pet = mongoose.model("pet", petSchema);
@@ -140,56 +128,20 @@
         req.session.save();
     })
 
-    app.post("/api/upload", (req, res) => {
-        const newPet = new pet({
-            species: req.body.species,
-            name: req.body.name,
-            breed: req.body.breed,
-            age: req.body.age,
-            goodWithKids: req.body.goodWithKids,
-            goodWithCats: req.body.goodWithCats,
-            goodWithDogs: req.body.goodWithDogs,
-            description: req.body.description,
-        });
-        newPet
-            .save()
-            .then(() => {
-                console.log("Success");
-                pet.findOne({_id: newPet._id})
-                .then((uploadedPet) => {
-                    req.session.uploadedPet = uploadedPet;
-                    console.log(req.session.uploadedPet)
-                    res.send();
-                })
-            })
-            .catch((err) => {
-                console.error("Error", err);
-            });
-    });
+
 
     app.post("/api/upload", async (req, res) => {
-        const newPet = new pet({
-            species: req.body.species,
-            name: req.body.name,
-            breed: req.body.breed,
-            age: req.body.age,
-            goodWithKids: req.body.goodWithKids,
-            goodWithCats: req.body.goodWithCats,
-            goodWithDogs: req.body.goodWithDogs,
-            description: req.body.description,
-        });
-    
-        try {
-            await newPet.save();
-            console.log("Success");
-    
-            const uploadedPet = await pet.findOne({_id: newPet._id});
-            req.session.uploadedPet = uploadedPet;
-            console.log(req.session.uploadedPet);
-            res.send("yes")
-        } catch (err) {
-            console.error("Error", err);
-        }
+            req.session.species = req.body.species;
+            req.session.name = req.body.name;
+            req.session.breed = req.body.breed;
+            req.session.age = req.body.age;
+            req.session.goodWithKids = req.body.goodWithKids;
+            req.session.goodWithCats = req.body.goodWithCats;
+            req.session.goodWithDogs = req.body.goodWithDogs;
+            req.session.description = req.body.description;
+
+            console.log(req.session.species, req.session.breed, req.session.description)
+            res.send();
     });
     
 
@@ -221,16 +173,26 @@
 
         blobStream.on('finish', () => {
             res.status(200).send("Image uploaded successfully");
-        }); 
+            const imageURL = `https://storage.googleapis.com/${bucketName}/${blob.name}`
+            const newPet = new pet({
+                species: req.session.species,
+                name: req.session.name,
+                breed: req.session.breed,
+                age: req.session.age,
+                goodWithKids: req.session.goodWithKids,
+                goodWithCats: req.session.goodWithCats,
+                goodWithDogs: req.session.goodWithDogs,
+                description: req.session.description,
+                img: imageURL
+            })
+            console.log(newPet)
+            newPet.save();
+        })
+
 
         blobStream.end(req.file.buffer);
     })
 
-    app.post("/api/test", (req, res) => {
-        console.log(req.session.uploadedPet);
-        console.log(req.session.username);
-        res.send(req.session.userName);
-    })
 
     app.get("/api/checkLogin", function(req, res){
         if (req.session.isLoggedIn) {
@@ -238,7 +200,6 @@
         } else{
             res.json({isLoggedIn: false})
         }
-        console.log(req.session.isLoggedIn);
     });
 
     //----------Listener-------------

@@ -7,6 +7,7 @@ import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material';
 
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -25,11 +26,17 @@ const theme = createTheme({
   },
 });
 
-import axios from 'axios';
-
 function Signup() {
         const [hasAccount, setHasAccount] = useState(true);
         const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+
+
+
+
+
+
+
 
         const styleForIcon = {
             height: "10%",
@@ -54,8 +61,11 @@ function Signup() {
     <div>
 
         <ResponsiveAppBar />
-        <h1 id="signup-heading">Lets get started</h1>
-        <PetsOutlinedIcon style={styleForIcon}/>
+        <div>
+                <h1 id="signup-heading">Lets get started</h1>
+                <PetsOutlinedIcon style={styleForIcon} />
+        </div>
+
                 <SignupForm buttonFunction={switchForm} />
 
     </div>
