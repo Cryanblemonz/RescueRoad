@@ -10,6 +10,7 @@ function Input(props) {
             margin="normal"
             fullWidth={props.fullWidth}
             onChange={props.inputFunction}
+            rows={props.rows}
             multiline
         />
     );

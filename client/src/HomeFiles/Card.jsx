@@ -6,6 +6,9 @@ let i = 0;
 import axios from "axios";
 import "./Home.css";
 import ReactCardFlip from "react-card-flip";
+import Input from "../components/Input";
+import Fab from "@mui/material/Fab";
+import SendIcon from "@mui/icons-material/Send";
 
 function Card() {
     const [imageUrl, setImageUrl] = useState(null);
@@ -20,8 +23,6 @@ function Card() {
     const [age, setAge] = useState("");
     const [isFlipped, setIsFlipped] = useState("");
 
-    let randomNumber = Math.floor(Math.random() * cats.length);
-
     const [props, api] = useSpring(() => ({ x: 0, opacity: 1 }));
 
     useEffect(() => {
@@ -29,50 +30,54 @@ function Card() {
     }, []);
 
     function loadImgRight() {
-        if(isFlipped){
-            setIsFlipped(false)
-        setTimeout(() => {api.start({
-            to: { x: 100, opacity: 0 },
-            onRest: () => {
-                setLoading(true);
-                setImageLoading(true);
-                fetchNewImage();
-            },
-        });
-    }, 300)} else {
-        api.start({
-            to: { x: 100, opacity: 0 },
-            onRest: () => {
-                setLoading(true);
-                setImageLoading(true);
-                fetchNewImage();
-            },
-        });
+        if (isFlipped) {
+            setIsFlipped(false);
+            setTimeout(() => {
+                api.start({
+                    to: { x: 100, opacity: 0 },
+                    onRest: () => {
+                        setLoading(true);
+                        setImageLoading(true);
+                        fetchNewImage();
+                    },
+                });
+            }, 300);
+        } else {
+            api.start({
+                to: { x: 100, opacity: 0 },
+                onRest: () => {
+                    setLoading(true);
+                    setImageLoading(true);
+                    fetchNewImage();
+                },
+            });
+        }
     }
-}
 
-function loadImgLeft() {
-    if(isFlipped){
-        setIsFlipped(false)
-    setTimeout(() => {api.start({
-        to: { x: -100, opacity: 0 },
-        onRest: () => {
-            setLoading(true);
-            setImageLoading(true);
-            fetchNewImage();
-        },
-    });
-}, 300)} else {
-    api.start({
-        to: { x: -100, opacity: 0 },
-        onRest: () => {
-            setLoading(true);
-            setImageLoading(true);
-            fetchNewImage();
-        },
-    });
-}
-}
+    function loadImgLeft() {
+        if (isFlipped) {
+            setIsFlipped(false);
+            setTimeout(() => {
+                api.start({
+                    to: { x: -100, opacity: 0 },
+                    onRest: () => {
+                        setLoading(true);
+                        setImageLoading(true);
+                        fetchNewImage();
+                    },
+                });
+            }, 300);
+        } else {
+            api.start({
+                to: { x: -100, opacity: 0 },
+                onRest: () => {
+                    setLoading(true);
+                    setImageLoading(true);
+                    fetchNewImage();
+                },
+            });
+        }
+    }
 
     function fetchNewImage() {
         if (i > 0) {
@@ -87,6 +92,7 @@ function loadImgLeft() {
                 setGoodWithKids(response.data.goodWithKids);
                 setGoodWithDogs(response.data.goodWithDogs);
                 setAge(response.data.age);
+                setDescription(response.data.description);
             });
         }
         i++;
@@ -95,6 +101,8 @@ function loadImgLeft() {
     const handleFlipClick = () => {
         setIsFlipped(!isFlipped);
     };
+
+
 
     return (
         <div className="card-div">
@@ -116,23 +124,72 @@ function loadImgLeft() {
                             style={{
                                 display: "block",
                                 marginRight: "auto",
-                                marginLeft: "15px",
+                                marginLeft: "auto",
                                 lineHeight: "25px",
                             }}>
-                            {breed && <p>{age}</p>}
-                            {goodWithCats && <p>{goodWithCats}</p>}
-                            {goodWithDogs && <p>{goodWithDogs}</p>}
-                            {goodWithKids && <p>{goodWithKids}</p>}
+                            <strong>
+                                {goodWithCats && <p>{goodWithCats}</p>}
+                                {goodWithDogs && <p>{goodWithDogs}</p>}
+                                {goodWithKids && <p>{goodWithKids}</p>}
+                            </strong>
                         </ul>
                     </div>
                 </animated.div>
-                <div className="card" onClick={handleFlipClick}>
-                    <h1>Back</h1>
+                <div className="card card-back">
+                    <div className="back-info">
+                        {breed && (
+                            <p>
+                                <strong>Breed: </strong>
+                                {breed}
+                            </p>
+                        )}
+                        {age && (
+                            <p>
+                                <strong>Age: </strong>
+                                {age}
+                            </p>
+                        )}
+                        {description && (
+                            <p>
+                                <strong>Description: </strong>
+                                
+                                {description.substring(0, 65)} {description.length >= 65 && <span style={{color: "blue", fontWeight: "bold"}}> ..see more</span>}
+
+                            </p>
+                        )}
+                    </div>
+                    <hr
+                        style={{
+                            width: "30%",
+                            borderWidth: "8px",
+                            borderStyle: "dotted none none none",
+                            margin: "0 auto 20px auto",
+                        }}></hr>
+                    <p
+                        style={{ width: "80%", textAlign: "center"}}
+                        onClick={handleFlipClick}>
+                            <strong>
+                            Think I'm perfect for your home? Message the shelter or
+                        foster parent to learn more
+                            </strong>
+
+                    </p>
+                    <Input
+                        type="text"
+                        variant="outlined"
+                        style={{ overflow: "visible" }}
+                        rows="3"
+                        multiline></Input>
+                    <Fab
+                        variant="extended"
+                        size="small"
+                        color="primary"
+                        style={{padding: "2px 22px 2px 36px", marginBottom: "10px"}}
+                        aria-label="add">
+                        <SendIcon sx={{ mr: 1 }} />
+                        </Fab>
                 </div>
             </ReactCardFlip>
-
-            {/* Back of card */}
-
             <SwipeButton
                 leftFunction={loadImgLeft}
                 rightFunction={loadImgRight}
