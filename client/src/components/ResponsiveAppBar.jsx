@@ -51,7 +51,6 @@ function ResponsiveAppBar() {
     axios.get('/api/checkLogin', {withCredentials: true})
     .then(res => {
       setIsLoggedIn(res.data.isLoggedIn);
-      console.log(res.data.isLoggedIn);
     })
     .catch(err => {
       console.error(err);

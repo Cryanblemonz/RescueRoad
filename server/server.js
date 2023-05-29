@@ -142,14 +142,10 @@
             res.send();
         });
 
-    app.post("/api/randomPet", (req, res) => {
+    app.get("/api/randomPet", (req, res) => {
         pet.aggregate([{$sample: { size: 1}}])
             .then(foundPet => {
-                if(foundPet) {
-                    console.log(foundPet[0].name)
-                } else {
-                    console.log("no pet found")
-                }
+                res.json(foundPet[0]);
             })
     })
     

@@ -152,9 +152,9 @@ function UploadForm(props) {
                         class="radio-group"
                         onChange={() => {setGoodWithKids(event.target.value)}}>
                         <FormControlLabel
-                            value="No children"
+                            value="Not good with children"
                             control={<Radio />}
-                            label="No children"
+                            label="Not good with children"
                         />
                         <FormControlLabel
                             value="Prefer no children"
@@ -162,9 +162,9 @@ function UploadForm(props) {
                             label="Prefer no children"
                         />
                         <FormControlLabel
-                            value="Neutral"
+                            value="Okay with children"
                             control={<Radio />}
-                            label="Neutral"
+                            label="Okay with children"
                         />
                         <FormControlLabel
                             value="Good with children"
@@ -191,9 +191,9 @@ function UploadForm(props) {
                         class="radio-group"
                         onChange={() => {setGoodWithCats(event.target.value)}}>
                         <FormControlLabel
-                            value="No cats"
+                            value="Not good with cats"
                             control={<Radio />}
-                            label="No cats"
+                            label="Not good with cats"
                         />
                         <FormControlLabel
                             value="Prefer no cats"
@@ -201,9 +201,9 @@ function UploadForm(props) {
                             label="Prefer no cats"
                         />
                         <FormControlLabel
-                            value="Neutral"
+                            value="Okay with cats"
                             control={<Radio />}
-                            label="Neutral     "
+                            label="Okay with cats"
                         /><br></br>
                         <FormControlLabel
                             value="Good with cats"
@@ -230,9 +230,9 @@ function UploadForm(props) {
                         class="radio-group"
                         onChange={() => {setGoodWithDogs(event.target.value)}}>
                         <FormControlLabel
-                            value="No dogs"
+                            value="Not good with dogs"
                             control={<Radio />}
-                            label="No dogs"
+                            label="Not good with dogs"
                         />
                         <FormControlLabel
                             value="Prefer no dogs"
@@ -240,9 +240,9 @@ function UploadForm(props) {
                             label="Prefer no dogs"
                         />
                         <FormControlLabel
-                            value="Neutral"
+                            value="Okay with dogs"
                             control={<Radio />}
-                            label="Neutral     "
+                            label="Okay with dogs"
                         /><br></br>
                         <FormControlLabel
                             value="Good with dogs"
