@@ -4,20 +4,21 @@ import cats from "../components/names";
 import SwipeButton from "../components/SwipeButton";
 let i = 0;
 import axios from "axios";
-import './Home.css';
+import "./Home.css";
+import ReactCardFlip from "react-card-flip";
 
 function Card() {
     const [imageUrl, setImageUrl] = useState(null);
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(true);
     const [imageLoading, setImageLoading] = useState(true);
-    const [breed, setBreed] = useState("")
+    const [breed, setBreed] = useState("");
     const [goodWithCats, setGoodWithCats] = useState("");
     const [goodWithDogs, setGoodWithDogs] = useState("");
     const [goodWithKids, setGoodWithKids] = useState("");
     const [description, setDescription] = useState("");
     const [age, setAge] = useState("");
-
+    const [isFlipped, setIsFlipped] = useState("");
 
     let randomNumber = Math.floor(Math.random() * cats.length);
 
@@ -28,8 +29,19 @@ function Card() {
     }, []);
 
     function loadImgRight() {
+        if(isFlipped){
+            setIsFlipped(false)
+        setTimeout(() => {api.start({
+            to: { x: 100, opacity: 0 },
+            onRest: () => {
+                setLoading(true);
+                setImageLoading(true);
+                fetchNewImage();
+            },
+        });
+    }, 300)} else {
         api.start({
-            to: { x: 200, opacity: 0 },
+            to: { x: 100, opacity: 0 },
             onRest: () => {
                 setLoading(true);
                 setImageLoading(true);
@@ -37,17 +49,30 @@ function Card() {
             },
         });
     }
+}
 
-    function loadImgLeft() {
-        api.start({
-            to: { x: -100, opacity: 0 },
-            onRest: () => {
-                setLoading(true);
-                setImageLoading(true);
-                fetchNewImage();
-            },
-        });
-    }
+function loadImgLeft() {
+    if(isFlipped){
+        setIsFlipped(false)
+    setTimeout(() => {api.start({
+        to: { x: -100, opacity: 0 },
+        onRest: () => {
+            setLoading(true);
+            setImageLoading(true);
+            fetchNewImage();
+        },
+    });
+}, 300)} else {
+    api.start({
+        to: { x: -100, opacity: 0 },
+        onRest: () => {
+            setLoading(true);
+            setImageLoading(true);
+            fetchNewImage();
+        },
+    });
+}
+}
 
     function fetchNewImage() {
         if (i > 0) {
@@ -61,36 +86,53 @@ function Card() {
                 setGoodWithCats(response.data.goodWithCats);
                 setGoodWithKids(response.data.goodWithKids);
                 setGoodWithDogs(response.data.goodWithDogs);
-
+                setAge(response.data.age);
             });
         }
         i++;
     }
 
+    const handleFlipClick = () => {
+        setIsFlipped(!isFlipped);
+    };
+
     return (
         <div className="card-div">
             <h1 className="petName-lg">{name ? name : "Lets do this!"}</h1>
-            {!loading && !imageLoading ? (
+            <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
                 <animated.div style={props} ref={props}>
-                    <div className="card">
+                    <div className="card" onClick={handleFlipClick}>
                         <h1 className="petName-sm">
                             {name ? name : "Lets do this!"}
                         </h1>
                         {imageUrl && <img src={imageUrl} alt="Random Cat" />}
-                        <hr style={{width: '20%', borderWidth: "8px", borderStyle: "dotted none none none"}}></hr>
-                        <ul style={{display: "block", marginRight: "auto", marginLeft: "15px", lineHeight: "25px"}}>
-                            {breed && <p>Breed: {breed}</p>}
-                            {goodWithCats && <p>Cats: {goodWithCats}</p>}
-                            {goodWithDogs && <p>Cats: {goodWithDogs}</p>}
-                            {goodWithKids && <p>Cats: {goodWithKids}</p>}
+                        <hr
+                            style={{
+                                width: "20%",
+                                borderWidth: "8px",
+                                borderStyle: "dotted none none none",
+                            }}></hr>
+                        <ul
+                            style={{
+                                display: "block",
+                                marginRight: "auto",
+                                marginLeft: "15px",
+                                lineHeight: "25px",
+                            }}>
+                            {breed && <p>{age}</p>}
+                            {goodWithCats && <p>{goodWithCats}</p>}
+                            {goodWithDogs && <p>{goodWithDogs}</p>}
+                            {goodWithKids && <p>{goodWithKids}</p>}
                         </ul>
                     </div>
                 </animated.div>
-            ) : (
-                <div className="card" style={{ visibility: "hidden" }}>
-                    Loading...
+                <div className="card" onClick={handleFlipClick}>
+                    <h1>Back</h1>
                 </div>
-            )}
+            </ReactCardFlip>
+
+            {/* Back of card */}
+
             <SwipeButton
                 leftFunction={loadImgLeft}
                 rightFunction={loadImgRight}

@@ -22,11 +22,6 @@ function Home() {
             <ThemeProvider theme={theme}>
                 <ResponsiveAppBar />
                 <Card />
-
-                <form>
-                    <button type="submit">Random</button>
-                </form>
-                <Cardback />
             </ThemeProvider>
         </div>
     );

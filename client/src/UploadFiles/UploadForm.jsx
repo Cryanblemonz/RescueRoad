@@ -117,7 +117,7 @@ function UploadForm(props) {
                         class="radio-group"
                         onChange={() => {setAge(event.target.value)}}>
                         <FormControlLabel
-                            value={species === "Cat" ? "kitten" : "puppy"}
+                            value={species === "Cat" ? "Kitten" : "Puppy"}
                             control={<Radio />}
                             label={species === "Cat" ? "Kitten" : "Puppy"}
                         />
