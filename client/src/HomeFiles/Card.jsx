@@ -9,6 +9,7 @@ import ReactCardFlip from "react-card-flip";
 import Input from "../components/Input";
 import Fab from "@mui/material/Fab";
 import SendIcon from "@mui/icons-material/Send";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 function Card() {
     const [imageUrl, setImageUrl] = useState(null);
@@ -22,6 +23,7 @@ function Card() {
     const [description, setDescription] = useState("");
     const [age, setAge] = useState("");
     const [isFlipped, setIsFlipped] = useState("");
+    const [extendedDescription, setExtendedDescription] = useState(false);
 
     const [props, api] = useSpring(() => ({ x: 0, opacity: 1 }));
 
@@ -102,7 +104,9 @@ function Card() {
         setIsFlipped(!isFlipped);
     };
 
-
+    const handleSeeMore = () => {
+        setExtendedDescription(!extendedDescription);
+    };
 
     return (
         <div className="card-div">
@@ -133,18 +137,25 @@ function Card() {
                                 {goodWithKids && <p>{goodWithKids}</p>}
                             </strong>
                         </ul>
+                        <ArrowForwardIcon
+                            style={{
+                                position: "absolute",
+                                right: "10",
+                                bottom: "5",
+                            }}
+                        />
                     </div>
                 </animated.div>
                 <div className="card card-back">
                     <div className="back-info">
-                        {breed && (
-                            <p>
+                        {!extendedDescription && breed && (
+                            <p  onClick={handleFlipClick}>
                                 <strong>Breed: </strong>
                                 {breed}
                             </p>
                         )}
-                        {age && (
-                            <p>
+                        {!extendedDescription && age && (
+                            <p  onClick={handleFlipClick}>
                                 <strong>Age: </strong>
                                 {age}
                             </p>
@@ -152,27 +163,52 @@ function Card() {
                         {description && (
                             <p>
                                 <strong>Description: </strong>
-                                
-                                {description.substring(0, 65)} {description.length >= 65 && <span style={{color: "blue", fontWeight: "bold"}}> ..see more</span>}
-
+                                {extendedDescription ? (
+                                    description
+                                ) : description.length >= 65 ? (
+                                    <span>
+                                        {description.substring(0, 65)}
+                                        <span className="see-more"
+                                            style={{
+                                                color: "blue",
+                                                fontWeight: "bold",
+                                                opacity: ".5",
+                                            }}
+                                            onClick={handleSeeMore}>
+                                            &nbsp;...see more
+                                        </span>
+                                    </span>
+                                ) : (
+                                    description
+                                )}
+                            </p>
+                        )}
+                        {description && extendedDescription && (
+                            <p
+                                onClick={handleSeeMore}
+                                style={{
+                                    color: "blue",
+                                    fontWeight: "bold",
+                                    opacity: ".5",
+                                }}>
+                                See Less
                             </p>
                         )}
                     </div>
-                    <hr
+                    <hr 
                         style={{
                             width: "30%",
                             borderWidth: "8px",
                             borderStyle: "dotted none none none",
-                            margin: "0 auto 20px auto",
+                            margin: "0 auto 10px auto",
                         }}></hr>
                     <p
-                        style={{ width: "80%", textAlign: "center"}}
+                        style={{ width: "80%", textAlign: "center" }}
                         onClick={handleFlipClick}>
-                            <strong>
-                            Think I'm perfect for your home? Message the shelter or
-                        foster parent to learn more
-                            </strong>
-
+                        <strong>
+                            Think I'm perfect for your home? Message the shelter
+                            or foster parent to learn more
+                        </strong>
                     </p>
                     <Input
                         type="text"
@@ -184,10 +220,21 @@ function Card() {
                         variant="extended"
                         size="small"
                         color="primary"
-                        style={{padding: "2px 22px 2px 36px", marginBottom: "10px"}}
+                        style={{
+                            padding: "2px 22px 2px 36px",
+                            marginBottom: "10px",
+                        }}
                         aria-label="add">
                         <SendIcon sx={{ mr: 1 }} />
-                        </Fab>
+                    </Fab>
+                    <ArrowForwardIcon
+                            style={{
+                                position: "absolute",
+                                right: "10",
+                                bottom: "5",
+                            }}
+                            onClick={handleFlipClick}
+                        />
                 </div>
             </ReactCardFlip>
             <SwipeButton
