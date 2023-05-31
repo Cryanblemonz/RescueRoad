@@ -2,6 +2,9 @@ import Button from "@mui/material/Button";
 import Input from "../components/Input";
 import axios from 'axios';
 import {useState} from 'react';
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
 
 const styleforButton1 = {
     margin: "15px auto 10px auto",
@@ -19,9 +22,11 @@ const styleforButton2 = {
 
 
 function SignupForm(props) {
+        const [email, setEmail] = useState("");
         const [username, setUsername] = useState("");
         const [password1, setPassword1] = useState("");
         const [password2, setPassword2] = useState("");
+        const [zipCode, setZipCode] = useState(null);
 
         const handleSubmit = async (event) => {
                 event.preventDefault();
@@ -41,6 +46,25 @@ function SignupForm(props) {
     return (
         <div className="signup-form">
             <form onSubmit={handleSubmit}>
+
+            <Input
+                    type="email"
+                    size="small"
+                    label="Email Address"
+                    margin="normal"
+                    fullWidth
+                    name="email"
+                    inputFunction={event => setEmail(event.target.value)}
+                />
+                    <Input
+                    type="text"
+                    size="small"
+                    label="Zip Code"
+                    margin="normal"
+                    fullWidth
+                    name="zipCode"
+                    inputFunction={event => setZipCode(event.target.value)}
+                />
                 <Input
                     type="text"
                     size="small"
@@ -66,6 +90,7 @@ function SignupForm(props) {
                     name="password2"
                     inputFunction={event => setPassword2(event.target.value)}
                 />
+
                 <Button
                     style={styleforButton1}
                     type="submit"

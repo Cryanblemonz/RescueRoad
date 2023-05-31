@@ -30,6 +30,10 @@ function UploadForm(props) {
     const [goodWithCats, setGoodWithCats] = useState("");
     const [goodWithDogs, setGoodWithDogs] = useState("");
     const [description, setDescription] = useState("");
+    const [zipCode, setZipCode] = useState("");
+    const [contactPhone, setcontactPhone] = useState("");
+    const [contactName, setContactName] = useState("");
+    const [contactEmail, setcontactEmail] = useState("");
 
     function assignSpecies(event){
         setSpecies(event.target.value);
@@ -49,17 +53,12 @@ function UploadForm(props) {
         event.preventDefault();
         try{
                 const response = await axios.post("/api/upload", {
-                        species, name, breed, age, goodWithKids, goodWithCats, goodWithDogs, description
+                        species, name, breed, age, goodWithKids, goodWithCats, goodWithDogs, description, zipCode, contactName, contactPhone, contactEmail
                 })
                 window.location.href="/imageupload"
         } catch (error){
                 console.error("Error uploading pet", error);
         }
-    }
-    
-    function consoleCheck(e){
-        e.preventDefault();
-        console.log(species, name, breed, age, goodWithKids, goodWithCats, goodWithDogs, description)
     }
 
     return (
@@ -88,7 +87,7 @@ function UploadForm(props) {
                         size="medium"
                         label={species === "Pet" ? "Pet's Name" : species === "Cat" ? "Cat's Name" : species === "Dog" ? "Dog's Name" : null}
                         fullWidth
-                        inputFunction={() => {setName(event.target.value)}}
+                        inputFunction={event => {setName(event.target.value)}}
                         value={name}
                     />
 
@@ -98,8 +97,7 @@ function UploadForm(props) {
                         size="medium"
                         label="Breed"
                         fullWidth
-                        inputFunction={() => {setBreed(event.target.value)}}
-
+                        inputFunction={event => {setBreed(event.target.value)}}
                         name="petBreed"
                     />
                 </FormControl>
@@ -115,7 +113,7 @@ function UploadForm(props) {
                         aria-labelledby="demo-radio-buttons-group-label"
                         row
                         class="radio-group"
-                        onChange={() => {setAge(event.target.value)}}>
+                        onChange={event => {setAge(event.target.value)}}>
                         <FormControlLabel
                             value={species === "Cat" ? "Kitten" : "Puppy"}
                             control={<Radio />}
@@ -150,7 +148,7 @@ function UploadForm(props) {
                         aria-labelledby="demo-radio-buttons-group-label"
                         row
                         class="radio-group"
-                        onChange={() => {setGoodWithKids(event.target.value)}}>
+                        onChange={event => {setGoodWithKids(event.target.value)}}>
                         <FormControlLabel
                             value="Not good with children"
                             control={<Radio />}
@@ -189,7 +187,7 @@ function UploadForm(props) {
                         aria-labelledby="demo-radio-buttons-group-label"
                         row
                         class="radio-group"
-                        onChange={() => {setGoodWithCats(event.target.value)}}>
+                        onChange={event => {setGoodWithCats(event.target.value)}}>
                         <FormControlLabel
                             value="Not good with cats"
                             control={<Radio />}
@@ -228,7 +226,7 @@ function UploadForm(props) {
                         aria-labelledby="demo-radio-buttons-group-label"
                         row
                         class="radio-group"
-                        onChange={() => {setGoodWithDogs(event.target.value)}}>
+                        onChange={event => {setGoodWithDogs(event.target.value)}}>
                         <FormControlLabel
                             value="Not good with dogs"
                             control={<Radio />}
@@ -264,8 +262,44 @@ function UploadForm(props) {
                         fullWidth
                         name="petBreed"
                         multiline
-                        inputFunction={() => {setDescription(event.target.value)}}
+                        inputFunction={event => {setDescription(event.target.value)}}
                     />
+                    <Input
+                        variant="standard"
+                        type="text"
+                        size="medium"
+                        label="Zip code this pet is located in"
+                        fullWidth
+                        inputFunction={event => {setZipCode(event.target.value)}}
+                        name="zipCode"
+                    />
+                    <Input
+                        variant="standard"
+                        type="text"
+                        size="medium"
+                        label="Name of person or organization who should be contacted about this pet"
+                        fullWidth
+                        inputFunction={event => {setContactName(event.target.value)}}
+                        name="contactName"
+                    />
+                    <Input
+                        variant="standard"
+                        type="text"
+                        size="medium"
+                        label="Contact phone number for adoption of this pet"
+                        fullWidth
+                        inputFunction={event => {setcontactPhone(event.target.value)}}
+                        name="contactPhone"
+                    />
+                    <Input
+                        variant="standard"
+                        type="text"
+                        size="medium"
+                        label="Contact email for adoption of this pet"
+                        fullWidth
+                        inputFunction={event => {setcontactEmail(event.target.value)}}
+                        name="contactEmail"
+                    />                    
                 </FormControl>
                 <Button style={styleforButton} variant="contained" onClick={handleSubmit}>Submit</Button>
             </form>

@@ -54,7 +54,11 @@
         goodWithCats: String,
         goodWithDogs: String,
         description: String,
-        img: String
+        img: String,
+        contactName: String,
+        zipCode: String,
+        contactPhone: String,
+        contactEmail: String
     });
 
     const pet = mongoose.model("pet", petSchema);
@@ -69,7 +73,8 @@
             required: true,
         },
         likedPets: [petSchema],
-        uploadedPets: [petSchema]
+        uploadedPets: [petSchema],
+        zipCode: String
     });
 
     const user = mongoose.model("user", userSchema);
@@ -139,6 +144,10 @@
             req.session.goodWithCats = req.body.goodWithCats;
             req.session.goodWithDogs = req.body.goodWithDogs;
             req.session.description = req.body.description;
+            req.session.contactName = req.body.contactName;
+            req.session.zipCode = req.body.zipCode;
+            req.session.contactPhone = req.body.contactPhone;
+            req.session.contactEmail = req.body.contactEmail;
             res.send();
         });
 
@@ -188,6 +197,10 @@
                 goodWithCats: req.session.goodWithCats,
                 goodWithDogs: req.session.goodWithDogs,
                 description: req.session.description,
+                zipCode: req.session.zipCode,
+                contactName: req.session.contactName,
+                contactPhone: req.session.contactPhone,
+                contactEmail: req.session.contactEmail,
                 img: imageURL
             })
             newPet.save()

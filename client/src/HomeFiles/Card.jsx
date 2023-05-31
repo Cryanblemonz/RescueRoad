@@ -149,13 +149,13 @@ function Card() {
                 <div className="card card-back">
                     <div className="back-info">
                         {!extendedDescription && breed && (
-                            <p  onClick={handleFlipClick}>
+                            <p onClick={handleFlipClick}>
                                 <strong>Breed: </strong>
                                 {breed}
                             </p>
                         )}
                         {!extendedDescription && age && (
-                            <p  onClick={handleFlipClick}>
+                            <p onClick={handleFlipClick}>
                                 <strong>Age: </strong>
                                 {age}
                             </p>
@@ -168,7 +168,8 @@ function Card() {
                                 ) : description.length >= 65 ? (
                                     <span>
                                         {description.substring(0, 65)}
-                                        <span className="see-more"
+                                        <span
+                                            className="see-more"
                                             style={{
                                                 color: "blue",
                                                 fontWeight: "bold",
@@ -195,14 +196,25 @@ function Card() {
                             </p>
                         )}
                     </div>
-                    <hr 
+                    <hr
                         style={{
                             width: "30%",
                             borderWidth: "8px",
                             borderStyle: "dotted none none none",
                             margin: "0 auto 10px auto",
                         }}></hr>
-                    <p
+                    <div className="contact">
+                        <h3>Contact</h3>
+                        <p><strong>I live in:</strong></p>
+                        <p><strong>In a:</strong></p>
+                        <p><strong>Phone:</strong></p>
+                        <p><strong>Email: </strong></p>
+
+                    </div>
+
+                    {/* Save for messaging feature */}
+
+                    {/* <p
                         style={{ width: "80%", textAlign: "center" }}
                         onClick={handleFlipClick}>
                         <strong>
@@ -214,7 +226,7 @@ function Card() {
                         type="text"
                         variant="outlined"
                         style={{ overflow: "visible" }}
-                        rows="3"
+                        rows="2"
                         multiline></Input>
                     <Fab
                         variant="extended"
@@ -234,7 +246,7 @@ function Card() {
                                 bottom: "5",
                             }}
                             onClick={handleFlipClick}
-                        />
+                        /> */}
                 </div>
             </ReactCardFlip>
             <SwipeButton
