@@ -90,7 +90,7 @@ h1 {
     font-size: 1.4rem;
 }
 
-.back-info{
+.back-info, .contact{
   width: 80%;
   line-height: 20px;
 }

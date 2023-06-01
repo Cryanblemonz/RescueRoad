@@ -176,6 +176,10 @@
         },
     });
 
+    app.post("/api/updateMany", (req, res) => {
+        pet.updateMany({}, { $set: {contactName: "Bryan"}})
+        .then(res.send("Good"))
+    })
 
     app.post("/api/imageUpload", upload.single('file'), (req, res) => {
         const blob = bucket.file(Date.now() + path.extname(req.file.originalname))
@@ -216,7 +220,6 @@
 
         blobStream.end(req.file.buffer);
     })
-
 
     app.get("/api/checkLogin", function(req, res){
         if (req.session.isLoggedIn) {

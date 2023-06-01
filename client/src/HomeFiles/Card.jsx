@@ -213,8 +213,9 @@ function Card() {
                             borderStyle: "dotted none none none",
                             margin: "0 auto 10px auto",
                         }}></hr>
+                                                <h3>Contact</h3>
+
                     <div className="contact" onClick={handleFlipClick}>
-                        <h3>Contact</h3>
                         {zipCode && <p><strong>Located in:</strong> {zipCode}</p>}
                         {contactName && <p><strong>Contact Name:</strong> {contactName}</p>}
                         {contactEmail && <p><strong>Email:</strong> {contactEmail}</p>}
