@@ -24,6 +24,10 @@ function Card() {
     const [age, setAge] = useState("");
     const [isFlipped, setIsFlipped] = useState("");
     const [extendedDescription, setExtendedDescription] = useState(false);
+    const [contactName, setContactName] = useState("");
+    const [zipCode, setZipCode] = useState("");
+    const [contactEmail, setContactEmail] = useState("");
+    const [contactPhone, setContactPhone] = useState("");
 
     const [props, api] = useSpring(() => ({ x: 0, opacity: 1 }));
 
@@ -95,6 +99,10 @@ function Card() {
                 setGoodWithDogs(response.data.goodWithDogs);
                 setAge(response.data.age);
                 setDescription(response.data.description);
+                setZipCode(response.data.zipCode);
+                setContactName(response.data.contactName);
+                setContactEmail(response.data.contactEmail);
+                setContactPhone(response.data.contactPhone);
             });
         }
         i++;
@@ -124,7 +132,7 @@ function Card() {
                                 borderWidth: "8px",
                                 borderStyle: "dotted none none none",
                             }}></hr>
-                        <ul
+                        <div className="good-with-info"
                             style={{
                                 display: "block",
                                 marginRight: "auto",
@@ -136,7 +144,7 @@ function Card() {
                                 {goodWithDogs && <p>{goodWithDogs}</p>}
                                 {goodWithKids && <p>{goodWithKids}</p>}
                             </strong>
-                        </ul>
+                        </div>
                         <ArrowForwardIcon
                             style={{
                                 position: "absolute",
@@ -146,8 +154,9 @@ function Card() {
                         />
                     </div>
                 </animated.div>
-                <div className="card card-back">
+                <div className="card">
                     <div className="back-info">
+                        <div  onClick={handleFlipClick}>
                         {!extendedDescription && breed && (
                             <p onClick={handleFlipClick}>
                                 <strong>Breed: </strong>
@@ -160,6 +169,7 @@ function Card() {
                                 {age}
                             </p>
                         )}
+                        </div>
                         {description && (
                             <p>
                                 <strong>Description: </strong>
@@ -203,12 +213,12 @@ function Card() {
                             borderStyle: "dotted none none none",
                             margin: "0 auto 10px auto",
                         }}></hr>
-                    <div className="contact">
+                    <div className="contact" onClick={handleFlipClick}>
                         <h3>Contact</h3>
-                        <p><strong>I live in:</strong></p>
-                        <p><strong>In a:</strong></p>
-                        <p><strong>Phone:</strong></p>
-                        <p><strong>Email: </strong></p>
+                        {zipCode && <p><strong>Located in:</strong> {zipCode}</p>}
+                        {contactName && <p><strong>Contact Name:</strong> {contactName}</p>}
+                        {contactEmail && <p><strong>Email:</strong> {contactEmail}</p>}
+                        {contactPhone && <p><strong>Phone:</strong> {contactPhone}</p>}
 
                     </div>
 
