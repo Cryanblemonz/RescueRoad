@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./HomeFiles/Home";
 import Signup from "./SignupFiles/Signup";
 import Upload from "./UploadFiles/Upload"
+import LikedPets from "./LikedPetsFiles/likedPets";
 import ImageUpload from './imageUploadFiles/ImageUpload';
 import { createTheme, ThemeProvider } from '@mui/material';
 
@@ -40,6 +41,9 @@ function App() {
             </Routes>
             <Routes>
                 <Route path="/imageUpload" element={<ImageUpload />} />
+            </Routes>
+            <Routes>
+                <Route path="/LikedPets" element={<LikedPets />} />
             </Routes>
         </Router>
         </ThemeProvider>

@@ -220,8 +220,16 @@ function Card() {
                         {contactName && <p><strong>Contact Name:</strong> {contactName}</p>}
                         {contactEmail && <p><strong>Email:</strong> {contactEmail}</p>}
                         {contactPhone && <p><strong>Phone:</strong> {contactPhone}</p>}
-
+                        <ArrowForwardIcon
+                            style={{
+                                position: "absolute",
+                                right: "10",
+                                bottom: "5",
+                                onClick: {handleFlipClick}
+                            }}
+                        />
                     </div>
+
 
                     {/* Save for messaging feature */}
 
