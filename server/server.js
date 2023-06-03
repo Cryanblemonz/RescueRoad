@@ -134,7 +134,17 @@
     })
 
     app.post('/api/like', (req, res) =>{
-        
+        let id = req.body.id;
+        console.log(id);
+        pet.findById(id)
+        .then(foundPet => {4
+            user.findOne({username: req.session.username})
+            .then(foundUser => {
+                foundUser.likedPets.push(foundPet);
+                foundUser.save();
+                console.log('successfully saved pet')
+            })
+            })
     })
 
 

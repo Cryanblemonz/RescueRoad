@@ -61,6 +61,8 @@ function Card() {
         }
     }
 
+
+
     function loadImgLeft() {
         if (isFlipped) {
             setIsFlipped(false);
@@ -110,20 +112,14 @@ function Card() {
         i++;
     }
 
-    const test = () => {
-        console.log(id);
-    }
-
     const like = async (event) =>{
-        event.preventDefault();
         try{
             const response = await axios.post("/api/like", {
                 id
-            })
+            });
         } catch (error){
             console.error("Error liking pet", error)
         }
-
     }
 
     const handleFlipClick = () => {
@@ -287,8 +283,8 @@ function Card() {
                 </div>
             </ReactCardFlip>
             <SwipeButton
-                leftFunction={test}
-                rightFunction={loadImgRight}
+                leftFunction={loadImgLeft}
+                rightFunction={() => {like(); loadImgRight();}}
             />
         </div>
     );
