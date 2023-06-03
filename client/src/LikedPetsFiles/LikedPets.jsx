@@ -5,6 +5,8 @@ import './LikedPets.css'
 function LikedPets(){
         return(
                 <div>
+                                <ResponsiveAppBar />
+
                         <PetDisplay 
                         name="Gumdrop"
                         image="https://storage.googleapis.com/rescue-road/1685308126780.jpg"
@@ -17,7 +19,7 @@ function LikedPets(){
                         zipCode="65202"
                         contactName="Bryan"
                         contactPhone="573-555-5529"
-                        contactEmail="fakeguy420@hotmeal.com"
+                        contactEmail="fakecatguy@hotmeal.com"
                         />
                 </div>
         )
