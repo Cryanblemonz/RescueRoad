@@ -1,6 +1,7 @@
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import PetDisplay from "./PetDisplay";
-import './LikedPets.css'
+import './LikedPets.css';
+import axios from "axios";
 
 function LikedPets(){
         return(
@@ -15,7 +16,7 @@ function LikedPets(){
                         goodWithKids="Great with kids!"
                         goodWithCats="Great with cats!"
                         goodWithDogs="Okay with dogs"
-                        description="Tons of energy. Can pull your sled, protect your home, and run a 4 minute mile. Known for his enormous 'awwwwooooooos'"
+                        description="Best known for his ocean eyes and enormous 'moooowwww's "
                         zipCode="65202"
                         contactName="Bryan"
                         contactPhone="573-555-5529"

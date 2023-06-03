@@ -133,6 +133,9 @@
         req.session.save();
     })
 
+    app.post('/api/like', (req, res) =>{
+        
+    })
 
 
     app.post("/api/upload", async (req, res) => {

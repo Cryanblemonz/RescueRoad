@@ -76,22 +76,22 @@
 }
 
 .pet-display-contact p {
-    text-align: center;
+    text-align: left;
+    margin-left: 30px;
     font-family: montserrat;
     display: block;
+    overflow-x: auto;
 }
 
 h2 {
     font-size: 2.4rem;
     font-weight: 700;
     font-family: montserrat;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     margin-top: 10px;
 }
 
 hr {
-    width: 10%;
-    border-width: 8px;
-    border-style: dotted none none none;
+    width: 90%;
     margin: 20px auto;
 }

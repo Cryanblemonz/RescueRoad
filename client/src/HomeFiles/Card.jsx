@@ -13,6 +13,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 function Card() {
     const [imageUrl, setImageUrl] = useState(null);
+    const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(true);
     const [imageLoading, setImageLoading] = useState(true);
@@ -103,9 +104,26 @@ function Card() {
                 setContactName(response.data.contactName);
                 setContactEmail(response.data.contactEmail);
                 setContactPhone(response.data.contactPhone);
+                setId(response.data._id);
             });
         }
         i++;
+    }
+
+    const test = () => {
+        console.log(id);
+    }
+
+    const like = async (event) =>{
+        event.preventDefault();
+        try{
+            const response = await axios.post("/api/like", {
+                id
+            })
+        } catch (error){
+            console.error("Error liking pet", error)
+        }
+
     }
 
     const handleFlipClick = () => {
@@ -269,7 +287,7 @@ function Card() {
                 </div>
             </ReactCardFlip>
             <SwipeButton
-                leftFunction={loadImgLeft}
+                leftFunction={test}
                 rightFunction={loadImgRight}
             />
         </div>
