@@ -15,6 +15,7 @@ function Card() {
     const [imageUrl, setImageUrl] = useState(null);
     const [id, setId] = useState("");
     const [name, setName] = useState("");
+    const [sex, setSex] = useState("");
     const [loading, setLoading] = useState(true);
     const [imageLoading, setImageLoading] = useState(true);
     const [breed, setBreed] = useState("");
@@ -93,6 +94,7 @@ function Card() {
                 setLoading(false);
                 setImageLoading(false);
                 setName(response.data.name);
+                setSex(response.data.sex);
                 setImageUrl(response.data.img);
                 setBreed(response.data.breed);
                 setGoodWithCats(response.data.goodWithCats);
@@ -113,7 +115,7 @@ function Card() {
     const like = async (event) => {
         try {
             const response = await axios.post("/api/like", {
-                id
+                id,
             });
         } catch (error) {
             console.error("Error liking pet", error);
@@ -123,12 +125,11 @@ function Card() {
     const dislike = async (event) => {
         try {
             const response = await axios.post("/api/dislike", {
-                id
+                id,
             });
         } catch (error) {
             console.error("Error disliking pet", error);
         }
-        
     };
 
     const handleFlipClick = () => {
@@ -185,6 +186,12 @@ function Card() {
                                 <p onClick={handleFlipClick}>
                                     <strong>Breed: </strong>
                                     {breed}
+                                </p>
+                            )}
+                            {!extendedDescription && sex && (
+                                <p onClick={handleFlipClick}>
+                                    <strong>Sex: </strong>
+                                    {sex}
                                 </p>
                             )}
                             {!extendedDescription && age && (

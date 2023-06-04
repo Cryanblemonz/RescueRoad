@@ -48,6 +48,7 @@
     const petSchema = mongoose.Schema({
         species: String,
         name: String,
+        sex: String,
         breed: String,
         age: String,
         goodWithKids: String,
@@ -169,6 +170,7 @@
 
     app.post("/api/upload", async (req, res) => {
             req.session.species = req.body.species;
+            req.session.sex = req.body.sex;
             req.session.name = req.body.name;
             req.session.breed = req.body.breed;
             req.session.age = req.body.age;
@@ -227,6 +229,7 @@
             const newPet = new pet({
                 species: req.session.species,
                 name: req.session.name,
+                sex: req.session.sex,
                 breed: req.session.breed,
                 age: req.session.age,
                 goodWithKids: req.session.goodWithKids,

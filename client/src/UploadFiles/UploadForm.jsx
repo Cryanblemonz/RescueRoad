@@ -25,6 +25,7 @@ function UploadForm(props) {
     const [species, setSpecies] = useState("Pet");
     const [name, setName] = useState("");
     const [breed, setBreed] = useState("");
+    const [sex, setSex] = useState("");
     const [age, setAge] = useState("");
     const [goodWithKids, setGoodWithKids] = useState("");
     const [goodWithCats, setGoodWithCats] = useState("");
@@ -53,7 +54,7 @@ function UploadForm(props) {
         event.preventDefault();
         try{
                 const response = await axios.post("/api/upload", {
-                        species, name, breed, age, goodWithKids, goodWithCats, goodWithDogs, description, zipCode, contactName, contactPhone, contactEmail
+                        species, name, breed, age, goodWithKids, goodWithCats, goodWithDogs, description, zipCode, contactName, contactPhone, contactEmail, sex
                 })
                 window.location.href="/imageupload"
         } catch (error){
@@ -101,6 +102,31 @@ function UploadForm(props) {
                         name="petBreed"
                     />
                 </FormControl>
+                <FormControl fullWidth>
+                    <FormLabel
+                        class="radios-2"
+                        id="demo-radio-buttons-group-label">
+                        Sex
+                    </FormLabel>
+
+                    <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        row
+                        class="radio-group"
+                        onChange={event => {setSex(event.target.value)}}>
+                        <FormControlLabel
+                            value="Male"
+                            control={<Radio />}
+                            label="Male"
+                        />
+                        <FormControlLabel
+                            value="Female" 
+                            control={<Radio />}
+                            label="Female"
+                        />
+                    </RadioGroup>
+                    <hr></hr>
+                    </FormControl>
 
                 <FormControl fullWidth>
                     <FormLabel
