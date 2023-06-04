@@ -142,29 +142,37 @@
     })
 
     app.post('/api/like', (req, res) =>{
-        let id = req.body.id;
-        pet.findById(id)
-        .then(foundPet => {
-            user.findOne({username: req.session.username})
-            .then(foundUser => {
-                foundUser.likedPets.push(foundPet);
-                foundUser.save();
-                console.log('successfully saved pet')
-            })
-            })
+        if(req.session.username){
+            let id = req.body.id;
+            pet.findById(id)
+            .then(foundPet => {
+                user.findOne({username: req.session.username})
+                .then(foundUser => {
+                    foundUser.likedPets.push(foundPet);
+                    foundUser.save();
+                    console.log('successfully saved pet')
+                    res.send("Good");
+                })
+                })
+        }
     })
 
     app.post('/api/dislike', (req, res) =>{
-        let id = req.body.id;
-        pet.findById(id)
-        .then(foundPet => {
-            user.findOne({username: req.session.username})
-            .then(foundUser => {
-                foundUser.dislikedPets.push(foundPet);
-                foundUser.save();
-                console.log('successfully saved pet')
-            })
-            })
+        if(req.session.username){
+            let id = req.body.id;
+            pet.findById(id)
+            .then(foundPet => {
+                user.findOne({username: req.session.username})
+                .then(foundUser => {
+                    foundUser.dislikedPets.push(foundPet);
+                    foundUser.save();
+                    console.log('successfully saved pet')
+                    res.sendStatus(200);
+                }) .catch(error => {
+                    console.error(error);
+                })
+                })
+        }
     })
 
 
@@ -189,6 +197,9 @@
         pet.aggregate([{$sample: { size: 1}}])
             .then(foundPet => {
                 res.json(foundPet[0]);
+                console.log("success");
+            }) .catch(error => {
+                console.log("error sending pet", error)
             })
     })
     

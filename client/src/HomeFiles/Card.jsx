@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
-import cats from "../components/names";
 import SwipeButton from "../components/SwipeButton";
-let i = 0;
 import axios from "axios";
 import "./Home.css";
 import ReactCardFlip from "react-card-flip";
@@ -88,7 +86,6 @@ function Card() {
     }
 
     function fetchNewImage() {
-        if (i > 0) {
             axios.get("/api/randomPet").then((response) => {
                 api.start({ x: 0, opacity: 1 });
                 setLoading(false);
@@ -108,8 +105,7 @@ function Card() {
                 setContactPhone(response.data.contactPhone);
                 setId(response.data._id);
             });
-        }
-        i++;
+
     }
 
     const like = async (event) => {
@@ -277,41 +273,7 @@ function Card() {
                         />
                     </div>
 
-                    {/* Save for messaging feature */}
 
-                    {/* <p
-                        style={{ width: "80%", textAlign: "center" }}
-                        onClick={handleFlipClick}>
-                        <strong>
-                            Think I'm perfect for your home? Message the shelter
-                            or foster parent to learn more
-                        </strong>
-                    </p>
-                    <Input
-                        type="text"
-                        variant="outlined"
-                        style={{ overflow: "visible" }}
-                        rows="2"
-                        multiline></Input>
-                    <Fab
-                        variant="extended"
-                        size="small"
-                        color="primary"
-                        style={{
-                            padding: "2px 22px 2px 36px",
-                            marginBottom: "10px",
-                        }}
-                        aria-label="add">
-                        <SendIcon sx={{ mr: 1 }} />
-                    </Fab>
-                    <ArrowForwardIcon
-                            style={{
-                                position: "absolute",
-                                right: "10",
-                                bottom: "5",
-                            }}
-                            onClick={handleFlipClick}
-                        /> */}
                 </div>
             </ReactCardFlip>
             <SwipeButton
