@@ -13,6 +13,7 @@ function LikedPets(){
                         image="https://storage.googleapis.com/rescue-road/1685308126780.jpg"
                         breed="Siamese"
                         age="Young"
+                        sex="Male"
                         goodWithKids="Great with kids!"
                         goodWithCats="Great with cats!"
                         goodWithDogs="Okay with dogs"

@@ -222,7 +222,7 @@
     });
 
     app.post("/api/updateMany", (req, res) => {
-        pet.updateMany({}, { $set: {contactName: "Bryan"}})
+        pet.updateMany({}, { $set: {sex: "Male"}})
         .then(res.send("Good"))
     })
 

@@ -12,6 +12,9 @@ function PetDisplay(props) {
                 <div className="pet-display-age grid-item">
                         <p>{props.age}</p>
                     </div>
+                <div className="pet-display-sex grid-item">
+                    <p>{props.sex}</p>
+                </div>
                 <div className="pet-display-goodwith grid-item">
                     <p>{props.goodWithKids}</p>
                     <p>{props.goodWithCats}</p>

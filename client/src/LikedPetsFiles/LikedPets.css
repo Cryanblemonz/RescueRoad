@@ -8,7 +8,7 @@
     margin: 10px auto;
     display: grid;
     gap: 0;
-    grid-template-rows: repeat(18, 1fr);
+    grid-template-rows: repeat(9, 1fr);
     grid-template-columns: repeat(9, 1fr);
     background: rgb(217, 215, 215);
     background: linear-gradient(
@@ -19,6 +19,7 @@
     border-radius: 30px;
     font-family: montserrat;
     font-weight: bold;
+    border: 1px solid black;
 }
 
 .grid-item {
@@ -27,7 +28,7 @@
 
 .pet-display-image {
     grid-column: 1 / 5;
-    grid-row: 1 / 10;
+    grid-row: 1 / 5;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,7 +37,7 @@
 
 .pet-display-breed {
     grid-column: 1 / 3;
-    grid-row: 10 / 13;
+    grid-row: 5 / 6;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -45,22 +46,30 @@
 
 .pet-display-age {
     grid-column: 1 / 3;
-    grid-row: 13 / 16;
+    grid-row: 6 / 7;
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 10px;
 }
 
+.pet-display-sex{
+    grid-column: 1 /3;
+    grid-row: 7 / 8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .pet-display-goodwith {
     grid-column: 3 /5;
-    grid-row: 10 /16;
+    grid-row: 5 / 8;
     padding: 25px 15px;
 }
 
 .pet-display-description {
     grid-column: 1/10;
-    grid-row: 16 / 19;
+    grid-row: 8 / 10;
     border-radius: 0 0 30px 30px;
     display: flex;
     align-items: center;
@@ -70,7 +79,7 @@
 
 .pet-display-contact {
     grid-column: 5 / 10;
-    grid-row: 1 / 16;
+    grid-row: 1 / 8;
     font-size: 1.4rem;
     border-radius: 0 30px 0 0;
 }
