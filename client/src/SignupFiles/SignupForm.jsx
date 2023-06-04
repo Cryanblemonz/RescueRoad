@@ -36,7 +36,7 @@ function SignupForm(props) {
                 }
                 try {
                         const response = await axios.post('/api/signup', {
-                                username, password1, password2
+                                username, password1, password2, email, zipCode
                         })
                 } catch (error){
                         console.error('Error signing up', error);

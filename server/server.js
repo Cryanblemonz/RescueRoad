@@ -64,6 +64,10 @@
     const pet = mongoose.model("pet", petSchema);
 
     const userSchema = mongoose.Schema({
+        email: {
+            type: String,
+            required: true
+        },
         username: {
             type: String,
             required: true,
@@ -73,6 +77,7 @@
             required: true,
         },
         likedPets: [petSchema],
+        dislikedPets: [petSchema],
         uploadedPets: [petSchema],
         zipCode: String
     });
@@ -84,8 +89,8 @@
     app.post("/api/signup", (req, res) => {
         let username = req.body.username;
         let password1 = req.body.password1;
-        let password2 = req.body.password2;
-        console.log(username, password1, password2);
+        let email = req.body.email;
+        let zipCode = req.body.zipCode;
 
         bcrypt.hash(password1, saltRounds, function (err, hash) {
             if (err) {
@@ -93,8 +98,10 @@
             } else {
                 let hashedPassword = hash;
                 const newUser = new user({
+                    email: email,
                     username: username,
                     password: hashedPassword,
+                    zipCode: zipCode
                 });
                 newUser.save();
             }
@@ -135,12 +142,24 @@
 
     app.post('/api/like', (req, res) =>{
         let id = req.body.id;
-        console.log(id);
         pet.findById(id)
-        .then(foundPet => {4
+        .then(foundPet => {
             user.findOne({username: req.session.username})
             .then(foundUser => {
                 foundUser.likedPets.push(foundPet);
+                foundUser.save();
+                console.log('successfully saved pet')
+            })
+            })
+    })
+
+    app.post('/api/dislike', (req, res) =>{
+        let id = req.body.id;
+        pet.findById(id)
+        .then(foundPet => {
+            user.findOne({username: req.session.username})
+            .then(foundUser => {
+                foundUser.dislikedPets.push(foundPet);
                 foundUser.save();
                 console.log('successfully saved pet')
             })

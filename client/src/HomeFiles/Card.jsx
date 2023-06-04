@@ -61,8 +61,6 @@ function Card() {
         }
     }
 
-
-
     function loadImgLeft() {
         if (isFlipped) {
             setIsFlipped(false);
@@ -112,15 +110,26 @@ function Card() {
         i++;
     }
 
-    const like = async (event) =>{
-        try{
+    const like = async (event) => {
+        try {
             const response = await axios.post("/api/like", {
                 id
             });
-        } catch (error){
-            console.error("Error liking pet", error)
+        } catch (error) {
+            console.error("Error liking pet", error);
         }
-    }
+    };
+
+    const dislike = async (event) => {
+        try {
+            const response = await axios.post("/api/dislike", {
+                id
+            });
+        } catch (error) {
+            console.error("Error disliking pet", error);
+        }
+        
+    };
 
     const handleFlipClick = () => {
         setIsFlipped(!isFlipped);
@@ -146,7 +155,8 @@ function Card() {
                                 borderWidth: "8px",
                                 borderStyle: "dotted none none none",
                             }}></hr>
-                        <div className="good-with-info"
+                        <div
+                            className="good-with-info"
                             style={{
                                 display: "block",
                                 marginRight: "auto",
@@ -170,19 +180,19 @@ function Card() {
                 </animated.div>
                 <div className="card">
                     <div className="back-info">
-                        <div  onClick={handleFlipClick}>
-                        {!extendedDescription && breed && (
-                            <p onClick={handleFlipClick}>
-                                <strong>Breed: </strong>
-                                {breed}
-                            </p>
-                        )}
-                        {!extendedDescription && age && (
-                            <p onClick={handleFlipClick}>
-                                <strong>Age: </strong>
-                                {age}
-                            </p>
-                        )}
+                        <div onClick={handleFlipClick}>
+                            {!extendedDescription && breed && (
+                                <p onClick={handleFlipClick}>
+                                    <strong>Breed: </strong>
+                                    {breed}
+                                </p>
+                            )}
+                            {!extendedDescription && age && (
+                                <p onClick={handleFlipClick}>
+                                    <strong>Age: </strong>
+                                    {age}
+                                </p>
+                            )}
                         </div>
                         {description && (
                             <p>
@@ -227,23 +237,38 @@ function Card() {
                             borderStyle: "dotted none none none",
                             margin: "0 auto 10px auto",
                         }}></hr>
-                                                <h3>Contact</h3>
+                    <h3>Contact</h3>
 
                     <div className="contact" onClick={handleFlipClick}>
-                        {zipCode && <p><strong>Located in:</strong> {zipCode}</p>}
-                        {contactName && <p><strong>Contact Name:</strong> {contactName}</p>}
-                        {contactEmail && <p><strong>Email:</strong> {contactEmail}</p>}
-                        {contactPhone && <p><strong>Phone:</strong> {contactPhone}</p>}
+                        {zipCode && (
+                            <p>
+                                <strong>Located in:</strong> {zipCode}
+                            </p>
+                        )}
+                        {contactName && (
+                            <p>
+                                <strong>Contact Name:</strong> {contactName}
+                            </p>
+                        )}
+                        {contactEmail && (
+                            <p>
+                                <strong>Email:</strong> {contactEmail}
+                            </p>
+                        )}
+                        {contactPhone && (
+                            <p>
+                                <strong>Phone:</strong> {contactPhone}
+                            </p>
+                        )}
                         <ArrowForwardIcon
                             style={{
                                 position: "absolute",
                                 right: "10",
                                 bottom: "5",
-                                onClick: {handleFlipClick}
+                                onClick: { handleFlipClick },
                             }}
                         />
                     </div>
-
 
                     {/* Save for messaging feature */}
 
@@ -283,8 +308,14 @@ function Card() {
                 </div>
             </ReactCardFlip>
             <SwipeButton
-                leftFunction={loadImgLeft}
-                rightFunction={() => {like(); loadImgRight();}}
+                leftFunction={() => {
+                    dislike();
+                    loadImgLeft();
+                }}
+                rightFunction={() => {
+                    like();
+                    loadImgRight();
+                }}
             />
         </div>
     );
