@@ -41,7 +41,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 10px;
+    padding-top: 15px;
 }
 
 .pet-display-age {
@@ -50,7 +50,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 10px;
+    padding-top: 15px;
 }
 
 .pet-display-sex{
@@ -59,6 +59,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 15px;
+
 }
 
 .pet-display-goodwith {
