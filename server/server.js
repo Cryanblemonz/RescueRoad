@@ -150,8 +150,7 @@
                 .then(foundUser => {
                     foundUser.likedPets.push(foundPet);
                     foundUser.save();
-                    console.log('successfully saved pet')
-                    res.send("Good");
+                    res.send();
                 })
                 })
         }
@@ -166,7 +165,6 @@
                 .then(foundUser => {
                     foundUser.dislikedPets.push(foundPet);
                     foundUser.save();
-                    console.log('successfully saved pet')
                     res.sendStatus(200);
                 }) .catch(error => {
                     console.error(error);
@@ -197,12 +195,19 @@
         pet.aggregate([{$sample: { size: 1}}])
             .then(foundPet => {
                 res.json(foundPet[0]);
-                console.log("success");
             }) .catch(error => {
                 console.log("error sending pet", error)
             })
     })
     
+    app.get("/api/getLikedPets", (req, res) => {
+        user.findOne({username: req.session.username})
+        .then(foundUser => {
+            res.json(foundUser.likedPets);
+        }) .catch(error => {
+            console.log("Error getting liked pets", error)
+        })
+    })
 
     //---------------Storage--------------
 

@@ -8,6 +8,7 @@ import Input from "../components/Input";
 import Fab from "@mui/material/Fab";
 import SendIcon from "@mui/icons-material/Send";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+let i = 0;
 
 function Card() {
     const [imageUrl, setImageUrl] = useState(null);
@@ -86,6 +87,7 @@ function Card() {
     }
 
     function fetchNewImage() {
+            if (i > 0) {
             axios.get("/api/randomPet").then((response) => {
                 api.start({ x: 0, opacity: 1 });
                 setLoading(false);
@@ -105,7 +107,8 @@ function Card() {
                 setContactPhone(response.data.contactPhone);
                 setId(response.data._id);
             });
-
+        }
+        i++;
     }
 
     const like = async (event) => {
