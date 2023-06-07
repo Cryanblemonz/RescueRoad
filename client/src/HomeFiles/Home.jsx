@@ -4,6 +4,7 @@ import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Card from "./Card";
 
+
 const theme = createTheme({
     palette: {
         primary: {
@@ -15,14 +16,19 @@ const theme = createTheme({
     },
 });
 
+
+
+
 function Home() {
+
+
 
     return (
         <div>
             <ThemeProvider theme={theme}>
                 <ResponsiveAppBar />
                 <Card />
-            </ThemeProvider>
+                </ThemeProvider>
         </div>
     );
 }

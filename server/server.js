@@ -59,7 +59,8 @@
         contactName: String,
         zipCode: String,
         contactPhone: String,
-        contactEmail: String
+        contactEmail: String,
+        createdAt: { type: Date, default: Date.now }
     });
 
     const pet = mongoose.model("pet", petSchema);
@@ -80,7 +81,8 @@
         likedPets: [petSchema],
         dislikedPets: [petSchema],
         uploadedPets: [petSchema],
-        zipCode: String
+        zipCode: String,
+        lastSeenPetDate: Date
     });
 
     const user = mongoose.model("user", userSchema);
@@ -124,6 +126,7 @@
                             console.error(err);
                         } else if (result) {
                             req.session.username = foundUser.username;
+                            req.session.email = foundUser.email;
                             res.status(200).json({ message: "success" });
                             req.session.isLoggedIn = true;
                             req.session.save();
@@ -149,10 +152,13 @@
                 user.findOne({username: req.session.username})
                 .then(foundUser => {
                     foundUser.likedPets.push(foundPet);
-                    foundUser.save();
-                    res.send();
+                    foundUser.lastSeenPetDate = foundPet.createdAt;
+                    foundUser.save().catch(error => console.log('error updating user', error));
+                    res.sendStatus(200);
                 })
                 })
+        } else{
+            res.sendStatus(200);
         }
     })
 
@@ -164,12 +170,15 @@
                 user.findOne({username: req.session.username})
                 .then(foundUser => {
                     foundUser.dislikedPets.push(foundPet);
-                    foundUser.save();
+                    foundUser.lastSeenPetDate = foundPet.createdAt;
+                foundUser.save().catch(error => console.log('error updating user', error));
                     res.sendStatus(200);
                 }) .catch(error => {
                     console.error(error);
                 })
                 })
+        } else {
+            res.sendStatus(200);
         }
     })
 
@@ -191,14 +200,39 @@
             res.send();
         });
 
-    app.get("/api/randomPet", (req, res) => {
-        pet.aggregate([{$sample: { size: 1}}])
-            .then(foundPet => {
-                res.json(foundPet[0]);
-            }) .catch(error => {
-                console.log("error sending pet", error)
-            })
-    })
+        app.get("/api/randomPet", (req, res) => {
+            const userEmail = req.session.email;
+        
+            user.findOne({ email: userEmail })
+                .then(user => {
+                    let lastSeenPetDate = user.lastSeenPetDate;
+                    if (lastSeenPetDate === undefined) {
+                        lastSeenPetDate = new Date(0);  
+                    }
+
+
+        
+                    pet.find({ createdAt: { $gt: lastSeenPetDate } })
+                        .sort('createdAt')
+                        .limit(1)
+                        .then(foundPet => {
+                            if (foundPet.length > 0) {
+                                res.json(foundPet[0]);
+                            } else {
+                                res.status(404).json({ message: 'No more new pets' });
+                            }
+                        })
+                        .catch(error => {
+                            console.log("error sending pet", error);
+                        });
+                })
+                .catch(error => {
+                    console.log("error finding user", error);
+                });
+        });
+        
+
+
     
     app.get("/api/getLikedPets", (req, res) => {
         user.findOne({username: req.session.username})
@@ -226,10 +260,6 @@
         },
     });
 
-    app.post("/api/updateMany", (req, res) => {
-        pet.updateMany({}, { $set: {sex: "Male"}})
-        .then(res.send("Good"))
-    })
 
     app.post("/api/imageUpload", upload.single('file'), (req, res) => {
         const blob = bucket.file(Date.now() + path.extname(req.file.originalname))

@@ -278,6 +278,7 @@ function Card() {
 
 
                 </div>
+                
             </ReactCardFlip>
             <SwipeButton
                 leftFunction={() => {

@@ -28,22 +28,6 @@ function test2 () {
                 <div>
                                 <ResponsiveAppBar />
 
-                        {/* <PetDisplay 
-                        name="Gumdrop"
-                        image="https://storage.googleapis.com/rescue-road/1685308126780.jpg"
-                        breed="Siamese"
-                        age="Young"
-                        sex="Male"
-                        goodWithKids="Great with kids!"
-                        goodWithCats="Great with cats!"
-                        goodWithDogs="Okay with dogs"
-                        description="Best known for his ocean eyes and enormous 'moooowwww's "
-                        zipCode="65202"
-                        contactName="Bryan"
-                        contactPhone="573-555-5529"
-                        contactEmail="fakecatguy@hotmeal.com"
-                        /> */}
-
                         <button onClick={test2}>Test2</button>
 
                         {list.map((pet, index) => (
