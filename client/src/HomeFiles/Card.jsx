@@ -9,6 +9,14 @@ import Fab from "@mui/material/Fab";
 import SendIcon from "@mui/icons-material/Send";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 let i = 0;
+import { FaPaw } from "react-icons/fa";
+
+const styleForPaw = {
+    height: "200px",
+    width: "200px",
+    transform: "rotate(-10deg)"
+}
+
 
 function Card() {
     const [imageUrl, setImageUrl] = useState(null);
@@ -92,20 +100,22 @@ function Card() {
                 api.start({ x: 0, opacity: 1 });
                 setLoading(false);
                 setImageLoading(false);
-                setName(response.data.name);
-                setSex(response.data.sex);
-                setImageUrl(response.data.img);
-                setBreed(response.data.breed);
-                setGoodWithCats(response.data.goodWithCats);
-                setGoodWithKids(response.data.goodWithKids);
-                setGoodWithDogs(response.data.goodWithDogs);
-                setAge(response.data.age);
-                setDescription(response.data.description);
-                setZipCode(response.data.zipCode);
-                setContactName(response.data.contactName);
-                setContactEmail(response.data.contactEmail);
-                setContactPhone(response.data.contactPhone);
-                setId(response.data._id);
+                if(response){
+                    setName(response.data.name);
+                    setSex(response.data.sex);
+                    setImageUrl(response.data.img);
+                    setBreed(response.data.breed);
+                    setGoodWithCats(response.data.goodWithCats);
+                    setGoodWithKids(response.data.goodWithKids);
+                    setGoodWithDogs(response.data.goodWithDogs);
+                    setAge(response.data.age);
+                    setDescription(response.data.description);
+                    setZipCode(response.data.zipCode);
+                    setContactName(response.data.contactName);
+                    setContactEmail(response.data.contactEmail);
+                    setContactPhone(response.data.contactPhone);
+                    setId(response.data._id);
+                }
             });
         }
         i++;
@@ -149,12 +159,12 @@ function Card() {
                             {name ? name : "Lets do this!"}
                         </h1>
                         {imageUrl && <img src={imageUrl} alt="Random Cat" />}
-                        <hr
+                        { name !== "You've seen all of our pets! Check back later" ? <hr
                             style={{
                                 width: "20%",
                                 borderWidth: "8px",
                                 borderStyle: "dotted none none none",
-                            }}></hr>
+                            }}></hr> : <FaPaw style={styleForPaw}/>}
                         <div
                             className="good-with-info"
                             style={{
@@ -236,14 +246,15 @@ function Card() {
                             </p>
                         )}
                     </div>
+                    { name !== "You've seen all of our pets! Check back later" ? 
                     <hr
                         style={{
                             width: "30%",
                             borderWidth: "8px",
                             borderStyle: "dotted none none none",
                             margin: "0 auto 10px auto",
-                        }}></hr>
-                    <h3>Contact</h3>
+                        }}></hr> : <FaPaw style={styleForPaw}/>}
+                    { name !== "You've seen all of our pets! Check back later" &&  <h3>Contact</h3> }
 
                     <div className="contact" onClick={handleFlipClick}>
                         {zipCode && (
@@ -280,7 +291,8 @@ function Card() {
                 </div>
                 
             </ReactCardFlip>
-            <SwipeButton
+            {name !== "You've seen all of our pets! Check back later" &&
+                <SwipeButton
                 leftFunction={() => {
                     dislike();
                     loadImgLeft();
@@ -290,6 +302,8 @@ function Card() {
                     loadImgRight();
                 }}
             />
+            }
+
         </div>
     );
 }

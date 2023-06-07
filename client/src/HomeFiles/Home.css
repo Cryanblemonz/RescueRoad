@@ -32,8 +32,7 @@ img {
     justify-content: center;
     align-items: center;
     margin:  auto;
-    padding: 10px;
-    transform:scale(95%)
+    transform:scale(90%)
 } 
 
 
@@ -62,6 +61,7 @@ img {
     justify-content: center;
     align-items: center;
     position: relative;
+    bottom: 20px;
 }
 
 .heart-button {
@@ -76,7 +76,6 @@ img {
     margin: 5px 50px;
     border-radius: 9999px;
     padding: 10px;
-
     background: rgb(245, 222, 119);
     color: rgb(0, 0, 0);
 }
@@ -98,3 +97,4 @@ h1 {
 .back-info p {
     display: block;
 }
+

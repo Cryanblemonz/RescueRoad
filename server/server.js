@@ -219,7 +219,10 @@
                             if (foundPet.length > 0) {
                                 res.json(foundPet[0]);
                             } else {
-                                res.status(404).json({ message: 'No more new pets' });
+                                res.json({
+                                    name: "You've seen all of our pets! Check back later"
+                                
+                                })
                             }
                         })
                         .catch(error => {
