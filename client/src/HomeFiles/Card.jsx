@@ -17,6 +17,13 @@ const styleForPaw = {
     transform: "rotate(-10deg)"
 }
 
+const styleForBackPaw = {
+    height: "200px",
+    width: "200px",
+    transform: "rotate(10deg)"
+}
+
+
 
 function Card() {
     const [imageUrl, setImageUrl] = useState(null);
@@ -253,7 +260,7 @@ function Card() {
                             borderWidth: "8px",
                             borderStyle: "dotted none none none",
                             margin: "0 auto 10px auto",
-                        }}></hr> : <FaPaw style={styleForPaw}/>}
+                        }}></hr> : <FaPaw style={styleForBackPaw}/>}
                     { name !== "You've seen all of our pets! Check back later" &&  <h3>Contact</h3> }
 
                     <div className="contact" onClick={handleFlipClick}>
