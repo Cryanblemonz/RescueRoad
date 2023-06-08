@@ -107,6 +107,7 @@
                     zipCode: zipCode
                 });
                 newUser.save();
+                res.sendStatus(200);
             }
         });
     });
