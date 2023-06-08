@@ -221,7 +221,6 @@
                             } else {
                                 res.json({
                                     name: "You've seen all of our pets! Check back later"
-                                
                                 })
                             }
                         })

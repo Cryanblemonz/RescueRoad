@@ -5,6 +5,13 @@ import {useState} from 'react';
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
+import { gsap } from 'gsap';
+
+
+function fade(){
+    gsap.to("#success-heading", {opacity: 1, duration: 1.5})
+    gsap.from("#success-heading", {rotate:"-170_short", duration: .7})
+}
 
 const styleforButton1 = {
     margin: "15px auto 10px auto",
@@ -41,11 +48,15 @@ function SignupForm(props) {
                 } catch (error){
                         console.error('Error signing up', error);
                 }
+                fade();
+                setTimeout(() => {window.location.href="/signup"}, 2000)
         }
 
     return (
         <div className="signup-form">
             <form onSubmit={handleSubmit}>
+
+                <h2 id="success-heading">Success</h2>
 
             <Input
                     type="email"

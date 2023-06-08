@@ -23,6 +23,14 @@
     padding: 10px;
 }
 
+.signup-form h2{
+    position: fixed;
+    color: green;
+    font-size: 5rem;
+    opacity: 0;
+    right: 40%;
+    transform: rotate(15deg);
+}
 
 .testColor {
     color: #e093ff;
