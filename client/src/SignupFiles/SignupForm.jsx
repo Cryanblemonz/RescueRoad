@@ -68,31 +68,44 @@ function SignupForm(props) {
             }
             return;
         }
+        // try {
+        //     const response = await axios.post('/api/signup', { username, password1, email, zipCode });
+        //     // Clear errors if successful signup
+        //     setErrors({});
+        // } catch (error) {
+        //     console.error('Error signing up', error);
+        //     // Here you could also set an error for the form, if necessary
+        // }   
         try {
-            const response = await axios.post('/api/signup', { username, password1, email, zipCode });
+            const response = await axios.post('/api/signup', { username, password: password1, email, zipCode });
             // Clear errors if successful signup
             setErrors({});
-        } catch (error) {
-            console.error('Error signing up', error);
-            // Here you could also set an error for the form, if necessary
-        }   
-        
-        fade();
+            fade();
 
-        setTimeout(() => {
-            window.location.href = "/signup";
-        }, 2000);
+            setTimeout(() => {
+                window.location.href = "/signup";
+            }, 2000);
+        } catch (error) {
+            if (error.response && error.response.status === 409) {
+                setErrors({ form: error.response.data.error });
+            } else {
+                console.error('Error signing up', error);
+            }
+        }
     };
 
-    useEffect(() => {
-        console.log(errors);
-    })
+
+    function test(){
+        if(errors.form == "Username unavailable"){
+            console.log("works")
+        }
+    }
+
 
     return (
         <div className="signup-form">
             <form onSubmit={handleSubmit}>
                 <h2 id="success-heading">Success</h2>
-
                 <Input
                     type="email"
                     size="small"
@@ -103,6 +116,8 @@ function SignupForm(props) {
                     inputFunction={(event) => setEmail(event.target.value)}
                 />
                 {errors.email && <p className="error">Please enter a valid email</p>}
+                {errors.form && errors.form != "Username unavailable" && <div className="error">{errors.form}</div>}
+
                 <Input
                     type="text"
                     size="small"
@@ -123,7 +138,7 @@ function SignupForm(props) {
                     inputFunction={(event) => setUsername(event.target.value)}
                 />
                 {errors.username && <p className="error">Username must be between 6 and 18 characters.</p>}
-
+                {errors.form && errors.form == "Username unavailable" && <div className="error">{errors.form}</div>}
                 <Input
                     type="password"
                     size="small"
