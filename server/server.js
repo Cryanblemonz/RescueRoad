@@ -86,41 +86,8 @@ const userSchema = mongoose.Schema({
 
 const user = mongoose.model("user", userSchema);
 
-//-----------------Post Requests--------------
+//-----------------Post Requests-----------------------------------------------------
 
-// app.post("/api/signup", (req, res) => {
-//     let username = req.body.username;
-//     let password1 = req.body.password1;
-//     let email = req.body.email;
-//     let zipCode = req.body.zipCode;
-//     user.findOne({ email: email }).then((foundUser) => {
-//         if (!foundUser) {
-//             user.findOne({ username: username }).then((foundUsername) => {
-//                 if (!foundUsername) {
-//                     bcrypt.hash(password1, saltRounds, function (err, hash) {
-//                         if (err) {
-//                             console.log(err);
-//                         } else {
-//                             let hashedPassword = hash;
-//                             const newUser = new user({
-//                                 email: email,
-//                                 username: username,
-//                                 password: hashedPassword,
-//                                 zipCode: zipCode,
-//                             });
-//                             newUser.save();
-//                             res.sendStatus(200);
-//                         }
-//                     });
-//                 } else {
-//                     console.log("Username unavailable")
-//                 }
-//             });
-//         } else{
-//             console.log("Account already exists with this email")
-//         }
-//     });
-// });
 
 app.post("/api/signup", (req, res) => {
     let username = req.body.username;
@@ -168,24 +135,29 @@ app.post("/api/signin", (req, res) => {
 
     user.findOne({ username: username })
         .then((foundUser) => {
-            let foundPassword = foundUser.password;
-            bcrypt.compare(
-                password,
-                foundPassword,
-                async function (err, result) {
-                    if (err) {
-                        console.error(err);
-                    } else if (result) {
-                        req.session.username = foundUser.username;
-                        req.session.email = foundUser.email;
-                        res.status(200).json({ message: "success" });
-                        req.session.isLoggedIn = true;
-                        req.session.save();
-                    } else {
-                        res.status(401).json({ message: "Login failed" });
+            if(!foundUser){
+                res.status(401).json({error: "Username not found"})
+            } else {
+                let foundPassword = foundUser.password;
+                bcrypt.compare(
+                    password,
+                    foundPassword,
+                    async function (err, result) {
+                        if (err) {
+                            console.error(err);
+                        } else if (result) {
+                            req.session.username = foundUser.username;
+                            req.session.email = foundUser.email;
+                            res.status(200).json({ message: "success" });
+                            req.session.isLoggedIn = true;
+                            req.session.save();
+                        } else {
+                            res.status(401).json({ error: "Username and password do not match" });
+                        }
                     }
-                }
-            );
+                );
+            }
+
         })
         .catch((err) => console.error(err));
 });

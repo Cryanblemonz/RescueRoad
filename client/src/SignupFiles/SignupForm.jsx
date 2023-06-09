@@ -49,36 +49,23 @@ function SignupForm(props) {
         }
 
         try {
-            // validateSync returns the validated data
             const validatedData = signupSchema.validateSync(userData, { abortEarly: false });
-            // If we reach this line, validation was successful
-            setErrors({});  // clear any existing errors
+            setErrors({}); 
         } catch (error) {
-            // If validation fails, we'll end up here
             if (error instanceof yup.ValidationError) {
-                // If the error is a ValidationError, we can go through each of the validation errors
                 let errorMessages = {};
                 error.inner.forEach((validationError) => {
                     errorMessages[validationError.path] = validationError.message;
                 });
                 setErrors(errorMessages);
             } else {
-                // Some other error happened
                 console.error(error);
             }
             return;
         }
-        // try {
-        //     const response = await axios.post('/api/signup', { username, password1, email, zipCode });
-        //     // Clear errors if successful signup
-        //     setErrors({});
-        // } catch (error) {
-        //     console.error('Error signing up', error);
-        //     // Here you could also set an error for the form, if necessary
-        // }   
+
         try {
             const response = await axios.post('/api/signup', { username, password: password1, email, zipCode });
-            // Clear errors if successful signup
             setErrors({});
             fade();
 

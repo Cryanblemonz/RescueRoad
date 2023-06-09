@@ -19,6 +19,7 @@ const styleforButton2 = {
 function SigninForm(props) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState({});
 
 
     const handleSubmit = async (event) => {
@@ -35,11 +36,14 @@ function SigninForm(props) {
                     console.error("Login failed");
                 }
             } catch (error) {
+                if(error.response && error.response.status === 401) {
+                    setErrors({form: error.response.data.error}) 
+                } else {
                 console.error("Error Signing In", error);
             }
         }
     };
-
+    }
     return (
         <div className="signup-form">
             <form onSubmit={handleSubmit}>
@@ -58,6 +62,7 @@ function SigninForm(props) {
                     fullWidth
                     inputFunction={(event) => setPassword(event.target.value)}
                 />
+                {errors.form && <p className="error">{errors.form}</p>}
                 <Button
                     style={styleforButton1}
                     type="submit"
