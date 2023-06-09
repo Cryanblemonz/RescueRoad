@@ -27,7 +27,7 @@ function SigninForm(props) {
             try {
                 const response = await axios.post("/api/signin", {
                     username,
-                    password,
+                    password
                 }, { withCredentials: true });
                 if (response.data.message === "success") {
                     window.location.href = "/";
