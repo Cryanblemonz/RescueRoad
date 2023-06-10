@@ -15,8 +15,10 @@ const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const { Storage } = require("@google-cloud/storage");
 const path = require("path");
+const https = require('https');
 
 const MONGODB_URI = process.env.mongoose_URI;
+const mapKey = process.env.mapKey;
 
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
@@ -36,8 +38,7 @@ app.use(
         store: store,
         cookie: {
             secure: false,
-            sameSite: "lax", // use 'none' for secure production
-            // add more cookie options here if needed
+            sameSite: "lax"
         },
     })
 );
@@ -57,10 +58,24 @@ const petSchema = mongoose.Schema({
     img: String,
     contactName: String,
     zipCode: String,
+    location: {
+        type: {
+          type: String, // Don't do `{ location: { type: String } }`
+          enum: ['Point'], // 'location.type' must be 'Point'
+          required: true
+        },
+        coordinates: {
+          type: [Number],
+          required: true
+        }
+      },    
     contactPhone: String,
     contactEmail: String,
     createdAt: { type: Date, default: Date.now },
 });
+
+petSchema.index({ location: "2dsphere" });
+
 
 const pet = mongoose.model("pet", petSchema);
 
@@ -212,6 +227,25 @@ app.post("/api/dislike", (req, res) => {
         res.sendStatus(200);
     }
 });
+
+app.get("/api/testLocation", () => {
+    let locationZipCode = "65202";
+    let url ="https://maps.googleapis.com/maps/api/geocode/json?key=" + mapKey + "&components=postal_code:" + locationZipCode;
+    https.get(url, (response) =>{
+        let data = '';
+        response.on("data", (chunk) => {
+            data += chunk;
+        });
+        response.on("end", () => {
+            const locationData = JSON.parse(data);
+            let coordinates = [locationData.results[0].geometry.location.lat, locationData.results[0].geometry.location.lng]
+            console.log(coordinates);
+        });
+    })
+})
+
+
+
 
 app.post("/api/upload", async (req, res) => {
     req.session.species = req.body.species;

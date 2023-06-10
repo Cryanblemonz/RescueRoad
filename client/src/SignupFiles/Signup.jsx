@@ -31,13 +31,6 @@ function Signup() {
         const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 
-
-
-
-
-
-
-
         const styleForIcon = {
             height: "10%",
             width: isSmallScreen ? "20%" : "10%",
