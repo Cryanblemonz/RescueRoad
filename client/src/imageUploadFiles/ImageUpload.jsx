@@ -37,7 +37,6 @@ function ImageUpload() {
             setSrc(reader.result);
         };
         reader.readAsDataURL(event.target.files[0]);
-        console.log("file =" + file, "src =" + src);
     };
     const submitForm = async (event) => {
         event.preventDefault();
@@ -58,7 +57,6 @@ function ImageUpload() {
     };
 
     return (
-        isLoggedIn == true ? 
         <div>
             <ResponsiveAppBar />
             <h1 className="image-upload-heading">Add a photo</h1>
@@ -76,8 +74,7 @@ function ImageUpload() {
                 </FormControl>
             </form>
 
-        </div> :
-        <Signup />
+        </div> 
     );
 }
 
