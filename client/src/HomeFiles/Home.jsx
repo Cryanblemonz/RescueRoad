@@ -4,6 +4,8 @@ import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Card from "./Card";
 import axios from 'axios';
+import SideBar from './SideBar';
+import Input from "../components/Input";
 
 const theme = createTheme({
     palette: {
@@ -16,14 +18,7 @@ const theme = createTheme({
     },
 });
 
-async function test(){
-    try{
-        axios.get("/api/testLocation")
-    }
-    catch{
-        console.error("error");
-    }
-}
+
 
 
 function Home() {
@@ -34,8 +29,8 @@ function Home() {
         <div>
             <ThemeProvider theme={theme}>
                 <ResponsiveAppBar />
+                <SideBar />
                 <Card />
-                <button onClick ={test}>Test</button>
                 </ThemeProvider>
         </div>
     );

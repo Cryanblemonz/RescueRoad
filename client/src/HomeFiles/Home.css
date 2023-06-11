@@ -98,3 +98,12 @@ h1 {
     display: block;
 }
 
+.side-bar{
+    width: 300px;
+    position: absolute;
+    left: 0;
+    top: 67px;
+    height: 95vh;
+    border: 1px solid rgb(0, 0, 0);
+    background: rgb(255,65,139);
+    background: linear-gradient(195deg, rgba(255,65,139,1) 0%, rgba(251,157,251,1) 74%);}

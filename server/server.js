@@ -102,6 +102,33 @@ const user = mongoose.model("user", userSchema);
 
 //-----------------Post Requests-----------------------------------------------------
 
+function getCoordinates(zipCode) {
+    return new Promise((resolve, reject) => {
+        let url =
+            "https://maps.googleapis.com/maps/api/geocode/json?key=" +
+            mapKey +
+            "&components=postal_code:" +
+            zipCode;
+        https.get(url, (response) => {
+            let data = "";
+            response.on("data", (chunk) => {
+                data += chunk;
+            });
+            response.on("end", () => {
+                const locationData = JSON.parse(data);
+                let coordinates = [
+                    locationData.results[0].geometry.location.lng,
+                    locationData.results[0].geometry.location.lat,
+                ];
+                resolve(coordinates);
+            });
+            response.on("error", (err) => {
+                reject(err);
+            });
+        });
+    });
+}
+
 app.post("/api/signup", (req, res) => {
     let username = req.body.username;
     let password1 = req.body.password1;
@@ -161,6 +188,7 @@ app.post("/api/signin", (req, res) => {
                         } else if (result) {
                             req.session.username = foundUser.username;
                             req.session.email = foundUser.email;
+                            req.session.userZipCode = foundUser.zipCode;
                             res.status(200).json({ message: "success" });
                             req.session.isLoggedIn = true;
                             req.session.save();
@@ -227,17 +255,33 @@ app.post("/api/dislike", (req, res) => {
     }
 });
 
-app.get("/api/randomPet", (req, res) => {
+function getRadiusInRadians(radiusInMiles) {
+    radiusInMiles / 3963.2;
+}
+
+app.get("/api/randomPet", async (req, res) => {
     const userEmail = req.session.email;
+    const userZipCode = req.session.zipCode;
+    let radiusInMiles = 20;
+    const userLocation = await getCoordinates(userZipCode);
+    const radiusInRadians = radiusInMiles / 3963.2;
 
     user.findOne({ email: userEmail })
         .then((user) => {
+            console.log(radiusInMiles, radiusInRadians, userEmail, userZipCode);
             let lastSeenPetDate = user.lastSeenPetDate;
             if (lastSeenPetDate === undefined) {
                 lastSeenPetDate = new Date(0);
             }
 
-            pet.find({ createdAt: { $gt: lastSeenPetDate } })
+            pet.find({
+                createdAt: { $gt: lastSeenPetDate },
+                location: {
+                    $geoWithin: {
+                        $centerSphere: [userLocation, radiusInRadians],
+                    },
+                },
+            })
                 .sort("createdAt")
                 .limit(1)
                 .then((foundPet) => {
@@ -271,19 +315,19 @@ app.get("/api/getLikedPets", (req, res) => {
 //---------------Storage--------------
 
 app.post("/api/upload", async (req, res) => {
-    req.session.species = req.body.species;
-    req.session.sex = req.body.sex;
-    req.session.name = req.body.name;
-    req.session.breed = req.body.breed;
-    req.session.age = req.body.age;
-    req.session.goodWithKids = req.body.goodWithKids;
-    req.session.goodWithCats = req.body.goodWithCats;
-    req.session.goodWithDogs = req.body.goodWithDogs;
-    req.session.description = req.body.description;
-    req.session.contactName = req.body.contactName;
-    req.session.zipCode = req.body.zipCode;
-    req.session.contactPhone = req.body.contactPhone;
-    req.session.contactEmail = req.body.contactEmail;
+    req.session.petSpecies = req.body.species;
+    req.session.petSex = req.body.sex;
+    req.session.petName = req.body.name;
+    req.session.petBreed = req.body.breed;
+    req.session.petAge = req.body.age;
+    req.session.petGoodWithKids = req.body.goodWithKids;
+    req.session.petGoodWithCats = req.body.goodWithCats;
+    req.session.petGoodWithDogs = req.body.goodWithDogs;
+    req.session.petDescription = req.body.description;
+    req.session.petContactName = req.body.contactName;
+    req.session.petZipCode = req.body.zipCode;
+    req.session.petContactPhone = req.body.contactPhone;
+    req.session.petContactEmail = req.body.contactEmail;
     res.send();
 });
 
@@ -302,33 +346,6 @@ const upload = multer({
     },
 });
 
-function getCoordinates(zipCode) {
-    return new Promise((resolve, reject) => {
-        let url =
-            "https://maps.googleapis.com/maps/api/geocode/json?key=" +
-            mapKey +
-            "&components=postal_code:" +
-            zipCode;
-        https.get(url, (response) => {
-            let data = "";
-            response.on("data", (chunk) => {
-                data += chunk;
-            });
-            response.on("end", () => {
-                const locationData = JSON.parse(data);
-                let coordinates = [
-                    locationData.results[0].geometry.location.lng,
-                    locationData.results[0].geometry.location.lat,
-                ];
-                resolve(coordinates);
-            });
-            response.on("error", (err) => {
-                reject(err);
-            });
-        });
-    });
-}
-
 app.post("/api/imageUpload", upload.single("file"), (req, res) => {
     const blob = bucket.file(Date.now() + path.extname(req.file.originalname));
     const blobStream = blob.createWriteStream();
@@ -343,19 +360,19 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
             const petCoordinates = await getCoordinates(req.session.zipCode);
             console.log(petCoordinates);
             const newPet = new pet({
-                species: req.session.species,
-                name: req.session.name,
-                sex: req.session.sex,
-                breed: req.session.breed,
-                age: req.session.age,
-                goodWithKids: req.session.goodWithKids,
-                goodWithCats: req.session.goodWithCats,
-                goodWithDogs: req.session.goodWithDogs,
-                description: req.session.description,
-                zipCode: req.session.zipCode,
-                contactName: req.session.contactName,
-                contactPhone: req.session.contactPhone,
-                contactEmail: req.session.contactEmail,
+                species: req.session.petSpecies,
+                name: req.session.petName,
+                sex: req.session.petSex,
+                breed: req.session.petBreed,
+                age: req.session.petAge,
+                goodWithKids: req.session.petGoodWithKids,
+                goodWithCats: req.session.petGoodWithCats,
+                goodWithDogs: req.session.petGoodWithDogs,
+                description: reqrs.session.petDescription,
+                zipCode: req.session.petZipCode,
+                contactName: req.session.petContactName,
+                contactPhone: req.session.petContactPhone,
+                contactEmail: req.session.petContactEmail,
                 img: imageURL,
                 location: {
                     type: "Point",

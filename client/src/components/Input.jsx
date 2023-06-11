@@ -11,6 +11,7 @@ function Input(props) {
             fullWidth={props.fullWidth}
             onChange={props.inputFunction}
             rows={props.rows}
+            style={props.style}
         />
     );
 }
