@@ -188,7 +188,7 @@ app.post("/api/signin", (req, res) => {
                         } else if (result) {
                             req.session.username = foundUser.username;
                             req.session.email = foundUser.email;
-                            req.session.userZipCode = foundUser.zipCode;
+                            req.session.zipCode = foundUser.zipCode;
                             res.status(200).json({ message: "success" });
                             req.session.isLoggedIn = true;
                             req.session.save();
@@ -255,14 +255,10 @@ app.post("/api/dislike", (req, res) => {
     }
 });
 
-function getRadiusInRadians(radiusInMiles) {
-    radiusInMiles / 3963.2;
-}
-
 app.get("/api/randomPet", async (req, res) => {
     const userEmail = req.session.email;
     const userZipCode = req.session.zipCode;
-    let radiusInMiles = 20;
+    let radiusInMiles = 20000;
     const userLocation = await getCoordinates(userZipCode);
     const radiusInRadians = radiusInMiles / 3963.2;
 
@@ -356,7 +352,7 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
     blobStream.on("finish", async () => {
         try {
             const imageURL = `https://storage.googleapis.com/${bucketName}/${blob.name}`;
-            const petCoordinates = await getCoordinates(req.session.zipCode);
+            const petCoordinates = await getCoordinates(req.session.petZipCode);
             console.log(petCoordinates);
             const newPet = new pet({
                 species: req.session.petSpecies,
@@ -367,7 +363,7 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
                 goodWithKids: req.session.petGoodWithKids,
                 goodWithCats: req.session.petGoodWithCats,
                 goodWithDogs: req.session.petGoodWithDogs,
-                description: reqrs.session.petDescription,
+                description: req.session.petDescription,
                 zipCode: req.session.petZipCode,
                 contactName: req.session.petContactName,
                 contactPhone: req.session.petContactPhone,

@@ -13,40 +13,48 @@ function SideBar() {
 
     function fade() {
         if (!sidebarOpen) {
-            gsap.to("#sidebar", { opacity: 1, duration: .6, ease: "power2.out" });
+            gsap.to("#sidebar", {
+                opacity: 1,
+                duration: 0.6,
+                ease: "power2.out",
+            });
         } else {
-            gsap.to("#sidebar", { opacity: 0, duration: .6, ease: "power2.out" });
+            gsap.to("#sidebar", {
+                opacity: 0,
+                duration: 0.6,
+                ease: "power2.out",
+            });
         }
         setSidebarOpen(!sidebarOpen);
     }
 
     function slide() {
-        if(!sidebarOpen){
-                gsap.to("#sidebar", {
-                        width: "300px",
-                        opacity: 1,
-                        duration: .7,
-                        ease: "back", 
-                    });
+        if (!sidebarOpen) {
+            gsap.to("#sidebar", {
+                width: "320px",
+                opacity: 1,
+                duration: 0.7,
+                ease: "back",
+            });
         } else {
-                gsap.to("#sidebar", {
-                        opacity: 0,
-                        duration: 1, 
-                        ease: "back", 
-                })
-                gsap.to("#sidebar", {
-                        width: 0,
-                        duration: 1,
-                        delay: .1
-                })
+            gsap.to("#sidebar", {
+                opacity: 0,
+                duration: 1,
+                ease: "back",
+            });
+            gsap.to("#sidebar", {
+                width: 0,
+                duration: 1,
+                delay: 0.1,
+            });
         }
         setSidebarOpen(!sidebarOpen);
     }
-    
+
     return (
         <div id="sidebar-wrapper">
             <button
-                style={{ position: "absolute", right: "100px" }}
+                style={{ position: "absolute", left: "40%", bottom: "100px", zIndex: "2" }}
                 onClick={slide}>
                 Slide
             </button>
@@ -54,6 +62,11 @@ function SideBar() {
                 <h1 className="sidebar-heading">Filters</h1>
 
                 <form className="sidebar-form">
+                    <FormLabel
+                        class="radios-2"
+                        id="demo-radio-buttons-group-label">
+                        Species
+                    </FormLabel>
                     <RadioGroup class="radio-group" row>
                         <FormControlLabel
                             value="Cat"
@@ -67,10 +80,36 @@ function SideBar() {
                         />
                     </RadioGroup>
                     <Input
-                        variant="filled"
+                        variant="outlined"
                         label="Zip Code to see pets in"
                         style={{ background: "#d4bdd4", width: "90%" }}
                     />
+                    <FormControl fullWidth>
+                        <FormLabel
+                            class="radios-2"
+                            id="demo-radio-buttons-group-label">
+                            Sex
+                        </FormLabel>
+
+                        <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            row
+                            class="radio-group"
+                            onChange={(event) => {
+                                setSex(event.target.value);
+                            }}>
+                            <FormControlLabel
+                                value="Male"
+                                control={<Radio />}
+                                label="Male"
+                            />
+                            <FormControlLabel
+                                value="Female"
+                                control={<Radio />}
+                                label="Female"
+                            />
+                        </RadioGroup>
+                    </FormControl>
                 </form>
             </div>
         </div>
