@@ -268,7 +268,6 @@ app.get("/api/randomPet", async (req, res) => {
 
     user.findOne({ email: userEmail })
         .then((user) => {
-            console.log(radiusInMiles, radiusInRadians, userEmail, userZipCode);
             let lastSeenPetDate = user.lastSeenPetDate;
             if (lastSeenPetDate === undefined) {
                 lastSeenPetDate = new Date(0);

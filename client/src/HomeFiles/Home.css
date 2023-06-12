@@ -98,12 +98,26 @@ h1 {
     display: block;
 }
 
-.side-bar{
-    width: 300px;
+#sidebar{
+    width: 0;
     position: absolute;
     left: 0;
-    top: 67px;
+    top: 65px;
     height: 95vh;
-    border: 1px solid rgb(0, 0, 0);
-    background: rgb(255,65,139);
-    background: linear-gradient(195deg, rgba(255,65,139,1) 0%, rgba(251,157,251,1) 74%);}
+    border: 1px dotted rgb(255, 2, 242);
+    border-style: none dotted dotted none;
+    /* background: rgb(255,65,139);
+    background: linear-gradient(195deg, rgba(255,65,139,1) 0%, rgba(251,157,251,1) 74%); */
+    background: rgb(228,246,255);
+    background: radial-gradient(circle, rgba(228,246,255,1) 0%, rgba(255,126,126,1) 90%);
+    opacity: 0;
+}
+
+.sidebar-heading{
+    text-align: center;
+    color: rgb(61, 61, 61);
+}
+
+.sidebar-form{
+    text-align: center;
+}
