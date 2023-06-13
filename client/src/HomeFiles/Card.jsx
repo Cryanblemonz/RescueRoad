@@ -112,9 +112,9 @@ function Card() {
                     setSex(response.data.sex);
                     setImageUrl(response.data.img);
                     setBreed(response.data.breed);
-                    setGoodWithCats(response.data.goodWithCats);
-                    setGoodWithKids(response.data.goodWithKids);
-                    setGoodWithDogs(response.data.goodWithDogs);
+                    setGoodWithCats(response.data.goodWithCats === true ? "Good with cats" : response.data.goodWithCats === undefined ? null : "Not good with cats");
+                    setGoodWithKids(response.data.goodWithKids === true ? "Good with kids" : response.data.goodWithCats === undefined ? null : "Not good with kids");
+                    setGoodWithDogs(response.data.goodWithDogs === true ? "Good with dogs" : response.data.goodWithCats === undefined ? null : "Not good with dogs");
                     setAge(response.data.age);
                     setDescription(response.data.description);
                     setZipCode(response.data.zipCode);

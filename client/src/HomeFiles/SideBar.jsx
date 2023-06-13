@@ -7,9 +7,16 @@ import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Checkbox from "@mui/material/Checkbox";
+import FormGroup from "@mui/material/FormGroup";
 
 function SideBar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [species, setSpecies] = useState("");
+    const [age, setAge] = useState("");
 
     function fade() {
         if (!sidebarOpen) {
@@ -54,7 +61,7 @@ function SideBar() {
     return (
         <div id="sidebar-wrapper">
             <button
-                style={{ position: "absolute", left: "40%", bottom: "100px", zIndex: "2" }}
+                style={{ position: "absolute", left: "400px", zIndex: "2" }}
                 onClick={slide}>
                 Slide
             </button>
@@ -62,53 +69,64 @@ function SideBar() {
                 <h1 className="sidebar-heading">Filters</h1>
 
                 <form className="sidebar-form">
-                    <FormLabel
-                        class="radios-2"
-                        id="demo-radio-buttons-group-label">
-                        Species
-                    </FormLabel>
-                    <RadioGroup class="radio-group" row>
-                        <FormControlLabel
-                            value="Cat"
-                            control={<Radio />}
-                            label="Cat"
-                        />
-                        <FormControlLabel
-                            value="Dog"
-                            control={<Radio />}
-                            label="Dog"
-                        />
-                    </RadioGroup>
                     <Input
                         variant="outlined"
                         label="Zip Code to see pets in"
-                        style={{ background: "#d4bdd4", width: "90%" }}
+                        style={{ background: "#d4bdd4", width: "100%" }}
                     />
                     <FormControl fullWidth>
-                        <FormLabel
-                            class="radios-2"
-                            id="demo-radio-buttons-group-label">
-                            Sex
+                        <FormLabel>
+                            <strong>Species</strong>
                         </FormLabel>
-
-                        <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            row
-                            class="radio-group"
-                            onChange={(event) => {
-                                setSex(event.target.value);
-                            }}>
+                        <FormGroup style={{display: "block", margin: "0 auto"}}>
                             <FormControlLabel
-                                value="Male"
-                                control={<Radio />}
+                                control={<Checkbox />}
+                                label="Cat"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                label="Dog"
+                            />
+                        </FormGroup>
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <FormLabel>
+                            <strong>Age</strong>
+                        </FormLabel>
+                        <FormGroup style={{display: "block", margin: "0 auto"}}>
+                            <FormControlLabel
+                                control={<Checkbox />}
                                 label="Male"
                             />
                             <FormControlLabel
-                                value="Female"
-                                control={<Radio />}
+                                control={<Checkbox />}
                                 label="Female"
                             />
-                        </RadioGroup>
+                        </FormGroup>
+                    </FormControl>
+
+                    <FormControl fullWidth>
+                        <FormLabel>
+                            <strong>Age</strong>
+                        </FormLabel>
+                        <FormGroup style={{display: "block", margin: "0 auto"}}>
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                label="Puppy/Kitten"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                label="Young"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                label="Adult"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                label="Senior"
+                            />
+                        </FormGroup>
                     </FormControl>
                 </form>
             </div>

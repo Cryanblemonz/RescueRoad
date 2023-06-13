@@ -51,17 +51,17 @@ const petSchema = mongoose.Schema({
     sex: String,
     breed: String,
     age: String,
-    goodWithKids: String,
-    goodWithCats: String,
-    goodWithDogs: String,
+    goodWithKids: Boolean,
+    goodWithCats: Boolean,
+    goodWithDogs: Boolean,
     description: String,
     img: String,
     contactName: String,
     zipCode: String,
     location: {
         type: {
-            type: String, // Don't do `{ location: { type: String } }`
-            enum: ["Point"], // 'location.type' must be 'Point'
+            type: String, 
+            enum: ["Point"], 
             required: true,
         },
         coordinates: {

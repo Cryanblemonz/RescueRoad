@@ -120,11 +120,19 @@ h1 {
     border-radius: 0 5px 5px 0;
 }
 
+#sidebar:hover{
+    transform: scale(101%);
+    box-shadow: 6px 6px 5px rgb(29, 28, 28) ;
+}
+
 .sidebar-heading{
     text-align: center;
-    color: rgb(61, 61, 61);
+    color: rgb(0, 0, 0);
 }
 
 .sidebar-form{
     text-align: center;
+    width: 90%;
+    margin: 0 auto;
 }
+
