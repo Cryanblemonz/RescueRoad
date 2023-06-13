@@ -12,14 +12,16 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import Fab from '@mui/material/Fab';
-
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import Fab from "@mui/material/Fab";
+import Grid from "@mui/material/Grid";
 
 function SideBar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [species, setSpecies] = useState("");
-    const [age, setAge] = useState("");
+    const [speciesFilter, setSpeciesFilter] = useState("");
+    const [sexFilter, setSexFilter] = useState("");
+    const [ageFilter, setAgeFilter] = useState([]);
+    const [goodWithFilter, setGoodWithFilter] = useState([]);
 
     function fade() {
         if (!sidebarOpen) {
@@ -63,10 +65,14 @@ function SideBar() {
 
     return (
         <div id="sidebar-wrapper">
-<Fab variant="extended" onClick={slide} style={{position: "absolute", bottom: "50px", left: "100px", background: "#e093ff"}}>
-  <FilterAltIcon sx={{ mr: 1 }} />
-  Filters
-</Fab>
+            <Fab
+                variant="extended"
+                onClick={slide}
+                className="filter-button"
+                >
+                <FilterAltIcon sx={{ mr: 1 }} />
+                {sidebarOpen ? <span>Hide</span> : <span>Filter</span>}
+            </Fab>
             <div id="sidebar">
                 <h1 className="sidebar-heading">Filters</h1>
 
@@ -80,75 +86,116 @@ function SideBar() {
                         <FormLabel>
                             <strong>Species</strong>
                         </FormLabel>
-                        <FormGroup style={{display: "block", margin: "0 auto"}}>
+                        <RadioGroup
+                            class="radio-group"
+                            onChange={(event) => {
+                                setSpeciesFilter(event.target.value);
+                            }}
+                            row>
                             <FormControlLabel
-                                control={<Checkbox />}
+                                value="Cat"
+                                control={<Radio />}
                                 label="Cat"
                             />
                             <FormControlLabel
-                                control={<Checkbox />}
+                                value="Dog"
+                                control={<Radio />}
                                 label="Dog"
                             />
-                        </FormGroup>
+                        </RadioGroup>
                     </FormControl>
+                    <hr style={{margin: "5px"}}></hr>
                     <FormControl fullWidth>
                         <FormLabel>
-                            <strong>Age</strong>
+                            <strong>Sex</strong>
                         </FormLabel>
-                        <FormGroup style={{display: "block", margin: "0 auto"}}>
+                        <RadioGroup
+                            class="radio-group"
+                            onChange={(event) => {
+                                setSexFilter(event.target.value);
+                                console.log(sexFilter);
+                            }}
+                            row>
                             <FormControlLabel
-                                control={<Checkbox />}
+                                value="Male"
+                                control={<Radio />}
                                 label="Male"
                             />
                             <FormControlLabel
-                                control={<Checkbox />}
+                                value="Female"
+                                control={<Radio />}
                                 label="Female"
                             />
-                        </FormGroup>
-                    </FormControl>
+                        </RadioGroup>
+                        <hr style={{margin: "5px"}}></hr>
 
-                    <FormControl fullWidth>
-                        <FormLabel>
-                            <strong>Age</strong>
-                        </FormLabel>
-                        <FormGroup style={{display: "block", margin: "0 auto"}}>
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label="Puppy/Kitten"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label="Young"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label="Adult"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label="Senior"
-                            />
-                        </FormGroup>
-                        <FormGroup style={{display: "block", margin: "0 auto"}}>
-                        <FormLabel>
-                            <strong>Good with:</strong>
-                        </FormLabel>
-                        <br></br>
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label="Cats"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label="Kids"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox />}
-                                label="Dogs"
-                            />
-
-                        </FormGroup>
                     </FormControl>
+                    <Grid container columns={2}>
+                        <Grid item xs={1}>
+                            <FormGroup>
+                                <FormLabel>
+                                    <strong>Age</strong>
+                                </FormLabel>
+                                {[
+                                    "Puppy/Kitten",
+                                    "Young",
+                                    "Adult",
+                                    "Senior",
+                                ].map((label) => (
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={ageFilter.includes(
+                                                    label
+                                                )}
+                                                onChange={(event) => {
+                                                    if (event.target.checked) {
+                                                        setAgeFilter((prev) => [
+                                                            ...prev,
+                                                            label,
+                                                        ]);
+                                                    } else {
+                                                        setAgeFilter((prev) =>
+                                                            prev.filter(
+                                                                (age) =>
+                                                                    age !==
+                                                                    label
+                                                            )
+                                                        );
+                                                    }
+                                                    console.log(ageFilter);
+                                                }}
+                                            />
+                                        }
+                                        label={label}
+                                        key={label}
+                                    />
+                                ))}
+                            </FormGroup>
+                        </Grid>
+                        <Grid item xs={1}>
+                        <FormLabel>
+                                    <strong>Good with:</strong>
+                                </FormLabel>
+                            <FormGroup
+                                style={{ display: "block", margin: "0 auto" }}>
+
+                                <br></br>
+                                <FormControlLabel
+                                    control={<Checkbox />}
+                                    label="Cats"
+                                />
+                                <FormControlLabel
+                                    control={<Checkbox />}
+                                    label="Kids"
+                                />
+                                <FormControlLabel
+                                    control={<Checkbox />}
+                                    label="Dogs"
+                                />
+                            </FormGroup>
+                        </Grid>
+                    </Grid>
                 </form>
             </div>
         </div>

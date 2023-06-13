@@ -17,6 +17,7 @@ const { Storage } = require("@google-cloud/storage");
 const path = require("path");
 const https = require("https");
 
+
 const MONGODB_URI = process.env.mongoose_URI;
 const mapKey = process.env.mapKey;
 
@@ -255,12 +256,17 @@ app.post("/api/dislike", (req, res) => {
     }
 });
 
+app.put("/api/changeFilter", (req,res) => {
+
+})
+
+let petRadiusFilter = 25;
+
 app.get("/api/randomPet", async (req, res) => {
     const userEmail = req.session.email;
     const userZipCode = req.session.zipCode;
-    let radiusInMiles = 20000;
     const userLocation = await getCoordinates(userZipCode);
-    const radiusInRadians = radiusInMiles / 3963.2;
+    const radiusInRadians = petRadiusFilter / 3963.2;
 
     user.findOne({ email: userEmail })
         .then((user) => {
