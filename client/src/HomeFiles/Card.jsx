@@ -260,7 +260,7 @@ function Card() {
                             borderWidth: "8px",
                             borderStyle: "dotted none none none",
                             margin: "0 auto 10px auto",
-                        }}></hr> : <FaPaw style={styleForBackPaw}/>}
+                        }}></hr> : <FaPaw onClick={handleFlipClick} style={styleForBackPaw}/>}
                     { name !== "You've seen all of our pets! Check back later" &&  <h3>Contact</h3> }
 
                     <div className="contact" onClick={handleFlipClick}>

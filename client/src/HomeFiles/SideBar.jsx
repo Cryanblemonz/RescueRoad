@@ -12,6 +12,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import Fab from '@mui/material/Fab';
+
 
 function SideBar() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -60,11 +63,10 @@ function SideBar() {
 
     return (
         <div id="sidebar-wrapper">
-            <button
-                style={{ position: "absolute", left: "400px", zIndex: "2" }}
-                onClick={slide}>
-                Slide
-            </button>
+<Fab variant="extended" onClick={slide} style={{position: "absolute", bottom: "50px", left: "100px", background: "#e093ff"}}>
+  <FilterAltIcon sx={{ mr: 1 }} />
+  Filters
+</Fab>
             <div id="sidebar">
                 <h1 className="sidebar-heading">Filters</h1>
 
@@ -126,6 +128,25 @@ function SideBar() {
                                 control={<Checkbox />}
                                 label="Senior"
                             />
+                        </FormGroup>
+                        <FormGroup style={{display: "block", margin: "0 auto"}}>
+                        <FormLabel>
+                            <strong>Good with:</strong>
+                        </FormLabel>
+                        <br></br>
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                label="Cats"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                label="Kids"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox />}
+                                label="Dogs"
+                            />
+
                         </FormGroup>
                     </FormControl>
                 </form>
