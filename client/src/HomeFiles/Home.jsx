@@ -18,7 +18,9 @@ const theme = createTheme({
     },
 });
 
-
+function testSession(){
+    axios.get("/api/testSession");
+}
 
 
 function Home() {
@@ -31,6 +33,8 @@ function Home() {
                 <ResponsiveAppBar />
                 <SideBar />
                 <Card />
+                <button style={{position: "absolute", right: "200px"}}onClick={testSession}>Test</button>
+
                 </ThemeProvider>
         </div>
     );

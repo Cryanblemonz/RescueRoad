@@ -206,8 +206,13 @@ app.post("/api/signin", (req, res) => {
 });
 
 app.post("/api/signout", (req, res) => {
-    req.session.isLoggedIn = false;
-    req.session.save();
+    req.session.destroy(function(err){
+        if(err){
+            console.log(err)
+        } else {
+
+        }
+    })
 });
 
 app.post("/api/like", (req, res) => {
@@ -256,10 +261,6 @@ app.post("/api/dislike", (req, res) => {
     }
 });
 
-app.put("/api/changeFilter", (req,res) => {
-
-})
-
 let petRadiusFilter = 25;
 
 app.get("/api/randomPet", async (req, res) => {
@@ -267,7 +268,8 @@ app.get("/api/randomPet", async (req, res) => {
     const userZipCode = req.session.zipCode;
     const userLocation = await getCoordinates(userZipCode);
     const radiusInRadians = petRadiusFilter / 3963.2;
-    console.log(userLocation);
+
+    let mongoQuery = req.session.filters || {};
 
     user.findOne({ email: userEmail })
         .then((user) => {
@@ -277,6 +279,7 @@ app.get("/api/randomPet", async (req, res) => {
             }
 
             pet.find({
+                ...mongoQuery,
                 createdAt: { $gt: lastSeenPetDate },
                 location: {
                     $geoWithin: {
@@ -390,6 +393,18 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
                         res.sendStatus(200);
                     }
                 );
+            req.session.petSpecies = "";
+            req.session.petName = "";
+            req.session.petSex = "";
+            req.session.petBreed = "";
+            req.session.petGoodWithKids = null;
+            req.session.petGoodWithCats = null;
+            req.session.petGoodWithDogs = null;
+            req.session.petDescription = "";
+            req.session.petZipCode = ""
+            req.session.petContactName = ""
+            req.session.petContactPhone = ""
+            req.session.petContactEmail = ""
             });
         } catch (error) {
             console.error(error);
@@ -399,10 +414,47 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
     blobStream.end(req.file.buffer);
 });
 
-app.put("/api/changeZipCode", (req, res) => {
-    const zipCode = req.body.zipCodeFilter;
-    req.session.zipCode = zipCode;
-    console.log(req.session.userZipCode);
+app.get("/api/testSession", (req, res) => {
+    console.log(req.session);
+})
+
+app.post("/api/sendFilters", (req, res) => {
+    let filters = req.body.filters || {};
+    let mongoQuery = {};
+
+    // if (filters.zipCode){
+    //     mongoQuery.zipCode = filters.zipCode;
+    // };
+
+    if (filters.species){
+        mongoQuery.species = filters.species;
+    };
+
+    if(filters.sex){
+        mongoQuery.sex = filters.sex;
+    };
+
+    if(filters.age && filters.age.length > 0) {
+        mongoQuery.age = { $in: filters.age};
+    }
+
+    if(filters.goodWith && filters.goodWith.length > 0){
+        filters.goodWith.forEach((item) => {
+            switch(item){
+                case "Cats":
+                    mongoQuery.goodWithCats = true;
+                    break;
+                case "Dogs":
+                    mongoQuery.goodWithDogs = true;
+                    break;
+                case "Kids":
+                    mongoQuery.goodWithKids = true;
+                    break;            
+            }
+        })
+    }   
+    req.session.filters = mongoQuery;
+    console.log(req.session.filters, mongoQuery);
     res.sendStatus(200);
 })
 

@@ -49,10 +49,16 @@ function SideBar() {
     async function changeZipCode(event){
         event.preventDefault();
         try{
-            const response = await axios.put("/api/changeZipCode",{
-                zipCodeFilter
-            })
-        } catch{
+            const response = await axios.post("/api/sendFilters",{
+                filters: {
+                    zipCode: zipCodeFilter,
+                    species: speciesFilter,
+                    sex: sexFilter,
+                    age: ageFilter,
+                    goodWith: goodWithFilter
+                }
+            });
+        } catch(error){    
             console.error(error);
         }
     }
