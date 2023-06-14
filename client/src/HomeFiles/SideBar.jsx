@@ -65,11 +65,7 @@ function SideBar() {
 
     return (
         <div id="sidebar-wrapper">
-            <Fab
-                variant="extended"
-                onClick={slide}
-                className="filter-button"
-                >
+            <Fab variant="extended" onClick={slide} className="filter-button">
                 <FilterAltIcon sx={{ mr: 1 }} />
                 {sidebarOpen ? <span>Hide</span> : <span>Filter</span>}
             </Fab>
@@ -104,7 +100,7 @@ function SideBar() {
                             />
                         </RadioGroup>
                     </FormControl>
-                    <hr style={{margin: "5px"}}></hr>
+                    <hr style={{ margin: "5px" }}></hr>
                     <FormControl fullWidth>
                         <FormLabel>
                             <strong>Sex</strong>
@@ -127,8 +123,7 @@ function SideBar() {
                                 label="Female"
                             />
                         </RadioGroup>
-                        <hr style={{margin: "5px"}}></hr>
-
+                        <hr style={{ margin: "5px" }}></hr>
                     </FormControl>
                     <Grid container columns={2}>
                         <Grid item xs={1}>
@@ -174,25 +169,44 @@ function SideBar() {
                             </FormGroup>
                         </Grid>
                         <Grid item xs={1}>
-                        <FormLabel>
-                                    <strong>Good with:</strong>
-                                </FormLabel>
                             <FormGroup
                                 style={{ display: "block", margin: "0 auto" }}>
-
-                                <br></br>
-                                <FormControlLabel
-                                    control={<Checkbox />}
-                                    label="Cats"
-                                />
-                                <FormControlLabel
-                                    control={<Checkbox />}
-                                    label="Kids"
-                                />
-                                <FormControlLabel
-                                    control={<Checkbox />}
-                                    label="Dogs"
-                                />
+                                <FormLabel>
+                                    <strong>Good With</strong>
+                                </FormLabel>
+                                {["Cats", "Kids", "Dogs"].map((label) => (
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={goodWithFilter.includes(
+                                                    label
+                                                )}
+                                                onChange={(event) => {
+                                                    if (event.target.checked) {
+                                                        setGoodWithFilter(
+                                                            (prev) => [
+                                                                ...prev,
+                                                                label,
+                                                            ]
+                                                        );
+                                                    } else {
+                                                        setGoodWithFilter(
+                                                            (prev) =>
+                                                                prev.filter(
+                                                                    (age) =>
+                                                                        age !==
+                                                                        label
+                                                                )
+                                                        );
+                                                    }
+                                                    console.log(goodWithFilter);
+                                                }}
+                                            />
+                                        }
+                                        label={label}
+                                        key={label}
+                                    />
+                                ))}
                             </FormGroup>
                         </Grid>
                     </Grid>
