@@ -7,38 +7,21 @@ import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Fab from "@mui/material/Fab";
 import Grid from "@mui/material/Grid";
+import SendSharpIcon from '@mui/icons-material/SendSharp';
 
 function SideBar() {
+    const [zipCodeFilter, setZipCodeFilter] = useState("");
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [speciesFilter, setSpeciesFilter] = useState("");
     const [sexFilter, setSexFilter] = useState("");
     const [ageFilter, setAgeFilter] = useState([]);
     const [goodWithFilter, setGoodWithFilter] = useState([]);
 
-    function fade() {
-        if (!sidebarOpen) {
-            gsap.to("#sidebar", {
-                opacity: 1,
-                duration: 0.6,
-                ease: "power2.out",
-            });
-        } else {
-            gsap.to("#sidebar", {
-                opacity: 0,
-                duration: 0.6,
-                ease: "power2.out",
-            });
-        }
-        setSidebarOpen(!sidebarOpen);
-    }
 
     function slide() {
         if (!sidebarOpen) {
@@ -63,12 +46,23 @@ function SideBar() {
         setSidebarOpen(!sidebarOpen);
     }
 
+    async function changeZipCode(event){
+        event.preventDefault();
+        try{
+            const response = await axios.put("/api/changeZipCode",{
+                zipCodeFilter
+            })
+        } catch{
+            console.error(error);
+        }
+    }
+
     return (
         <div id="sidebar-wrapper">
             <Fab variant="extended" onClick={slide} className="filter-button">
                 <FilterAltIcon sx={{ mr: 1 }} />
                 {sidebarOpen ? <span>Hide</span> : <span>Filter</span>}
-            </Fab>
+            </Fab>/
             <div id="sidebar">
                 <h1 className="sidebar-heading">Filters</h1>
 
@@ -76,8 +70,15 @@ function SideBar() {
                     <Input
                         variant="outlined"
                         label="Zip Code to see pets in"
-                        style={{ background: "#d4bdd4", width: "100%" }}
+                        style={{ background: "#d4bdd4", width: "75%" }}
+                        inputFunction={(event) => {
+                            setZipCodeFilter(event.target.value);
+                            console.log(zipCodeFilter);
+                        }}
                     />
+                    <Fab size="small" style={{position: "relative", top: "20px", left: "15px"}} onClick={changeZipCode}>
+                        <SendSharpIcon />
+                    </Fab>
                     <FormControl fullWidth>
                         <FormLabel>
                             <strong>Species</strong>

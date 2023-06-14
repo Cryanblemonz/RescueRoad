@@ -267,6 +267,7 @@ app.get("/api/randomPet", async (req, res) => {
     const userZipCode = req.session.zipCode;
     const userLocation = await getCoordinates(userZipCode);
     const radiusInRadians = petRadiusFilter / 3963.2;
+    console.log(userLocation);
 
     user.findOne({ email: userEmail })
         .then((user) => {
@@ -397,6 +398,13 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
     });
     blobStream.end(req.file.buffer);
 });
+
+app.put("/api/changeZipCode", (req, res) => {
+    const zipCode = req.body.zipCodeFilter;
+    req.session.zipCode = zipCode;
+    console.log(req.session.userZipCode);
+    res.sendStatus(200);
+})
 
 app.get("/api/checkLogin", function (req, res) {
     if (req.session.isLoggedIn) {
