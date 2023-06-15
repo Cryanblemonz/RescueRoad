@@ -32,6 +32,8 @@ img {
     align-items: center;
     margin:  0 auto;
     transform:scale(90%);
+    position: relative;
+    bottom: 20px;
 } 
 
 .card:hover{
@@ -65,7 +67,7 @@ img {
     justify-content: center;
     align-items: center;
     position: relative;
-    bottom: 20px;
+    bottom: 40px;
 }
 
 .heart-button {
@@ -106,10 +108,10 @@ h1 {
     width: 0;
     position: absolute;
     left: 0;
-    top: 65px;
+    top: 55px;
     height: 95vh;
     border: 1px dotted rgb(255, 2, 242);
-    border-style: none dotted dotted none;
+    border-style: dotted dotted dotted none;
     /* background: rgb(255,65,139);
     background: linear-gradient(195deg, rgba(255,65,139,1) 0%, rgba(251,157,251,1) 74%); */
     background: rgb(228,246,255);
@@ -144,4 +146,18 @@ h1 {
     bottom: 10px;
     left: 100px;
     background: #e093ff;
+}
+
+@media(max-width: 600px){
+    .filter-button{
+        left: 35%;
+    }
+    .card{
+        margin-top: 20px;
+    }
+}
+
+.not-logged-in-message{
+    text-align: center;
+    margin: 5px auto;
 }

@@ -56,7 +56,6 @@ function ResponsiveAppBar() {
             });
     }, []);
 
-    const pages = !isLoggedIn ? ["Signup"] : ["Upload"];
     const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
     const handleOpenNavMenu = (event) => {
@@ -143,11 +142,12 @@ function ResponsiveAppBar() {
                                     </Typography>
                                 </MenuItem>
                             )}
+                            {isLoggedIn && 
                             <MenuItem component={Link} to={"/LikedPets"}>
                                 <Typography textAlign="center">
                                     Liked Pets
                                 </Typography>
-                            </MenuItem>
+                            </MenuItem> }
                             <MenuItem>
                                 {isLoggedIn && (
                                     <form onSubmit={signout}>
@@ -197,11 +197,12 @@ function ResponsiveAppBar() {
                                     </Typography>
                                 </MenuItem>
                             )}
+                            {isLoggedIn && 
                             <MenuItem component={Link} to={"/LikedPets"}>
                                 <Typography textAlign="center">
                                     Liked Pets
                                 </Typography>
-                            </MenuItem>
+                            </MenuItem> }
 
                         {isLoggedIn && (
                             <form onSubmit={signout}>

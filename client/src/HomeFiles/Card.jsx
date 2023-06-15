@@ -44,8 +44,20 @@ function Card() {
     const [zipCode, setZipCode] = useState("");
     const [contactEmail, setContactEmail] = useState("");
     const [contactPhone, setContactPhone] = useState("");
-
     const [props, api] = useSpring(() => ({ x: 0, opacity: 1 }));
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        axios
+            .get("/api/checkLogin", { withCredentials: true })
+            .then((res) => {
+                setIsLoggedIn(res.data.isLoggedIn);
+            })
+            .catch((err) => {
+                console.error(err);
+                setIsLoggedIn(false);
+            });
+    }, []);
 
     useEffect(() => {
         fetchNewImage();
@@ -159,12 +171,15 @@ function Card() {
     return (
         <div className="card-div">
             <h1 className="petName-lg">{name ? name : "Lets do this!"}</h1>
+            {!isLoggedIn && <p className="not-logged-in-message">Sign up / sign in to save your liked pets!</p> }
+
             <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
                 <animated.div style={props} ref={props}>
                     <div className="card" onClick={handleFlipClick}>
                         <h1 className="petName-sm">
                             {name ? name : "Lets do this!"}
                         </h1>
+                        
                         {imageUrl && <img src={imageUrl} alt="Random Cat" />}
                         { name !== "You've seen all of our pets! Check back later" ? <hr
                             style={{

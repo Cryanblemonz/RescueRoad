@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./home.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Card from "./Card";
 import axios from "axios";
 import SideBar from "./SideBar";
-import Input from "../components/Input";
 
 const theme = createTheme({
     palette: {
@@ -19,6 +18,8 @@ const theme = createTheme({
 });
 
 function Home() {
+    
+
     return (
         <div>
             <ThemeProvider theme={theme}>

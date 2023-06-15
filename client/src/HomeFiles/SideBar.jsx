@@ -12,7 +12,27 @@ import FormGroup from "@mui/material/FormGroup";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Fab from "@mui/material/Fab";
 import Grid from "@mui/material/Grid";
-import SendSharpIcon from '@mui/icons-material/SendSharp';
+import SendSharpIcon from "@mui/icons-material/SendSharp";
+import { createTheme } from "@mui/material";
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: "#fd8989",
+        },
+        secondary: { main: "#fff" },
+    },
+    breakpoints: {
+        values: {
+            xs: 0,
+            sm: 600,
+            md: 900,
+            lg: 1200,
+            xl: 1536,
+        },
+    },
+});
 
 function SideBar() {
     const [zipCodeFilter, setZipCodeFilter] = useState("");
@@ -21,12 +41,13 @@ function SideBar() {
     const [sexFilter, setSexFilter] = useState("");
     const [ageFilter, setAgeFilter] = useState([]);
     const [goodWithFilter, setGoodWithFilter] = useState([]);
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 
     function slide() {
         if (!sidebarOpen) {
             gsap.to("#sidebar", {
-                width: "320px",
+                width: !isSmallScreen ? "320px" : "100vw",
                 opacity: 1,
                 duration: 0.7,
                 ease: "back",
@@ -46,18 +67,18 @@ function SideBar() {
         setSidebarOpen(!sidebarOpen);
     }
 
-    async function handleSubmit(event){
-        try{
-            const response = await axios.post("/api/sendFilters",{
+    async function handleSubmit(event) {
+        try {
+            const response = await axios.post("/api/sendFilters", {
                 filters: {
                     zipCode: zipCodeFilter,
                     species: speciesFilter,
                     sex: sexFilter,
                     age: ageFilter,
-                    goodWith: goodWithFilter
-                }
+                    goodWith: goodWithFilter,
+                },
             });
-        } catch(error){    
+        } catch (error) {
             console.error(error);
         }
     }
@@ -80,7 +101,14 @@ function SideBar() {
                             setZipCodeFilter(event.target.value);
                         }}
                     />
-                    <Fab size="small" style={{position: "relative", top: "20px", left: "15px"}} type="submit">
+                    <Fab
+                        size="small"
+                        style={{
+                            position: "relative",
+                            top: "20px",
+                            left: "15px",
+                        }}
+                        type="submit">
                         <SendSharpIcon />
                     </Fab>
                     <FormControl fullWidth>
@@ -169,6 +197,9 @@ function SideBar() {
                                         }
                                         label={label}
                                         key={label}
+                                        style={{ marginLeft:"15px"}}
+
+                                        
                                     />
                                 ))}
                             </FormGroup>
@@ -210,6 +241,7 @@ function SideBar() {
                                         }
                                         label={label}
                                         key={label}
+                                        style={{display: "block", marginRight: "5px"}}
                                     />
                                 ))}
                             </FormGroup>
