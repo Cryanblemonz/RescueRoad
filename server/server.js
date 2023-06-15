@@ -16,7 +16,7 @@ const { v4: uuidv4 } = require("uuid");
 const { Storage } = require("@google-cloud/storage");
 const path = require("path");
 const https = require("https");
-
+let signedOutPetCount = 0;
 
 const MONGODB_URI = process.env.mongoose_URI;
 const mapKey = process.env.mapKey;
@@ -233,6 +233,7 @@ app.post("/api/like", (req, res) => {
             );
         });
     } else {
+        signedOutPetCount++;
         res.sendStatus(200);
     }
 });
@@ -257,6 +258,7 @@ app.post("/api/dislike", (req, res) => {
                 });
         });
     } else {
+        signedOutPetCount++;
         res.sendStatus(200);
     }
 });
@@ -265,13 +267,14 @@ let petRadiusFilter = 25;
 
 app.get("/api/randomPet", async (req, res) => {
     const userEmail = req.session.email;
-    const userZipCode = req.session.zipCode;
+    const userZipCode = req.session.zipCode || "65202";
     const userLocation = await getCoordinates(userZipCode);
     const radiusInRadians = petRadiusFilter / 3963.2;
 
     let mongoQuery = req.session.filters || {};
 
-    user.findOne({ email: userEmail })
+    if(req.session.isLoggedIn){
+        user.findOne({ email: userEmail })
         .then((user) => {
             let lastSeenPetDate = user.lastSeenPetDate;
             if (lastSeenPetDate === undefined) {
@@ -297,6 +300,7 @@ app.get("/api/randomPet", async (req, res) => {
                             name: "You've seen all of our pets! Check back later",
                         });
                     }
+                    console.log(mongoQuery);
                 })
                 .catch((error) => {
                     console.log("error sending pet", error);
@@ -305,6 +309,21 @@ app.get("/api/randomPet", async (req, res) => {
         .catch((error) => {
             console.log("error finding user", error);
         });
+    } else {
+        pet.find({})
+        .sort("createdAt")
+        .then((foundPet) => {
+            if (foundPet.length > 0) {
+                    res.json(foundPet[signedOutPetCount]);
+            } else {
+                res.json({
+                    name: "You've seen all of our pets! Check back later",
+                });
+            }
+            console.log(mongoQuery);
+        })
+    }
+
 });
 
 app.get("/api/getLikedPets", (req, res) => {
@@ -333,7 +352,7 @@ app.post("/api/upload", async (req, res) => {
     req.session.petZipCode = req.body.zipCode;
     req.session.petContactPhone = req.body.contactPhone;
     req.session.petContactEmail = req.body.contactEmail;
-    res.send();
+    res.sendStatus(200);
 });
 
 const storage = new Storage({
@@ -363,7 +382,6 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
         try {
             const imageURL = `https://storage.googleapis.com/${bucketName}/${blob.name}`;
             const petCoordinates = await getCoordinates(req.session.petZipCode);
-            console.log(petCoordinates);
             const newPet = new pet({
                 species: req.session.petSpecies,
                 name: req.session.petName,
@@ -414,17 +432,13 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
     blobStream.end(req.file.buffer);
 });
 
-app.get("/api/testSession", (req, res) => {
-    console.log(req.session);
-})
-
 app.post("/api/sendFilters", (req, res) => {
     let filters = req.body.filters || {};
     let mongoQuery = {};
 
-    // if (filters.zipCode){
-    //     mongoQuery.zipCode = filters.zipCode;
-    // };
+    if(filters.zipCode){
+        req.session.zipCode = filters.zipCode;
+    }
 
     if (filters.species){
         mongoQuery.species = filters.species;
@@ -454,7 +468,7 @@ app.post("/api/sendFilters", (req, res) => {
         })
     }   
     req.session.filters = mongoQuery;
-    console.log(req.session.filters, mongoQuery);
+    console.log(mongoQuery, req.session.zipCode);
     res.sendStatus(200);
 })
 

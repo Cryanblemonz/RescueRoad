@@ -3,8 +3,8 @@ import "./home.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Card from "./Card";
-import axios from 'axios';
-import SideBar from './SideBar';
+import axios from "axios";
+import SideBar from "./SideBar";
 import Input from "../components/Input";
 
 const theme = createTheme({
@@ -18,24 +18,14 @@ const theme = createTheme({
     },
 });
 
-function testSession(){
-    axios.get("/api/testSession");
-}
-
-
 function Home() {
-
-
-
     return (
         <div>
             <ThemeProvider theme={theme}>
                 <ResponsiveAppBar />
                 <SideBar />
                 <Card />
-                <button style={{position: "absolute", right: "200px"}}onClick={testSession}>Test</button>
-
-                </ThemeProvider>
+            </ThemeProvider>
         </div>
     );
 }

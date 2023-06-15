@@ -1,1 +1,0 @@
-I'm building this app, and I came to the point in which I needed this little sidebar for my filters. It looks pretty decent, but I wanted to make it so the user could hide it out of their way when they don't need it. 

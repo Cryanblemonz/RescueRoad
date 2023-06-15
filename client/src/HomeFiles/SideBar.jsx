@@ -46,8 +46,7 @@ function SideBar() {
         setSidebarOpen(!sidebarOpen);
     }
 
-    async function changeZipCode(event){
-        event.preventDefault();
+    async function handleSubmit(event){
         try{
             const response = await axios.post("/api/sendFilters",{
                 filters: {
@@ -68,21 +67,20 @@ function SideBar() {
             <Fab variant="extended" onClick={slide} className="filter-button">
                 <FilterAltIcon sx={{ mr: 1 }} />
                 {sidebarOpen ? <span>Hide</span> : <span>Filter</span>}
-            </Fab>/
+            </Fab>
             <div id="sidebar">
                 <h1 className="sidebar-heading">Filters</h1>
 
-                <form className="sidebar-form">
+                <form className="sidebar-form" onSubmit={handleSubmit}>
                     <Input
                         variant="outlined"
                         label="Zip Code to see pets in"
                         style={{ background: "#d4bdd4", width: "75%" }}
                         inputFunction={(event) => {
                             setZipCodeFilter(event.target.value);
-                            console.log(zipCodeFilter);
                         }}
                     />
-                    <Fab size="small" style={{position: "relative", top: "20px", left: "15px"}} onClick={changeZipCode}>
+                    <Fab size="small" style={{position: "relative", top: "20px", left: "15px"}} type="submit">
                         <SendSharpIcon />
                     </Fab>
                     <FormControl fullWidth>
