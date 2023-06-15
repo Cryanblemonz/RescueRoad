@@ -3,8 +3,9 @@
 }
 
 .pet-display {
+    max-width: 90%;
     width: 800px;
-    height: 500px;
+    height: auto;
     margin: 10px auto;
     display: grid;
     gap: 0;
@@ -23,7 +24,7 @@
 }
 
 .grid-item {
-    border: 1px solid black;
+    height: auto;
 }
 
 .pet-display-image {
@@ -33,6 +34,12 @@
     align-items: center;
     justify-content: center;
     border-radius: 30px 0 0 0;
+}
+
+.pet-display-image img {
+    max-height: unset;
+    max-width: 90%;
+    height: 90%;
 }
 
 .pet-display-breed {
@@ -53,14 +60,13 @@
     padding-top: 15px;
 }
 
-.pet-display-sex{
+.pet-display-sex {
     grid-column: 1 /3;
     grid-row: 7 / 8;
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 15px;
-
 }
 
 .pet-display-goodwith {
@@ -105,4 +111,38 @@ h2 {
 hr {
     width: 90%;
     margin: 20px auto;
+}
+
+/* Mobile */
+
+.mobile-heading {
+    text-align: center;
+}
+
+.mobile-image {
+    width: 70%;
+    display: block;
+    margin: 5px auto;
+}
+
+.mobile-good-with-heading {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.mobile-good-with-icons {
+    width: 50%;
+    display: block;
+    margin: 20px auto;
+}
+
+.mobile-info{
+padding: 20px}
+
+.mobile-info h3{
+    text-align: center;
+}
+
+.mobile-display-wrapper{
+    padding: 20px;
 }

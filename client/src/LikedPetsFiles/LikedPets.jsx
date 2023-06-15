@@ -1,58 +1,61 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from "react";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import PetDisplay from "./PetDisplay";
-import './LikedPets.css';
+import "./LikedPets.css";
 import axios from "axios";
+import MobilePetDisplay from "./MobilePetDisplay";
 
-function LikedPets(){
-        const [list, setList] = useState([]);
-        
-const getLikedPets = () => {
-        axios.get("/api/getLikedPets")
-        .then(response =>{
-                setList(response.data)
-                })
-        }
+function LikedPets() {
+    const [list, setList] = useState([]);
 
+    const getLikedPets = () => {
+        axios.get("/api/getLikedPets").then((response) => {
+            setList(response.data);
+        });
+    };
 
-useEffect(() => {
+    useEffect(() => {
         getLikedPets();
-}, [])
+    }, []);
 
-function test2 () {
+    function test2() {
         console.log(list);
-}
+    }
 
+    return (
+        <div>
+            <ResponsiveAppBar />
 
-        return(
+            {list.map((pet, index) => (
                 <div>
-                                <ResponsiveAppBar />
-
-                        <button onClick={test2}>Test2</button>
-
-                        {list.map((pet, index) => (
-                                <div>
-                                <PetDisplay 
-                                key={index}
-                                name={pet.name}
-                                image={pet.img}
-                                breed={pet.breed}
-                                age={pet.age}
-                                sex={pet.sex}
-                                goodWithKids={pet.goodWithKids} 
-                                goodWithCats={pet.goodWithCats} 
-                                goodWithDogs={pet.goodWithDogs}
-                                description={pet.description}
-                                zipCode={pet.zipCode}
-                                contactName={pet.contactName}
-                                contactPhone={pet.contactPhone}
-                                contactEmail={pet.contactEmail} />
-                                <hr style={{color: "gray", borderWidth: "15px", width: "10%", borderStyle: "dotted none none none", margin: "30px auto 20px auto"}}></hr>
-                                </div>
-                        ))}
-
+                    <MobilePetDisplay
+                        key={index}
+                        name={pet.name}
+                        image={pet.img}
+                        breed={pet.breed}
+                        age={pet.age}
+                        sex={pet.sex}
+                        goodWithKids={pet.goodWithKids ? "Good with Kids!" : "Not good with kids"}
+                        goodWithCats={pet.goodWithCats ? "Good with Cats!" : "Not good with cats"}
+                        goodWithDogs={pet.goodWithDogs ? "Good with Dogs!" : "Not good with dogs"}
+                        description={pet.description}
+                        zipCode={pet.zipCode}
+                        contactName={pet.contactName}
+                        contactPhone={pet.contactPhone}
+                        contactEmail={pet.contactEmail}
+                    />
+                    <hr
+                        style={{
+                            color: "gray",
+                            borderWidth: "15px",
+                            width: "10%",
+                            borderStyle: "dotted none none none",
+                            margin: "30px auto 20px auto",
+                        }}></hr>
                 </div>
-        )
+            ))}
+        </div>
+    );
 }
 
 export default LikedPets;
