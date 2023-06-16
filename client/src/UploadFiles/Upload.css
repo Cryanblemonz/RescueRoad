@@ -9,6 +9,12 @@
         width: 40%;
 }
 
+@media(max-width: 600px){
+        .upload-form{
+                width: 80%;
+        }
+}
+
 .radio-group{
         text-align: center;
 }

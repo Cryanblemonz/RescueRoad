@@ -5,6 +5,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import Card from "./Card";
 import axios from "axios";
 import SideBar from "./SideBar";
+import Footer from "../components/footer";
 
 const theme = createTheme({
     palette: {
@@ -26,6 +27,7 @@ function Home() {
                 <ResponsiveAppBar />
                 <SideBar />
                 <Card />
+
             </ThemeProvider>
         </div>
     );

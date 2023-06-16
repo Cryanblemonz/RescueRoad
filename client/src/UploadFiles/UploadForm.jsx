@@ -296,7 +296,7 @@ function UploadForm(props) {
                         variant="standard"
                         type="text"
                         size="medium"
-                        label="Name of person or organization who should be contacted about this pet"
+                        label="Name of person or organization to be contacted"
                         fullWidth
                         inputFunction={(event) => {
                             setContactName(event.target.value);

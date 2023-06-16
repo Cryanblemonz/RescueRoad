@@ -17,12 +17,12 @@ function MobilePetDisplay(props) {
                 <div className="mobile-good-with-icons">
                     <Grid container spacing={0.2} columns={3}>
                         <Grid item xs={1}>
-                            {props.goodWithCats && (
+                            {props.goodWithCats  == "Good with Cats!" && (
                                 <FaCat style={styleForIcon} />
                             )}
                         </Grid>
                         <Grid item xs={1}>
-                            {props.goodWithKids && (
+                            {props.goodWithKids === "Good with Kids!" && (
                                 <ChildFriendlyIcon
                                     className="mobile-good-with-icon"
                                     style={styleForIcon}
@@ -30,7 +30,7 @@ function MobilePetDisplay(props) {
                             )}
                         </Grid>
                         <Grid item xs={1}>
-                            {props.goodWithDogs && (
+                            {props.goodWithDogs  === "Good with Dogs!" && (
                                 <FaDog
                                     className="mobile-good-with-icon"
                                     style={styleForIcon}
@@ -39,31 +39,29 @@ function MobilePetDisplay(props) {
                         </Grid>
                     </Grid>
                 </div>
+                <div className="mobile-info">
                 <Grid container spacing={0.2} columns={2}>
                     <Grid item xs={1}>
-                        <div className="mobile-info">
+
+
+
                             <h3>Info</h3>
                             <p>
-                                {" "}
                                 <strong>Breed:</strong> {props.breed}
                             </p>
                             <p>
-                                {" "}
                                 <strong>Age:</strong> {props.age}
                             </p>
                             <p>
-                                {" "}
                                 <strong>Sex:</strong> {props.sex}
                             </p>
-                        </div>
                     </Grid>
                     <Grid item xs={1}>
-                        <div className="mobile-info">
                                 <h3 className="mobile-description-heading">Description</h3>
                             <p>{props.description}</p>
-                        </div>
                     </Grid>
                 </Grid>
+                </div>
 
                 <div className="mobile-contact">
                     <h2>Contact</h2>

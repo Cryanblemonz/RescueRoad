@@ -161,9 +161,10 @@ function ResponsiveAppBar() {
                             </MenuItem>
                         </Menu>
                     </Box>
+                    <a href="/">
                     <PetsOutlinedIcon
                         sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-                    />
+                    /></a>
                     <Typography
                         variant="h5"
                         noWrap
