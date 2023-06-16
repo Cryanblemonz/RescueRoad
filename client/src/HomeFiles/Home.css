@@ -53,6 +53,7 @@ img {
 @media (max-width: 475px) {
     .card {
         width: 90%;
+        transform: scale(87%);
     }
     img {
         max-width: 95%;
@@ -109,17 +110,16 @@ h1 {
     width: 0;
     position: absolute;
     left: 0;
-    top: 55px;
-    height: 95vh;
+    top: 65px;
+    height: calc(95vh - 34px + 115px - 40px);
     border: 1px dotted rgb(255, 2, 242);
     border-style: dotted dotted dotted none;
-    /* background: rgb(255,65,139);
-    background: linear-gradient(195deg, rgba(255,65,139,1) 0%, rgba(251,157,251,1) 74%); */
     background: rgb(228,246,255);
     background: radial-gradient(circle, rgba(228,246,255,1) 0%, rgba(255,126,126,1) 90%);
     opacity: 0;
     z-index: 1;
     border-radius: 0 5px 5px 0;
+    padding-bottom: 0;
 }
 
 #sidebar:hover{
@@ -144,14 +144,16 @@ h1 {
 
 .filter-button{
     position: absolute!important;
-    bottom: 10px;
-    left: 100px;
+    top: 70px;
+    left: 5px;
     background: #e093ff;
+    z-index: 1;
 }
 
 @media(max-width: 600px){
     .filter-button{
-        left: 35%;
+        left: 5px;
+        top: 70px;
     }
     .card{
         margin-top: 20px;
@@ -166,12 +168,16 @@ h1 {
 .footer{
     width: 100%;
     position: absolute;
-    bottom: 0;
+    bottom: -115px;
     left: 0;
     margin: 0;
-    height: 100px;
+    height: 40px;
     text-align: center;
-    background: #e093ff;
+    background: rgb(228,246,255);
+    background: linear-gradient(-2deg, rgba(228,246,255,1) 0%, rgba(230,126,255,1) 80%);
+    padding-top: 8px;
+    text-align: right;
+    padding-right: 20px;
 }
 
 a{

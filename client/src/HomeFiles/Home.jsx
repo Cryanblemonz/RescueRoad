@@ -27,7 +27,7 @@ function Home() {
                 <ResponsiveAppBar />
                 <SideBar />
                 <Card />
-
+                <Footer />
             </ThemeProvider>
         </div>
     );

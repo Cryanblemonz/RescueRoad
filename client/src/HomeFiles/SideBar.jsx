@@ -85,9 +85,8 @@ function SideBar() {
 
     return (
         <div id="sidebar-wrapper">
-            <Fab variant="extended" onClick={slide} className="filter-button">
-                <FilterAltIcon sx={{ mr: 1 }} />
-                {sidebarOpen ? <span>Hide</span> : <span>Filter</span>}
+            <Fab onClick={slide} className="filter-button" size="small">
+                <FilterAltIcon />
             </Fab>
             <div id="sidebar">
                 <h1 className="sidebar-heading">Filters</h1>
