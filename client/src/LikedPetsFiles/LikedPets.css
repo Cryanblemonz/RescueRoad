@@ -25,6 +25,7 @@
 
 .grid-item {
     height: auto;
+    border: 1px solid black;
 }
 
 .pet-display-image {
@@ -134,15 +135,29 @@ hr {
     width: 50%;
     display: block;
     margin: 20px auto;
-}
-
-.mobile-info{
-padding: 20px}
-
-.mobile-info h3{
     text-align: center;
 }
 
-.mobile-display-wrapper{
+.mobile-info {
     padding: 20px;
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.mobile-info h3 {
+    text-align: center;
+}
+
+.mobile-display-wrapper {
+    padding: 20px;
+}
+
+.mobile-contact {
+    text-align: center;
+    line-height: 1;
+}
+
+.mobile-contact h2 {
+    margin-bottom: 20px;
 }

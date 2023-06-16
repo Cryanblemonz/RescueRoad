@@ -59,25 +59,18 @@ function MobilePetDisplay(props) {
                     </Grid>
                     <Grid item xs={1}>
                         <div className="mobile-info">
-                                <h3>Description</h3>
+                                <h3 className="mobile-description-heading">Description</h3>
                             <p>{props.description}</p>
                         </div>
                     </Grid>
                 </Grid>
-                <div></div>
-                <div></div>
-                <div></div>
 
-                <div></div>
-                <div>
+                <div className="mobile-contact">
                     <h2>Contact</h2>
-                    <p>Located in: {props.zipCode}</p>
-                    <hr></hr>
-                    <p>Contact Name: {props.contactName}</p>
-                    <hr></hr>
-                    <p>Phone: {props.contactPhone}</p>
-                    <hr></hr>
-                    <p>Email: {props.contactEmail}</p>
+                    <p>{props.zipCode}</p>
+                    <p>{props.contactName}</p>
+                    <p>{props.contactPhone}</p>
+                    <p>{props.contactEmail}</p>
                 </div>
             </div>
         </div>
