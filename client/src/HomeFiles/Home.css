@@ -111,7 +111,7 @@ h1 {
     position: absolute;
     left: 0;
     top: 65px;
-    height: calc(95vh - 34px + 115px - 40px);
+    height: calc(95vh + 41px);
     border: 1px dotted rgb(255, 2, 242);
     border-style: dotted dotted dotted none;
     background: rgb(228,246,255);
@@ -120,11 +120,6 @@ h1 {
     z-index: 1;
     border-radius: 0 5px 5px 0;
     padding-bottom: 0;
-}
-
-#sidebar:hover{
-    transform: scale(101%);
-    box-shadow: 6px 6px 5px rgb(29, 28, 28) ;
 }
 
 .sidebar-heading{
@@ -182,4 +177,9 @@ h1 {
 
 a{
     color: black;
+}
+
+.upload-message{
+    text-align: center;
+    color: purple;
 }

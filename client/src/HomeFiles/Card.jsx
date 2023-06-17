@@ -172,6 +172,7 @@ function Card() {
         <div className="card-div">
             <h1 className="petName-lg">{name ? name : "Lets do this!"}</h1>
             {!isLoggedIn && <p className="not-logged-in-message">Sign up / sign in to save your liked pets!</p> }
+            { name == "You've seen all of our pets! Check back later" && <em><p className="upload-message">Or upload a pet of your own...</p></em> }
 
             <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
                 <animated.div style={props} ref={props}>
@@ -179,7 +180,6 @@ function Card() {
                         <h1 className="petName-sm">
                             {name ? name : "Lets do this!"}
                         </h1>
-                        
                         {imageUrl && <img src={imageUrl} alt="Random Cat" />}
                         { name !== "You've seen all of our pets! Check back later" ? <hr
                             style={{

@@ -24,7 +24,13 @@ const mapKey = process.env.mapKey;
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-});
+})
+.then(() => {
+    console.log("DB Connected Successfully")
+})
+.catch(error => {
+    console.error("DB Connection Error", error);
+})
 
 const store = new MongoDBStore({
     uri: process.env.mongoose_URI,
@@ -101,8 +107,6 @@ const userSchema = mongoose.Schema({
 
 const user = mongoose.model("user", userSchema);
 
-//-----------------Post Requests-----------------------------------------------------
-
 function getCoordinates(zipCode) {
     return new Promise((resolve, reject) => {
         let url =
@@ -116,15 +120,19 @@ function getCoordinates(zipCode) {
                 data += chunk;
             });
             response.on("end", () => {
-                const locationData = JSON.parse(data);
-                let coordinates = [
-                    locationData.results[0].geometry.location.lng,
-                    locationData.results[0].geometry.location.lat,
-                ];
-                resolve(coordinates);
+                try{
+                    const locationData = JSON.parse(data);
+                    let coordinates = [
+                        locationData.results[0].geometry.location.lng,
+                        locationData.results[0].geometry.location.lat,
+                    ];
+                    resolve(coordinates);
+                } catch (err){
+                    reject(err);
+                }
             });
-            response.on("error", (err) => {
-                reject(err);
+            response.on("error", (error) => {
+                reject(error);
             });
         });
     });
@@ -136,19 +144,18 @@ app.post("/api/signup", (req, res) => {
     let email = req.body.email;
     let zipCode = req.body.zipCode;
 
-    user.findOne({ email: email }).then((foundUser) => {
+    user.findOne({ $or: [{ email: email }, { username: username }] })
+    .then((foundUser) => {
         if (foundUser) {
-            res.status(409).json({
-                error: "Account already exists with this email",
-            });
+            if (foundUser.email === email) {
+                res.status(409).json({
+                    error: "Account already exists with this email",
+                });
+            } else {
+                res.status(409).json({ error: "Username unavailable" });
+            }
             return;
         }
-
-        user.findOne({ username: username }).then((foundUsername) => {
-            if (foundUsername) {
-                res.status(409).json({ error: "Username unavailable" });
-                return;
-            }
 
             bcrypt.hash(password1, saltRounds, function (err, hash) {
                 if (err) {
@@ -168,7 +175,7 @@ app.post("/api/signup", (req, res) => {
             });
         });
     });
-});
+
 
 app.post("/api/signin", (req, res) => {
     let username = req.body.username;
@@ -202,15 +209,16 @@ app.post("/api/signin", (req, res) => {
                 );
             }
         })
-        .catch((err) => console.error(err));
+        .catch((error) => console.error(error));
 });
 
 app.post("/api/signout", (req, res) => {
-    req.session.destroy(function(err){
-        if(err){
-            console.log(err)
+    req.session.destroy(function(error){
+        if(error){
+            console.log(error)
+            res.status(500).json({ error: "Server error"})
         } else {
-
+            res.status(200).json({ message: "Successfully signed out"})
         }
     })
 });
@@ -300,7 +308,6 @@ app.get("/api/randomPet", async (req, res) => {
                             name: "You've seen all of our pets! Check back later",
                         });
                     }
-                    console.log(mongoQuery);
                 })
                 .catch((error) => {
                     console.log("error sending pet", error);
@@ -320,7 +327,6 @@ app.get("/api/randomPet", async (req, res) => {
                     name: "You've seen all of our pets! Check back later",
                 });
             }
-            console.log(mongoQuery);
         })
     }
 
@@ -374,8 +380,8 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
     const blob = bucket.file(Date.now() + path.extname(req.file.originalname));
     const blobStream = blob.createWriteStream();
 
-    blobStream.on("error", (err) => {
-        res.status(500).send(err);
+    blobStream.on("error", (error) => {
+        res.status(500).json({error: error});
     });
 
     blobStream.on("finish", async () => {
@@ -426,7 +432,7 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
             });
         } catch (error) {
             console.error(error);
-            res.send(500).send("Error occurred");
+            res.status(500).json({error: "Error occurred"});
         }
     });
     blobStream.end(req.file.buffer);
