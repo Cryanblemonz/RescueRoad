@@ -4,7 +4,6 @@ import "./ImageUpload.css";
 import { FormControl, Input } from "@mui/material";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import Signup from "../SignupFiles/Signup";
 
 const styleforButton = {
     margin: "15px auto 10px auto",

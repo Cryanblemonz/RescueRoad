@@ -21,16 +21,17 @@ let signedOutPetCount = 0;
 const MONGODB_URI = process.env.mongoose_URI;
 const mapKey = process.env.mapKey;
 
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => {
-    console.log("DB Connected Successfully")
-})
-.catch(error => {
-    console.error("DB Connection Error", error);
-})
+mongoose
+    .connect(MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log("DB Connected Successfully");
+    })
+    .catch((error) => {
+        console.error("DB Connection Error", error);
+    });
 
 const store = new MongoDBStore({
     uri: process.env.mongoose_URI,
@@ -67,8 +68,8 @@ const petSchema = mongoose.Schema({
     zipCode: String,
     location: {
         type: {
-            type: String, 
-            enum: ["Point"], 
+            type: String,
+            enum: ["Point"],
             required: true,
         },
         coordinates: {
@@ -120,14 +121,14 @@ function getCoordinates(zipCode) {
                 data += chunk;
             });
             response.on("end", () => {
-                try{
+                try {
                     const locationData = JSON.parse(data);
                     let coordinates = [
                         locationData.results[0].geometry.location.lng,
                         locationData.results[0].geometry.location.lat,
                     ];
                     resolve(coordinates);
-                } catch (err){
+                } catch (err) {
                     reject(err);
                 }
             });
@@ -144,18 +145,18 @@ app.post("/api/signup", (req, res) => {
     let email = req.body.email;
     let zipCode = req.body.zipCode;
 
-    user.findOne({ $or: [{ email: email }, { username: username }] })
-    .then((foundUser) => {
-        if (foundUser) {
-            if (foundUser.email === email) {
-                res.status(409).json({
-                    error: "Account already exists with this email",
-                });
-            } else {
-                res.status(409).json({ error: "Username unavailable" });
+    user.findOne({ $or: [{ email: email }, { username: username }] }).then(
+        (foundUser) => {
+            if (foundUser) {
+                if (foundUser.email === email) {
+                    res.status(409).json({
+                        error: "Account already exists with this email",
+                    });
+                } else {
+                    res.status(409).json({ error: "Username unavailable" });
+                }
+                return;
             }
-            return;
-        }
 
             bcrypt.hash(password1, saltRounds, function (err, hash) {
                 if (err) {
@@ -173,9 +174,9 @@ app.post("/api/signup", (req, res) => {
                 newUser.save();
                 res.sendStatus(200);
             });
-        });
-    });
-
+        }
+    );
+});
 
 app.post("/api/signin", (req, res) => {
     let username = req.body.username;
@@ -213,14 +214,14 @@ app.post("/api/signin", (req, res) => {
 });
 
 app.post("/api/signout", (req, res) => {
-    req.session.destroy(function(error){
-        if(error){
-            console.log(error)
-            res.status(500).json({ error: "Server error"})
+    req.session.destroy(function (error) {
+        if (error) {
+            console.log(error);
+            res.status(500).json({ error: "Server error" });
         } else {
-            res.status(200).json({ message: "Successfully signed out"})
+            res.status(200).json({ message: "Successfully signed out" });
         }
-    })
+    });
 });
 
 app.post("/api/like", (req, res) => {
@@ -281,55 +282,54 @@ app.get("/api/randomPet", async (req, res) => {
 
     let mongoQuery = req.session.filters || {};
 
-    if(req.session.isLoggedIn){
+    if (req.session.isLoggedIn) {
         user.findOne({ email: userEmail })
-        .then((user) => {
-            let lastSeenPetDate = user.lastSeenPetDate;
-            if (lastSeenPetDate === undefined) {
-                lastSeenPetDate = new Date(0);
-            }
+            .then((user) => {
+                let lastSeenPetDate = user.lastSeenPetDate;
+                if (lastSeenPetDate === undefined) {
+                    lastSeenPetDate = new Date(0);
+                }
 
-            pet.find({
-                ...mongoQuery,
-                createdAt: { $gt: lastSeenPetDate },
-                location: {
-                    $geoWithin: {
-                        $centerSphere: [userLocation, radiusInRadians],
+                pet.find({
+                    ...mongoQuery,
+                    createdAt: { $gt: lastSeenPetDate },
+                    location: {
+                        $geoWithin: {
+                            $centerSphere: [userLocation, radiusInRadians],
+                        },
                     },
-                },
-            })
-                .sort("createdAt")
-                .limit(1)
-                .then((foundPet) => {
-                    if (foundPet.length > 0) {
-                        res.json(foundPet[0]);
-                    } else {
-                        res.json({
-                            name: "You've seen all of our pets! Check back later",
-                        });
-                    }
                 })
-                .catch((error) => {
-                    console.log("error sending pet", error);
-                });
-        })
-        .catch((error) => {
-            console.log("error finding user", error);
-        });
+                    .sort("createdAt")
+                    .limit(1)
+                    .then((foundPet) => {
+                        if (foundPet.length > 0) {
+                            res.json(foundPet[0]);
+                        } else {
+                            res.json({
+                                name: "You've seen all of our pets! Check back later",
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.log("error sending pet", error);
+                    });
+            })
+            .catch((error) => {
+                console.log("error finding user", error);
+            });
     } else {
         pet.find({})
-        .sort("createdAt")
-        .then((foundPet) => {
-            if (foundPet.length > 0) {
+            .sort("createdAt")
+            .then((foundPet) => {
+                if (foundPet.length > 0) {
                     res.json(foundPet[signedOutPetCount]);
-            } else {
-                res.json({
-                    name: "You've seen all of our pets! Check back later",
-                });
-            }
-        })
+                } else {
+                    res.json({
+                        name: "You've seen all of our pets! Check back later",
+                    });
+                }
+            });
     }
-
 });
 
 app.get("/api/getLikedPets", (req, res) => {
@@ -381,7 +381,7 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
     const blobStream = blob.createWriteStream();
 
     blobStream.on("error", (error) => {
-        res.status(500).json({error: error});
+        res.status(500).json({ error: error });
     });
 
     blobStream.on("finish", async () => {
@@ -417,22 +417,22 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
                         res.sendStatus(200);
                     }
                 );
-            req.session.petSpecies = "";
-            req.session.petName = "";
-            req.session.petSex = "";
-            req.session.petBreed = "";
-            req.session.petGoodWithKids = null;
-            req.session.petGoodWithCats = null;
-            req.session.petGoodWithDogs = null;
-            req.session.petDescription = "";
-            req.session.petZipCode = ""
-            req.session.petContactName = ""
-            req.session.petContactPhone = ""
-            req.session.petContactEmail = ""
+                req.session.petSpecies = "";
+                req.session.petName = "";
+                req.session.petSex = "";
+                req.session.petBreed = "";
+                req.session.petGoodWithKids = null;
+                req.session.petGoodWithCats = null;
+                req.session.petGoodWithDogs = null;
+                req.session.petDescription = "";
+                req.session.petZipCode = "";
+                req.session.petContactName = "";
+                req.session.petContactPhone = "";
+                req.session.petContactEmail = "";
             });
         } catch (error) {
             console.error(error);
-            res.status(500).json({error: "Error occurred"});
+            res.status(500).json({ error: "Error occurred" });
         }
     });
     blobStream.end(req.file.buffer);
@@ -442,25 +442,25 @@ app.post("/api/sendFilters", (req, res) => {
     let filters = req.body.filters || {};
     let mongoQuery = {};
 
-    if(filters.zipCode){
+    if (filters.zipCode) {
         req.session.zipCode = filters.zipCode;
     }
 
-    if (filters.species){
+    if (filters.species) {
         mongoQuery.species = filters.species;
-    };
-
-    if(filters.sex){
-        mongoQuery.sex = filters.sex;
-    };
-
-    if(filters.age && filters.age.length > 0) {
-        mongoQuery.age = { $in: filters.age};
     }
 
-    if(filters.goodWith && filters.goodWith.length > 0){
+    if (filters.sex) {
+        mongoQuery.sex = filters.sex;
+    }
+
+    if (filters.age && filters.age.length > 0) {
+        mongoQuery.age = { $in: filters.age };
+    }
+
+    if (filters.goodWith && filters.goodWith.length > 0) {
         filters.goodWith.forEach((item) => {
-            switch(item){
+            switch (item) {
                 case "Cats":
                     mongoQuery.goodWithCats = true;
                     break;
@@ -469,14 +469,14 @@ app.post("/api/sendFilters", (req, res) => {
                     break;
                 case "Kids":
                     mongoQuery.goodWithKids = true;
-                    break;            
+                    break;
             }
-        })
-    }   
+        });
+    }
     req.session.filters = mongoQuery;
     console.log(mongoQuery, req.session.zipCode);
     res.sendStatus(200);
-})
+});
 
 app.get("/api/checkLogin", function (req, res) {
     if (req.session.isLoggedIn) {

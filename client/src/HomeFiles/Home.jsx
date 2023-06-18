@@ -3,7 +3,6 @@ import "./home.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Card from "./Card";
-import axios from "axios";
 import SideBar from "./SideBar";
 import Footer from "../components/footer";
 
