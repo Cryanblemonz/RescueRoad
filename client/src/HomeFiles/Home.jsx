@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./home.css";
+import "./Home.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Card from "./Card";
