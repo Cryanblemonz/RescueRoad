@@ -1,0 +1,16 @@
+.no-match-div{
+        text-align: center;
+}
+
+.no-match-div h1{
+        margin: 30px auto;
+        font-size: 4rem;
+}
+
+.no-match-img{
+        border-radius: 5px;
+}
+
+.no-match-buttons{
+        padding: 25px;
+}

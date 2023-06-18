@@ -5,6 +5,7 @@ import Upload from "./UploadFiles/Upload"
 import LikedPets from "./LikedPetsFiles/LikedPets";
 import ImageUpload from './imageUploadFiles/ImageUpload';
 import { createTheme, ThemeProvider } from '@mui/material';
+import NoMatch from "./NoMatch/NoMatch";
 
 
 const theme = createTheme({
@@ -32,18 +33,16 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
-            </Routes>
-            <Routes>
+
                 <Route path="/Signup" element={<Signup />} />
-            </Routes>
-            <Routes>
+
                 <Route path="/Upload" element={<Upload />} />
-            </Routes>
-            <Routes>
+
                 <Route path="/imageUpload" element={<ImageUpload />} />
-            </Routes>
-            <Routes>
+
                 <Route path="/LikedPets" element={<LikedPets />} />
+
+                <Route path="*" element={<NoMatch />} />
             </Routes>
         </Router>
         </ThemeProvider>

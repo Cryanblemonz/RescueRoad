@@ -4,9 +4,6 @@ import SwipeButton from "../components/SwipeButton";
 import axios from "axios";
 import "./Home.css";
 import ReactCardFlip from "react-card-flip";
-import Input from "../components/Input";
-import Fab from "@mui/material/Fab";
-import SendIcon from "@mui/icons-material/Send";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 let i = 0;
 import { FaPaw } from "react-icons/fa";
@@ -14,16 +11,14 @@ import { FaPaw } from "react-icons/fa";
 const styleForPaw = {
     height: "200px",
     width: "200px",
-    transform: "rotate(-10deg)"
-}
+    transform: "rotate(-10deg)",
+};
 
 const styleForBackPaw = {
     height: "200px",
     width: "200px",
-    transform: "rotate(10deg)"
-}
-
-
+    transform: "rotate(10deg)",
+};
 
 function Card() {
     const [imageUrl, setImageUrl] = useState(null);
@@ -114,19 +109,37 @@ function Card() {
     }
 
     function fetchNewImage() {
-            if (i > 0) {
+        if (i > 0) {
             axios.get("/api/randomPet").then((response) => {
                 api.start({ x: 0, opacity: 1 });
                 setLoading(false);
                 setImageLoading(false);
-                if(response){
+                if (response) {
                     setName(response.data.name);
                     setSex(response.data.sex);
                     setImageUrl(response.data.img);
                     setBreed(response.data.breed);
-                    setGoodWithCats(response.data.goodWithCats === true ? "Good with cats" : response.data.goodWithCats === undefined ? null : "Not good with cats");
-                    setGoodWithKids(response.data.goodWithKids === true ? "Good with kids" : response.data.goodWithCats === undefined ? null : "Not good with kids");
-                    setGoodWithDogs(response.data.goodWithDogs === true ? "Good with dogs" : response.data.goodWithCats === undefined ? null : "Not good with dogs");
+                    setGoodWithCats(
+                        response.data.goodWithCats === true
+                            ? "Good with cats"
+                            : response.data.goodWithCats === undefined
+                            ? null
+                            : "Not good with cats"
+                    );
+                    setGoodWithKids(
+                        response.data.goodWithKids === true
+                            ? "Good with kids"
+                            : response.data.goodWithCats === undefined
+                            ? null
+                            : "Not good with kids"
+                    );
+                    setGoodWithDogs(
+                        response.data.goodWithDogs === true
+                            ? "Good with dogs"
+                            : response.data.goodWithCats === undefined
+                            ? null
+                            : "Not good with dogs"
+                    );
                     setAge(response.data.age);
                     setDescription(response.data.description);
                     setZipCode(response.data.zipCode);
@@ -171,9 +184,11 @@ function Card() {
     return (
         <div className="card-div">
             <h1 className="petName-lg">{name ? name : "Lets do this!"}</h1>
-            {!isLoggedIn && <p className="not-logged-in-message">Sign up / sign in to save your liked pets!</p> }
-            { name == "You've seen all of our pets! Check back later" && <em><p className="upload-message">Or upload a pet of your own...</p></em> }
-
+            {!isLoggedIn && (
+                <p className="not-logged-in-message">
+                    Sign up / sign in to save your liked pets!
+                </p>
+            )}
             <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
                 <animated.div style={props} ref={props}>
                     <div className="card" onClick={handleFlipClick}>
@@ -181,12 +196,17 @@ function Card() {
                             {name ? name : "Lets do this!"}
                         </h1>
                         {imageUrl && <img src={imageUrl} alt="Random Cat" />}
-                        { name !== "You've seen all of our pets! Check back later" ? <hr
-                            style={{
-                                width: "20%",
-                                borderWidth: "8px",
-                                borderStyle: "dotted none none none",
-                            }}></hr> : <FaPaw style={styleForPaw}/>}
+                        {name !==
+                        "You've seen all of our pets! Check back later" ? (
+                            <hr
+                                style={{
+                                    width: "20%",
+                                    borderWidth: "8px",
+                                    borderStyle: "dotted none none none",
+                                }}></hr>
+                        ) : (
+                            <FaPaw style={styleForPaw} />
+                        )}
                         <div
                             className="good-with-info"
                             style={{
@@ -268,15 +288,25 @@ function Card() {
                             </p>
                         )}
                     </div>
-                    { name !== "You've seen all of our pets! Check back later" ? 
-                    <hr
-                        style={{
-                            width: "30%",
-                            borderWidth: "8px",
-                            borderStyle: "dotted none none none",
-                            margin: "0 auto 10px auto",
-                        }}></hr> : <FaPaw onClick={handleFlipClick} style={styleForBackPaw}/>}
-                    { name !== "You've seen all of our pets! Check back later" &&  <h3>Contact</h3> }
+                    {name !==
+                    "You've seen all of our pets! Check back later" ? (
+                        <hr
+                            style={{
+                                width: "30%",
+                                borderWidth: "8px",
+                                borderStyle: "dotted none none none",
+                                margin: "0 auto 10px auto",
+                            }}></hr>
+                    ) : (
+                        <FaPaw
+                            onClick={handleFlipClick}
+                            style={styleForBackPaw}
+                        />
+                    )}
+                    {name !==
+                        "You've seen all of our pets! Check back later" && (
+                        <h3>Contact</h3>
+                    )}
 
                     <div className="contact" onClick={handleFlipClick}>
                         {zipCode && (
@@ -308,24 +338,20 @@ function Card() {
                             }}
                         />
                     </div>
-
-
                 </div>
-                
             </ReactCardFlip>
-            {name !== "You've seen all of our pets! Check back later" &&
+            {name !== "You've seen all of our pets! Check back later" && (
                 <SwipeButton
-                leftFunction={() => {
-                    dislike();
-                    loadImgLeft();
-                }}
-                rightFunction={() => {
-                    like();
-                    loadImgRight();
-                }}
-            />
-            }
-
+                    leftFunction={() => {
+                        dislike();
+                        loadImgLeft();
+                    }}
+                    rightFunction={() => {
+                        like();
+                        loadImgRight();
+                    }}
+                />
+            )}
         </div>
     );
 }
