@@ -5,7 +5,7 @@ import axios from "axios";
 import "./Home.css";
 import ReactCardFlip from "react-card-flip";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-let i = 0;
+let i = 1;
 import { FaPaw } from "react-icons/fa";
 
 const styleForPaw = {
