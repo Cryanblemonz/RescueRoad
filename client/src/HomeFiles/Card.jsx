@@ -111,7 +111,7 @@ function Card() {
 
     function fetchNewImage() {
         if (i > 0) {
-            axios.get("https://rescue-road-be.vercel.app/api/randomPet"), { withCredentials: true }.then((response) => {
+            axios.get("https://rescue-road-be.vercel.app/api/randomPet").then((response) => {
                 api.start({ x: 0, opacity: 1 });
                 setLoading(false);
                 setImageLoading(false);
