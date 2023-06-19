@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import PetsOutlinedIcon from "@mui/icons-material/PetsOutlined";
 import { Link } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 
 const styleforButton = {
@@ -35,7 +36,7 @@ const styleForSmallScreenButton = {
 
 function ResponsiveAppBar() {
     const signout = () => {
-        axios.post("https://rescue-road-be.vercel.app/api/signout");
+        axios.post("/api/signout");
     };
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -44,7 +45,7 @@ function ResponsiveAppBar() {
 
     useEffect(() => {
         axios
-            .get("https://rescue-road-be.vercel.app/api/checkLogin", { withCredentials: true })
+            .get("/api/checkLogin", { withCredentials: true })
             .then((res) => {
                 setIsLoggedIn(res.data.isLoggedIn);
             })

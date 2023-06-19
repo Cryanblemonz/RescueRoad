@@ -20,10 +20,9 @@ function Upload() {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     useEffect(() => {
-        axios.get('https://rescue-road-be.vercel.app/api/checkLogin', {withCredentials: true})
+        axios.get('/api/checkLogin', {withCredentials: true})
         .then(res => {
           setIsLoggedIn(res.data.isLoggedIn);
-          console.log(res.data.isLoggedIn);
         })
         .catch(err => {
           console.error(err);

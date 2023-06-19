@@ -69,7 +69,7 @@ function SideBar() {
 
     async function handleSubmit(event) {
         try {
-            const response = await axios.post("https://rescue-road-be.vercel.app/api/sendFilters", {
+            const response = await axios.post("/api/sendFilters",  {withCredentials: true}, {
                 filters: {
                     zipCode: zipCodeFilter,
                     species: speciesFilter,

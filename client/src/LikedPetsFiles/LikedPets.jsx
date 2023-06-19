@@ -30,7 +30,7 @@ function LikedPets() {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
     const getLikedPets = () => {
-        axios.get("https://rescue-road-be.vercel.app/api/getLikedPets").then((response) => {
+        axios.get("/api/getLikedPets",  {withCredentials: true}).then((response) => {
             setList(response.data);
         });
     };

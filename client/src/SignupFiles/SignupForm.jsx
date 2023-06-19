@@ -65,7 +65,7 @@ function SignupForm(props) {
         }
 
         try {
-            const response = await axios.post("https://rescue-road-be.vercel.app/api/signup", { username, password1, email, zipCode });
+            const response = await axios.post("/api/signup",  {withCredentials: true}, { username, password1, email, zipCode });
             setErrors({});
             fade();
 

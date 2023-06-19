@@ -52,7 +52,7 @@ function UploadForm(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post("https://rescue-road-be.vercel.app/api/upload", {
+            const response = await axios.post("/api/upload", {withCredentials: true}, {
                 species,
                 name,
                 breed,

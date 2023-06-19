@@ -1,14 +1,20 @@
 {
-        "builds": [
-                {
-                        "src": "*.js",
-                        "use": "@vercel/node"
-                }
+        "rewrites": [
+            {
+                "source": "/api/(.*)",
+                "destination": "https://rescue-road-be.vercel.app/api/$1"
+            },
+            {
+                "source": "/(.*)",
+                "destination": "/"
+            }
         ],
-        "routes": [
-                {
-                        "src":"/(.*)",
-                        "dest": "/"
-                }
+    
+        "builds": [
+            {
+                "src": "*.js",
+                "use": "@vercel/node"
+            }
         ]
-}
+    }
+    
