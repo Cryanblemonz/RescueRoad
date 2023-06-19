@@ -65,7 +65,7 @@ function SignupForm(props) {
         }
 
         try {
-            const response = await axios.post("https://rescue-road-backend.onrender.com/api/signup",  {withCredentials: true}, { username, password1, email, zipCode });
+            const response = await axios.post("https://rescue-road-backend.onrender.com/api/signup", { username, password1, email, zipCode }, {withCredentials: true});
             setErrors({});
             fade();
 
