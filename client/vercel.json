@@ -3,10 +3,6 @@
             {
                 "source": "/api/(.*)",
                 "destination": "https://rescue-road-be.vercel.app/api/$1"
-            },
-            {
-                "source": "/(.*)",
-                "destination": "/"
             }
         ]    
 
