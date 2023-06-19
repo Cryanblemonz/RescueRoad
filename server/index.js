@@ -7,7 +7,7 @@ const app = express();
 app.use(
     cors({
         credentials: true,
-        origin: "*",
+        origin: "https://rescue-road-frontend.onrender.com",
         methods: ["POST", "GET"],
     })
 );
