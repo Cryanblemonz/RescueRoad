@@ -1,8 +1,8 @@
 {
         "rewrites": [
             {
-                "source": "/api/(.*)",
-                "destination": "https://rescue-road-be.vercel.app/api/$1"
+                "source": "/api/:path*",
+                "destination": "https://rescue-road-be.vercel.app/:path*"
             }
         ]    
 
