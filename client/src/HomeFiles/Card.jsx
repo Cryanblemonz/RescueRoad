@@ -41,6 +41,7 @@ function Card() {
     const [contactPhone, setContactPhone] = useState("");
     const [props, api] = useSpring(() => ({ x: 0, opacity: 1 }));
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    axios.defaults.withCredentials = true;
 
     useEffect(() => {
         axios
