@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const PORT = process.env.PORT || 3001;
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose");
@@ -487,7 +486,11 @@ app.get("/api/checkLogin", function (req, res) {
 });
 
 //----------Listener-------------
+if(process.env.PORT){
+    app.listen(process.env.PORT, () => {
+        console.log(`Server listening on ${process.env.PORT}`);
+    });
+}
 
-app.listen(PORT, () => {
-    console.log(`Server listening on ${PORT}`);
-});
+module.exports = app;
+
