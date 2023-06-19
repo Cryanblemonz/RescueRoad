@@ -45,7 +45,7 @@ function Card() {
 
     useEffect(() => {
         axios
-            .get("/api/checkLogin", { withCredentials: true })
+            .get("https://rescue-road-backend.onrender.com/api/checkLogin", { withCredentials: true })
             .then((res) => {
                 setIsLoggedIn(res.data.isLoggedIn);
             })
@@ -110,7 +110,7 @@ function Card() {
     }
 
     function fetchNewImage() {
-            axios.get("/api/randomPet").then((response) => {
+            axios.get("https://rescue-road-backend.onrender.com/api/randomPet").then((response) => {
                 api.start({ x: 0, opacity: 1 });
                 setLoading(false);
                 setImageLoading(false);
@@ -153,7 +153,7 @@ function Card() {
 
     const like = async (event) => {
         try {
-            const response = await axios.post("/api/like", {
+            const response = await axios.post("https://rescue-road-backend.onrender.com/api/like", {
                 id,
             });
         } catch (error) {
@@ -163,7 +163,7 @@ function Card() {
 
     const dislike = async (event) => {
         try {
-            const response = await axios.post("/api/dislike", {
+            const response = await axios.post("https://rescue-road-backend.onrender.com/api/dislike", {
                 id,
             });
         } catch (error) {
