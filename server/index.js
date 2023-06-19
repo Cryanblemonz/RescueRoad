@@ -4,7 +4,13 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose");
 const app = express();
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(
+    cors({
+        credentials: true,
+        origin: "https://rescue-road-fe.vercel.app/",
+        methods: ["POST", "GET"],
+    })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 require("dotenv").config();
@@ -486,11 +492,10 @@ app.get("/api/checkLogin", function (req, res) {
 });
 
 //----------Listener-------------
-if(process.env.PORT){
+if (process.env.PORT) {
     app.listen(process.env.PORT, () => {
         console.log(`Server listening on ${process.env.PORT}`);
     });
 }
 
 module.exports = app;
-
