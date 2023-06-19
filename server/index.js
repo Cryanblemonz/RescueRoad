@@ -50,8 +50,10 @@ app.use(
         saveUninitialized: false,
         store: store,
         cookie: {
+            httpOnly: true,
             secure: true,
-            sameSite: "lax",
+            sameSite: "none",
+            maxAge: 1000 * 60 * 48
         },
     })
 );
