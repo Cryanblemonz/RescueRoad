@@ -35,7 +35,7 @@ const styleForSmallScreenButton = {
 
 function ResponsiveAppBar() {
     const signout = () => {
-        axios.post("/api/signout");
+        axios.post("https://rescue-road-be.vercel.app/api/signout");
     };
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -44,7 +44,7 @@ function ResponsiveAppBar() {
 
     useEffect(() => {
         axios
-            .get("/api/checkLogin", { withCredentials: true })
+            .get("https://rescue-road-be.vercel.app/api/checkLogin", { withCredentials: true })
             .then((res) => {
                 setIsLoggedIn(res.data.isLoggedIn);
             })

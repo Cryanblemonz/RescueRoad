@@ -43,7 +43,7 @@ function ImageUpload() {
         formData.append("file", file);
 
         try {
-            await axios.post("/api/imageUpload", formData, {
+            await axios.post("https://rescue-road-be.vercel.app/api/imageUpload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
