@@ -31,7 +31,7 @@ function SigninForm(props) {
                     password
                 }, { withCredentials: true });
                 if (response.data.message === "success") {
-                    window.location.href = "/";
+                    // window.location.href = "/";
                 } else {
                     console.error("Login failed");
                 }
