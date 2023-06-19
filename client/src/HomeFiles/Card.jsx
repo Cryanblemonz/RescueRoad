@@ -110,7 +110,6 @@ function Card() {
     }
 
     function fetchNewImage() {
-        if (i > 0) {
             axios.get("/api/randomPet").then((response) => {
                 api.start({ x: 0, opacity: 1 });
                 setLoading(false);
@@ -150,8 +149,6 @@ function Card() {
                     setId(response.data._id);
                 }
             });
-        }
-        i++;
     }
 
     const like = async (event) => {

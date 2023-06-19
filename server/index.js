@@ -7,7 +7,7 @@ const app = express();
 app.use(
     cors({
         credentials: true,
-        origin: "https://rescue-road-front-end.vercel.app/",
+        origin: "https://rescue-road-front-end.vercel.app",
         methods: ["POST", "GET"],
     })
 );
