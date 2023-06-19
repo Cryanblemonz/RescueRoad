@@ -7,7 +7,7 @@ const app = express();
 app.use(
     cors({
         credentials: true,
-        origin: "https://rescue-road-front-end.vercel.app/",
+        origin: "https://rescue-road-front-end.vercel.app",
         methods: ["POST", "GET"],
     })
 );
@@ -143,6 +143,10 @@ function getCoordinates(zipCode) {
         });
     });
 }
+
+app.get("/", (req, res)=>{
+    res.send(<h1>Hello</h1>);
+})
 
 app.post("/api/signup", (req, res) => {
     let username = req.body.username;
