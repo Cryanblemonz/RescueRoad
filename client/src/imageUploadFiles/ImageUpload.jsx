@@ -43,11 +43,11 @@ function ImageUpload() {
         formData.append("file", file);
 
         try {
-            await axios.post("https://rescue-road-backend.onrender.com/api/imageUpload",  {withCredentials: true}, formData, {
+            await axios.post("https://rescue-road-backend.onrender.com/api/imageUpload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
-            });
+            }, {withCredentials: true});
             console.log("File uploaded successfully");
             window.location.href = "/"
         } catch (err) {

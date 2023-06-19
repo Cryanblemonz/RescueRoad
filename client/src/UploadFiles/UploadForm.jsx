@@ -52,7 +52,7 @@ function UploadForm(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post("/api/upload", {withCredentials: true}, {
+            const response = await axios.post("/api/upload", {
                 species,
                 name,
                 breed,
@@ -66,7 +66,7 @@ function UploadForm(props) {
                 contactPhone,
                 contactEmail,
                 sex,
-            });
+            }, {withCredentials: true});
             window.location.href = "/imageupload";
         } catch (error) {
             console.error("Error uploading pet", error);

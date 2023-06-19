@@ -69,7 +69,7 @@ function SideBar() {
 
     async function handleSubmit(event) {
         try {
-            const response = await axios.post("https://rescue-road-backend.onrender.com/api/sendFilters",  {withCredentials: true}, {
+            const response = await axios.post("https://rescue-road-backend.onrender.com/api/sendFilters", {
                 filters: {
                     zipCode: zipCodeFilter,
                     species: speciesFilter,
@@ -77,7 +77,7 @@ function SideBar() {
                     age: ageFilter,
                     goodWith: goodWithFilter,
                 },
-            });
+            },  {withCredentials: true});
         } catch (error) {
             console.error(error);
         }
