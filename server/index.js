@@ -48,6 +48,8 @@ app.use(
         secret: "test",
         resave: false,
         saveUninitialized: false,
+        name: "rescueRoadCookie",
+        proxy: true,
         store: store,
         cookie: {
             httpOnly: true,
