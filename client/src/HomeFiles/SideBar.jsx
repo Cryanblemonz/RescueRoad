@@ -51,6 +51,9 @@ function SideBar() {
                 opacity: 1,
                 duration: 0.7,
                 ease: "back",
+            })
+            gsap.to(".sidebar-form", {
+                display: "inline",
             });
         } else {
             gsap.to("#sidebar", {
@@ -63,13 +66,16 @@ function SideBar() {
                 duration: 1,
                 delay: 0.1,
             });
+            gsap.to(".sidebar-form", {
+                display: "none"
+            })
         }
         setSidebarOpen(!sidebarOpen);
     }
 
     async function handleSubmit(event) {
         try {
-            const response = await axios.post("https://rescue-road-backend.onrender.com/api/sendFilters", {
+            const response = await axios.post("/api/sendFilters", {
                 filters: {
                     zipCode: zipCodeFilter,
                     species: speciesFilter,
@@ -95,7 +101,7 @@ function SideBar() {
                     <Input
                         variant="outlined"
                         label="Zip Code to see pets in"
-                        style={{ background: "#d4bdd4", width: "75%" }}
+                        style={{ background: "#d4bdd4", width: "75%", marginLeft: "15px" }}
                         inputFunction={(event) => {
                             setZipCodeFilter(event.target.value);
                         }}

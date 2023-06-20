@@ -17,7 +17,7 @@ function ImageUpload() {
     const [src, setSrc] = useState(null);
 
     useEffect(() => {
-        axios.get('https://rescue-road-backend.onrender.com/api/checkLogin', {withCredentials: true})
+        axios.get('/api/checkLogin', {withCredentials: true})
         .then(res => {
           setIsLoggedIn(res.data.isLoggedIn);
           console.log(res.data.isLoggedIn);
@@ -43,7 +43,7 @@ function ImageUpload() {
         formData.append("file", file);
 
         try {
-            await axios.post("https://rescue-road-backend.onrender.com/api/imageUpload", formData, {
+            await axios.post("/api/imageUpload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },

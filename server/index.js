@@ -4,13 +4,12 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose");
 const app = express();
-app.use(
-    cors({
-        credentials: true,
-        origin: ["https://rescue-road-frontend.onrender.com", "https://www.rescueroadpets.com"],
-        methods: ["POST", "GET"],
-    })
-);
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3001', // Replace with the origin of your frontend
+    methods: ['POST', 'GET'],
+}));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 require("dotenv").config();
@@ -43,22 +42,21 @@ const store = new MongoDBStore({
     collection: "mySessions",
 });
 
-app.use(
-    session({
-        secret: "supersecretcookiename4664566",
-        resave: false,
-        saveUninitialized: false,
-        name: "rescueRoadCookie",
-        proxy: true,
-        store: store,
-        cookie: {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 1000 * 60 * 48,
-        },
-    })
-);
+
+app.use(session({
+    secret: 'supersecretcookiename4664566',
+    resave: false,
+    saveUninitialized: false,
+    name: 'rescueRoadCookie',
+    store: store,
+    cookie: {
+        httpOnly: true,
+        secure: false, // Change this to false in development environment
+        sameSite: 'lax', // Change this to lax or strict
+        maxAge: 1000 * 60 * 48,
+    },
+}));
+
 
 // -----------SCHEMAS------------
 
@@ -147,10 +145,6 @@ function getCoordinates(zipCode) {
         });
     });
 }
-
-app.get("/", (req, res)=>{
-    res.send("<h1>Hello</h1>");
-})
 
 app.post("/api/signup", (req, res) => {
     let username = req.body.username;
@@ -497,6 +491,13 @@ app.get("/api/checkLogin", function (req, res) {
     } else {
         res.json({ isLoggedIn: false });
     }
+});
+
+
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/../client/dist/index.html'));
 });
 
 //----------Listener-------------
