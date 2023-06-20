@@ -56,7 +56,6 @@ app.use(
             secure: true,
             sameSite: "none",
             maxAge: 1000 * 60 * 48,
-            domain: ".rescueroadpets.com"
         },
     })
 );
