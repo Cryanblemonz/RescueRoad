@@ -51,7 +51,7 @@ app.use(session({
     store: store,
     cookie: {
         httpOnly: true,
-        secure: true, 
+        secure: false, 
         sameSite: 'lax',
         maxAge: 1000 * 60 * 48,
     },
@@ -369,7 +369,7 @@ app.post("/api/upload", async (req, res) => {
 });
 
 const storage = new Storage({
-    keyFilename: path.join(__dirname, process.env.gcKey),
+    keyFilename: path.join(__dirname, '../', process.env.gcKey),
     projectId: process.env.gcID,
 });
 
