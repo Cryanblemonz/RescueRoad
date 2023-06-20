@@ -46,14 +46,14 @@ const store = new MongoDBStore({
 app.use(
     session({
         secret: "test",
-        resave: false,
+        resave: true,
         saveUninitialized: false,
         name: "rescueRoadCookie",
         proxy: true,
         store: store,
         cookie: {
             httpOnly: true,
-            secure: false,
+            secure: true,
             sameSite: "none",
             maxAge: 1000 * 60 * 48
         },
