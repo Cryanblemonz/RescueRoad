@@ -45,7 +45,7 @@ const store = new MongoDBStore({
 
 app.use(
     session({
-        secret: "test",
+        secret: "supersecretcookiename4664566",
         resave: false,
         saveUninitialized: false,
         name: "rescueRoadCookie",
@@ -55,7 +55,8 @@ app.use(
             httpOnly: true,
             secure: true,
             sameSite: "none",
-            maxAge: 1000 * 60 * 48
+            maxAge: 1000 * 60 * 48,
+            domain: ".rescueroadpets.com"
         },
     })
 );
