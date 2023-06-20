@@ -12,7 +12,6 @@ app.use(cors({
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-require('dotenv').config({ path: __dirname + '/.env' })
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const multer = require("multer");
@@ -21,6 +20,7 @@ const { Storage } = require("@google-cloud/storage");
 const path = require("path");
 const https = require("https");
 let signedOutPetCount = 0;
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 const MONGODB_URI = process.env.mongoose_URI;
 const mapKey = process.env.mapKey;
@@ -492,7 +492,6 @@ app.get("/api/checkLogin", function (req, res) {
         res.json({ isLoggedIn: false });
     }
 });
-
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
