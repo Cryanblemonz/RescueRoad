@@ -51,8 +51,8 @@ app.use(session({
     store: store,
     cookie: {
         httpOnly: true,
-        secure: false, // Change this to false in development environment
-        sameSite: 'lax', // Change this to lax or strict
+        secure: true, 
+        sameSite: 'lax',
         maxAge: 1000 * 60 * 48,
     },
 }));
