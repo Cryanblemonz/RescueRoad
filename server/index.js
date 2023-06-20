@@ -12,7 +12,7 @@ app.use(cors({
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-require("dotenv").config();
+require('dotenv').config({ path: __dirname + '/.env' })
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const multer = require("multer");
