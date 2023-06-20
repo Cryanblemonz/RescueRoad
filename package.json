@@ -1,29 +1,29 @@
 {
     "dependencies": {
-        "dotenv": "^16.0.3",
-        "express": "^4.18.2",
+        "@emotion/react": "^11.11.0",
+        "@emotion/styled": "^11.11.0",
         "@google-cloud/storage": "^6.10.1",
+        "@mui/icons-material": "^5.11.16",
+        "@mui/material": "^5.13.0",
+        "axios": "^1.4.0",
         "bcrypt": "^5.1.0",
         "connect-mongodb-session": "^3.1.1",
         "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
         "express-session": "^1.17.3",
+        "gsap": "^3.11.5",
         "https": "^1.0.0",
         "mongodb": "^5.5.0",
         "mongoose": "^7.1.1",
         "multer": "^1.4.5-lts.1",
-        "uuid": "^9.0.0",
-        "@emotion/react": "^11.11.0",
-        "@emotion/styled": "^11.11.0",
-        "@mui/icons-material": "^5.11.16",
-        "@mui/material": "^5.13.0",
-        "axios": "^1.4.0",
-        "gsap": "^3.11.5",
         "react": "^18.2.0",
         "react-card-flip": "^1.2.0",
         "react-dom": "^18.2.0",
         "react-icons": "^4.8.0",
         "react-router-dom": "^6.11.2",
         "react-spring": "^9.7.1",
+        "uuid": "^9.0.0",
         "yup": "^1.2.0"
     },
     "devDependencies": {
@@ -47,10 +47,10 @@
     "version": "0.1.0",
     "type": "module",
     "scripts": {
-      "dev": "concurrently \"cd client && vite --port 3000\" \"cd server && node index.js\"",
-      "build": "cd client && vite build && cd ../server && npm install",
-      "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-      "preview": "vite preview",
-      "start": "node server/index.js"
+        "dev": "concurrently \"cd client && vite --port 3000\" \"cd server && node index.js\"",
+        "build": "cd client && vite build && cd ../server && npm install",
+        "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+        "preview": "vite preview",
+        "start": "node server/index.js"
     }
 }
