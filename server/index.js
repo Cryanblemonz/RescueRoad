@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:3001', 
+    origin: ['https://rescue-road.onrender.com', 'https://www.rescueroadpets.com'],
     methods: ['POST', 'GET'],
 }));
 
