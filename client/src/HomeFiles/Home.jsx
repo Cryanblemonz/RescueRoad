@@ -4,8 +4,7 @@ import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import { createTheme, ThemeProvider } from "@mui/material";
 import Card from "./Card";
 import SideBar from "./SideBar";
-import Footer from "../components/footer";
-import axios from "axios";
+
 
 const theme = createTheme({
     palette: {
