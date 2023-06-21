@@ -29,12 +29,14 @@ function SigninForm(props) {
                 const response = await axios.post("/api/signin", {
                     username,
                     password
-                }, { withCredentials: true });
-                if (response.data.message === "success") {
-                    window.location.href = "/";
-                } else {
-                    console.error("Login failed");
-                }
+                }, { withCredentials: true })
+                .then(() => {
+                    if (response.data.message === "success") {
+                        window.location.href = "/";
+                   } else {
+                       console.error("Login failed");
+                   }
+                })
             } catch (error) {
                 if(error.response && error.response.status === 401) {
                     setErrors({form: error.response.data.error}) 
