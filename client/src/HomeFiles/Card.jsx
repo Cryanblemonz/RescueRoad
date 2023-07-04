@@ -146,7 +146,7 @@ function Card() {
                     setContactEmail(response.data.contactEmail);
                     setContactPhone(response.data.contactPhone);
                     setId(response.data._id)
-                    api.start({ x: 0, opacity: 1, delay: 0.3 });
+                    api.start({ x: 0, opacity: 1, delay: 0.5 });
                 }
             });
     }
