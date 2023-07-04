@@ -8,12 +8,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 const theme = createTheme({
-    palette: {
-        primary: {
-            main: "#fd8989",
-        },
-        secondary: { main: "#fff" },
-    },
     breakpoints: {
         values: {
             xs: 0,

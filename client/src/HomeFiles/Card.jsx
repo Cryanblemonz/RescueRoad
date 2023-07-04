@@ -111,7 +111,6 @@ function Card() {
 
     function fetchNewImage() {
             axios.get("/api/randomPet").then((response) => {
-                api.start({ x: 0, opacity: 1 });
                 setLoading(false);
                 setImageLoading(false);
                 if (response) {
@@ -146,7 +145,8 @@ function Card() {
                     setContactName(response.data.contactName);
                     setContactEmail(response.data.contactEmail);
                     setContactPhone(response.data.contactPhone);
-                    setId(response.data._id);
+                    setId(response.data._id)
+                    api.start({ x: 0, opacity: 1, delay: 0.3 });
                 }
             });
     }
