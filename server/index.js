@@ -369,7 +369,7 @@ app.post("/api/upload", async (req, res) => {
 });
 
 const storage = new Storage({
-    keyFilename: path.join(__dirname, '../', process.env.gcKey),
+    keyFilename: path.join(__dirname, './', process.env.gcKey),
     projectId: process.env.gcID,
 });
 
@@ -383,6 +383,13 @@ const upload = multer({
     },
 });
 
+const vision = require('@google-cloud/vision');
+const client = new vision.ImageAnnotatorClient({
+    keyFilename: path.join(__dirname, './', process.env.gcKey),
+    projectId: process.env.gcID,
+});
+
+
 app.post("/api/imageUpload", upload.single("file"), (req, res) => {
     const blob = bucket.file(Date.now() + path.extname(req.file.originalname));
     const blobStream = blob.createWriteStream();
@@ -394,6 +401,19 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
     blobStream.on("finish", async () => {
         try {
             const imageURL = `https://storage.googleapis.com/${bucketName}/${blob.name}`;
+            const [result] = await client.labelDetection(imageURL);
+            const labels = result.labelAnnotations;
+            let animalDetected = false;
+
+            labels.forEach(label => {
+                if (label.description.toLowerCase() === "cat" || label.description.toLowerCase() === "dog") {
+                    animalDetected = true;
+                }
+            });
+
+            if (!animalDetected) {
+                throw new Error("Uploaded image does not contain a cat or dog.");
+            }
             const petCoordinates = await getCoordinates(req.session.petZipCode);
             const newPet = new pet({
                 species: req.session.petSpecies,

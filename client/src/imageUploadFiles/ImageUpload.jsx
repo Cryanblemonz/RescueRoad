@@ -17,16 +17,16 @@ function ImageUpload() {
     const [src, setSrc] = useState(null);
 
     useEffect(() => {
-        axios.get('/api/checkLogin', {withCredentials: true})
-        .then(res => {
-          setIsLoggedIn(res.data.isLoggedIn);
-          console.log(res.data.isLoggedIn);
-        })
-        .catch(err => {
-          console.error(err);
-        })
-      }, []);
-
+        axios
+            .get("/api/checkLogin", { withCredentials: true })
+            .then((res) => {
+                setIsLoggedIn(res.data.isLoggedIn);
+                console.log(res.data.isLoggedIn);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }, []);
 
     const onFileChange = (event) => {
         setFile(event.target.files[0]);
@@ -43,13 +43,18 @@ function ImageUpload() {
         formData.append("file", file);
 
         try {
-            await axios.post("/api/imageUpload", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
+            await axios.post(
+                "/api/imageUpload",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
                 },
-            }, {withCredentials: true});
+                { withCredentials: true }
+            );
             console.log("File uploaded successfully");
-            window.location.href = "/"
+            window.location.href = "/";
         } catch (err) {
             console.log("Error uploading", err);
         }
@@ -72,8 +77,7 @@ function ImageUpload() {
                     </Button>
                 </FormControl>
             </form>
-
-        </div> 
+        </div>
     );
 }
 
