@@ -15,6 +15,7 @@ function ImageUpload() {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [file, setFile] = useState(null);
     const [src, setSrc] = useState(null);
+    const [uploadError, setUploadError] = useState("");
 
     useEffect(() => {
         axios
@@ -55,8 +56,13 @@ function ImageUpload() {
             );
             console.log("File uploaded successfully");
             window.location.href = "/";
-        } catch (err) {
-            console.log("Error uploading", err);
+        } catch (error) {
+            if (error.response && error.response.status === 406) {
+                console.log(error.response.data.error);
+                setUploadError(error.response.data.error);
+            } else {
+                console.error('Error uploading', error);
+            }
         }
     };
 
@@ -75,6 +81,7 @@ function ImageUpload() {
                         style={styleforButton}>
                         Upload
                     </Button>
+                    {uploadError && <p className="error">{uploadError}</p>}
                 </FormControl>
             </form>
         </div>

@@ -4,11 +4,16 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose");
 const app = express();
-app.use(cors({
-    credentials: true,
-    origin: ['https://rescue-road.onrender.com', 'https://www.rescueroadpets.com'],
-    methods: ['POST', 'GET'],
-}));
+app.use(
+    cors({
+        credentials: true,
+        origin: [
+            "https://rescue-road.onrender.com",
+            "https://www.rescueroadpets.com",
+        ],
+        methods: ["POST", "GET"],
+    })
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -20,7 +25,7 @@ const { Storage } = require("@google-cloud/storage");
 const path = require("path");
 const https = require("https");
 let signedOutPetCount = 0;
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
 
 const MONGODB_URI = process.env.mongoose_URI;
 const mapKey = process.env.mapKey;
@@ -42,21 +47,21 @@ const store = new MongoDBStore({
     collection: "mySessions",
 });
 
-
-app.use(session({
-    secret: 'supersecretcookiename4664566',
-    resave: false,
-    saveUninitialized: false,
-    name: 'rescueRoadCookie',
-    store: store,
-    cookie: {
-        httpOnly: true,
-        secure: false, 
-        sameSite: 'lax',
-        maxAge: 1000 * 60 * 48,
-    },
-}));
-
+app.use(
+    session({
+        secret: "supersecretcookiename4664566",
+        resave: false,
+        saveUninitialized: false,
+        name: "rescueRoadCookie",
+        store: store,
+        cookie: {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 1000 * 60 * 48,
+        },
+    })
+);
 
 // -----------SCHEMAS------------
 
@@ -369,7 +374,7 @@ app.post("/api/upload", async (req, res) => {
 });
 
 const storage = new Storage({
-    keyFilename: path.join(__dirname, './', process.env.gcKey),
+    keyFilename: path.join(__dirname, "./", process.env.gcKey),
     projectId: process.env.gcID,
 });
 
@@ -383,12 +388,11 @@ const upload = multer({
     },
 });
 
-const vision = require('@google-cloud/vision');
+const vision = require("@google-cloud/vision");
 const client = new vision.ImageAnnotatorClient({
-    keyFilename: path.join(__dirname, './', process.env.gcKey),
+    keyFilename: path.join(__dirname, "./", process.env.gcKey),
     projectId: process.env.gcID,
 });
-
 
 app.post("/api/imageUpload", upload.single("file"), (req, res) => {
     const blob = bucket.file(Date.now() + path.extname(req.file.originalname));
@@ -405,58 +409,66 @@ app.post("/api/imageUpload", upload.single("file"), (req, res) => {
             const labels = result.labelAnnotations;
             let animalDetected = false;
 
-            labels.forEach(label => {
-                if (label.description.toLowerCase() === "cat" || label.description.toLowerCase() === "dog") {
+            labels.forEach((label) => {
+                if (
+                    label.description.toLowerCase() === "cat" ||
+                    label.description.toLowerCase() === "dog"
+                ) {
                     animalDetected = true;
                 }
             });
 
             if (!animalDetected) {
-                throw new Error("Uploaded image does not contain a cat or dog.");
-            }
-            const petCoordinates = await getCoordinates(req.session.petZipCode);
-            const newPet = new pet({
-                species: req.session.petSpecies,
-                name: req.session.petName,
-                sex: req.session.petSex,
-                breed: req.session.petBreed,
-                age: req.session.petAge,
-                goodWithKids: req.session.petGoodWithKids,
-                goodWithCats: req.session.petGoodWithCats,
-                goodWithDogs: req.session.petGoodWithDogs,
-                description: req.session.petDescription,
-                zipCode: req.session.petZipCode,
-                contactName: req.session.petContactName,
-                contactPhone: req.session.petContactPhone,
-                contactEmail: req.session.petContactEmail,
-                img: imageURL,
-                location: {
-                    type: "Point",
-                    coordinates: petCoordinates,
-                },
-            });
-
-            newPet.save().then(() => {
-                user.findOne({ username: req.session.username }).then(
-                    (foundUser) => {
-                        foundUser.uploadedPets.push(newPet);
-                        foundUser.save();
-                        res.sendStatus(200);
-                    }
+                return res.status(406).json({
+                    error: "No cat or dog detected",
+                });
+            } else {
+                const petCoordinates = await getCoordinates(
+                    req.session.petZipCode
                 );
-                req.session.petSpecies = "";
-                req.session.petName = "";
-                req.session.petSex = "";
-                req.session.petBreed = "";
-                req.session.petGoodWithKids = null;
-                req.session.petGoodWithCats = null;
-                req.session.petGoodWithDogs = null;
-                req.session.petDescription = "";
-                req.session.petZipCode = "";
-                req.session.petContactName = "";
-                req.session.petContactPhone = "";
-                req.session.petContactEmail = "";
-            });
+                const newPet = new pet({
+                    species: req.session.petSpecies,
+                    name: req.session.petName,
+                    sex: req.session.petSex,
+                    breed: req.session.petBreed,
+                    age: req.session.petAge,
+                    goodWithKids: req.session.petGoodWithKids,
+                    goodWithCats: req.session.petGoodWithCats,
+                    goodWithDogs: req.session.petGoodWithDogs,
+                    description: req.session.petDescription,
+                    zipCode: req.session.petZipCode,
+                    contactName: req.session.petContactName,
+                    contactPhone: req.session.petContactPhone,
+                    contactEmail: req.session.petContactEmail,
+                    img: imageURL,
+                    location: {
+                        type: "Point",
+                        coordinates: petCoordinates,
+                    },
+                });
+
+                newPet.save().then(() => {
+                    user.findOne({ username: req.session.username }).then(
+                        (foundUser) => {
+                            foundUser.uploadedPets.push(newPet);
+                            foundUser.save();
+                            res.sendStatus(200);
+                        }
+                    );
+                    req.session.petSpecies = "";
+                    req.session.petName = "";
+                    req.session.petSex = "";
+                    req.session.petBreed = "";
+                    req.session.petGoodWithKids = null;
+                    req.session.petGoodWithCats = null;
+                    req.session.petGoodWithDogs = null;
+                    req.session.petDescription = "";
+                    req.session.petZipCode = "";
+                    req.session.petContactName = "";
+                    req.session.petContactPhone = "";
+                    req.session.petContactEmail = "";
+                });
+            }
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: "Error occurred" });
@@ -513,10 +525,10 @@ app.get("/api/checkLogin", function (req, res) {
     }
 });
 
-app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(path.join(__dirname, "../client/dist")));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/../client/dist/index.html'));
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/../client/dist/index.html"));
 });
 
 //----------Listener-------------

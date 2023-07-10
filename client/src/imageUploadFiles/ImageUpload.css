@@ -17,3 +17,7 @@
 input[type='file']{
         font-family: 'Montserrat'
 }
+
+.image-upload-form .error{
+        text-align: center;
+}
